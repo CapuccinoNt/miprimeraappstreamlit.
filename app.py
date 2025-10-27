@@ -13,7 +13,4 @@ nombre = st.text_input("¿Cuantos años tienes?")
 if nombre:
     st.write(f"tienes {nombre} años")
 
-# Un botón
-if st.button("Presiona aquí"):
-    st.balloons()  # Animación de globos
-    st.success("¡Funciona perfectamente!")
+
