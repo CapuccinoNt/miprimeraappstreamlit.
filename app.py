@@ -1,7 +1,5 @@
 import streamlit as st
 import pandas as pd
-import plotly.graph_objects as go
-import plotly.express as px
 from datetime import datetime, timedelta
 import random
 
@@ -59,11 +57,17 @@ st.markdown("""
         border-radius: 10px;
         color: white;
         text-align: center;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .metric-card h3 {
+        margin: 0;
+        font-size: 1.2rem;
     }
     .savings-highlight {
         font-size: 2.5rem;
         font-weight: bold;
         color: #10b981;
+        margin: 0.5rem 0;
     }
     .feature-box {
         background: #f8f9fa;
@@ -71,6 +75,26 @@ st.markdown("""
         border-radius: 10px;
         border-left: 4px solid #667eea;
         margin: 1rem 0;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .feature-box h4 {
+        margin-top: 0;
+        color: #667eea;
+    }
+    .opportunity-card {
+        background: white;
+        padding: 1rem;
+        border-radius: 8px;
+        border: 2px solid #e5e7eb;
+        margin: 0.5rem 0;
+    }
+    .match-badge {
+        background: #10b981;
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 12px;
+        font-size: 0.9rem;
+        font-weight: bold;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -81,11 +105,13 @@ st.markdown('<p class="tagline">Tu Aliado Financiero IA - Combate el estrés eco
 
 # Sidebar
 with st.sidebar:
-    st.image("https://via.placeholder.com/150x150/667eea/ffffff?text=Alivia", width=150)
+    st.markdown("### 💰 Alivia")
+    st.markdown("---")
     st.markdown("### 🎯 Navegación")
     page = st.radio(
         "Selecciona una sección:",
-        ["🏠 Inicio", "🔍 Detector de Fugas", "🤖 Copiloto IA", "💵 Generador de Ingresos", "📊 Mi Dashboard"]
+        ["🏠 Inicio", "🔍 Detector de Fugas", "🤖 Copiloto IA", "💵 Generador de Ingresos", "📊 Mi Dashboard"],
+        label_visibility="collapsed"
     )
     
     st.markdown("---")
@@ -188,8 +214,6 @@ if page == "🏠 Inicio":
                     <p>4 suscripciones detectadas sin uso reciente</p>
                 </div>
                 """, unsafe_allow_html=True)
-                if st.button("Ver Detalles →", key="sub1"):
-                    st.session_state.page = "🔍 Detector de Fugas"
             
             with col2:
                 st.markdown("""
@@ -199,8 +223,6 @@ if page == "🏠 Inicio":
                     <p>5 oportunidades basadas en tu perfil</p>
                 </div>
                 """, unsafe_allow_html=True)
-                if st.button("Explorar Opciones →", key="income1"):
-                    st.session_state.page = "💵 Generador de Ingresos"
 
 # Página Detector de Fugas
 elif page == "🔍 Detector de Fugas":
@@ -217,26 +239,34 @@ elif page == "🔍 Detector de Fugas":
     
     for i, sub in enumerate(st.session_state.subscriptions):
         if sub['activo']:
-            col1, col2, col3, col4 = st.columns([3, 2, 2, 2])
-            
-            with col1:
-                st.markdown(f"**{sub['nombre']}**")
-                st.caption(sub['uso'])
-            
-            with col2:
-                st.metric("Costo mensual", f"${sub['costo']}")
-            
-            with col3:
-                st.metric("Ahorro anual", f"${sub['costo']*12:.0f}")
-            
-            with col4:
-                if st.button("❌ Cancelar", key=f"cancel_{i}"):
-                    st.session_state.subscriptions[i]['activo'] = False
-                    st.session_state.total_saved += sub['costo']
-                    st.success(f"✅ {sub['nombre']} cancelado. ¡Ahorrarás ${sub['costo']}/mes!")
-                    st.rerun()
-            
-            st.markdown("---")
+            with st.container():
+                col1, col2, col3, col4 = st.columns([3, 2, 2, 2])
+                
+                with col1:
+                    st.markdown(f"**{sub['nombre']}**")
+                    st.caption(sub['uso'])
+                
+                with col2:
+                    st.metric("Costo mensual", f"${sub['costo']}")
+                
+                with col3:
+                    st.metric("Ahorro anual", f"${sub['costo']*12:.0f}")
+                
+                with col4:
+                    if st.button("❌ Cancelar", key=f"cancel_{i}"):
+                        st.session_state.subscriptions[i]['activo'] = False
+                        st.session_state.total_saved += sub['costo']
+                        st.success(f"✅ {sub['nombre']} cancelado. ¡Ahorrarás ${sub['costo']}/mes!")
+                        st.rerun()
+                
+                st.markdown("---")
+    
+    # Suscripciones canceladas
+    cancelled = [sub for sub in st.session_state.subscriptions if not sub['activo']]
+    if cancelled:
+        st.markdown("#### ✅ Suscripciones Canceladas")
+        for sub in cancelled:
+            st.success(f"✓ {sub['nombre']} - Ahorrando ${sub['costo']}/mes")
     
     # Otras oportunidades
     st.markdown("#### 🎯 Otras Oportunidades de Ahorro")
@@ -264,21 +294,21 @@ elif page == "🤖 Copiloto IA":
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        if st.button("💡 ¿Cómo bajar mi factura de luz?"):
+        if st.button("💡 ¿Cómo bajar mi factura de luz?", use_container_width=True):
             st.session_state.chat_history.append({
                 "user": "¿Cómo puedo bajar mi factura de luz?",
                 "ai": "Basándome en tu consumo, te recomiendo: 1) Cambiar a bombillas LED (ahorro ~$8/mes), 2) Ajustar termostato 2°C (ahorro ~$15/mes), 3) Desenchufar aparatos en standby (ahorro ~$5/mes). Total: **$28/mes de ahorro**. ¿Quieres que busque proveedores con mejores tarifas en tu zona?"
             })
     
     with col2:
-        if st.button("🎯 ¿Qué puedo recortar sin sacrificar?"):
+        if st.button("🎯 ¿Qué puedo recortar?", use_container_width=True):
             st.session_state.chat_history.append({
                 "user": "¿Qué puedo recortar este mes sin dejar de disfrutar?",
                 "ai": "He analizado tus hábitos. Puedes: 1) Reducir delivery (cocinas bien, pides por comodidad) → Ahorro $60/mes, 2) Cambiar streaming premium a estándar (rara vez usas 4K) → Ahorro $5/mes, 3) Gym → clases al aire libre gratis → Ahorro $45/mes. **Total: $110/mes** manteniendo tu calidad de vida."
             })
     
     with col3:
-        if st.button("📊 Crear presupuesto personalizado"):
+        if st.button("📊 Crear presupuesto", use_container_width=True):
             st.session_state.chat_history.append({
                 "user": "Ayúdame a crear un presupuesto",
                 "ai": "He creado un presupuesto basado en tus ingresos ($3,500/mes) y patrones reales de gasto. Regla 50/30/20 adaptada: **Necesidades** (55%: $1,925), **Gustos** (25%: $875), **Ahorros** (20%: $700). Te notificaré si te desvías. ¿Quieres ajustar alguna categoría?"
@@ -303,222 +333,5 @@ elif page == "🤖 Copiloto IA":
         # Respuestas simuladas de IA
         responses = {
             "ahorrar": "He analizado tus gastos y encontré 3 áreas de mejora inmediata: 1) Suscripciones no usadas ($78/mes), 2) Comisiones bancarias evitables ($12/mes), 3) Optimización de seguros ($25/mes). **Total ahorro potencial: $115/mes**.",
-            "inversión": "Con tu perfil de ahorro actual de $700/mes, recomiendo: 60% en fondo indexado diversificado, 30% en cuenta de ahorro de alto rendimiento, 10% en cripto (solo lo que puedas perder). Esto balances crecimiento y seguridad.",
-            "deuda": "Prioriza pagar primero la tarjeta con mayor interés (23% APR). Si transfieres el balance a una tarjeta 0% APR por 12 meses, ahorrarás $340 en intereses. ¿Quieres que busque ofertas de transferencia de balance?",
-            "default": f"Entiendo tu consulta sobre '{user_input}'. Basándome en tu situación financiera actual, te sugiero revisar tu presupuesto en esa área. ¿Quieres que analice tus gastos específicos relacionados con esto?"
-        }
-        
-        # Determinar respuesta
-        response = responses["default"]
-        for key in responses:
-            if key in user_input.lower():
-                response = responses[key]
-                break
-        
-        st.session_state.chat_history.append({
-            "user": user_input,
-            "ai": response
-        })
-        st.rerun()
-
-# Página Generador de Ingresos
-elif page == "💵 Generador de Ingresos":
-    st.markdown("## 💵 Generador de Ingresos Extra")
-    st.markdown("Oportunidades personalizadas según tus habilidades y tiempo")
-    
-    st.markdown("---")
-    
-    # Oportunidades rankeadas
-    opportunities = [
-        {
-            "titulo": "🚗 Conductor de Delivery Weekend",
-            "ingreso": "$300-400/mes",
-            "tiempo": "8-10h/mes (sábados)",
-            "esfuerzo": "Bajo",
-            "match": "95%",
-            "porque": "Tienes auto, licencia vigente y fines de semana libres"
-        },
-        {
-            "titulo": "🌐 Tutor de Inglés Online",
-            "ingreso": "$400-600/mes",
-            "tiempo": "12h/mes (tardes)",
-            "esfuerzo": "Medio",
-            "match": "88%",
-            "porque": "Nivel avanzado de inglés detectado en tu perfil"
-        },
-        {
-            "titulo": "📦 Vender Artículos en Desuso",
-            "ingreso": "$150-250",
-            "tiempo": "5h (una sola vez)",
-            "esfuerzo": "Bajo",
-            "match": "82%",
-            "porque": "Objetos de valor detectados sin uso en 6+ meses"
-        },
-        {
-            "titulo": "💻 Freelance Diseño Gráfico",
-            "ingreso": "$200-500/mes",
-            "tiempo": "15-20h/mes",
-            "esfuerzo": "Medio-Alto",
-            "match": "75%",
-            "porque": "Habilidades en Adobe detectadas en tu perfil"
-        },
-        {
-            "titulo": "🏠 Airbnb de Habitación Libre",
-            "ingreso": "$350-500/mes",
-            "tiempo": "2h/mes",
-            "esfuerzo": "Bajo",
-            "match": "70%",
-            "porque": "Habitación disponible en zona turística"
-        }
-    ]
-    
-    st.markdown("### 🎯 Top Oportunidades para Ti")
-    st.caption("Ordenadas por impacto económico vs. esfuerzo")
-    
-    for i, opp in enumerate(opportunities):
-        with st.expander(f"{'⭐' * (5 - i//2)} {opp['titulo']} - {opp['ingreso']} | Match: {opp['match']}"):
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                st.markdown(f"**💰 Ingreso estimado:** {opp['ingreso']}")
-                st.markdown(f"**⏱️ Tiempo requerido:** {opp['tiempo']}")
-                st.markdown(f"**🎯 Nivel de esfuerzo:** {opp['esfuerzo']}")
-            
-            with col2:
-                st.markdown(f"**📊 Match con tu perfil:** {opp['match']}")
-                st.markdown(f"**💡 Por qué es ideal:**")
-                st.info(opp['porque'])
-            
-            col_a, col_b, col_c = st.columns(3)
-            with col_a:
-                st.button("✅ Me interesa", key=f"int_{i}", use_container_width=True)
-            with col_b:
-                st.button("📚 Más info", key=f"info_{i}", use_container_width=True)
-            with col_c:
-                st.button("❌ No por ahora", key=f"no_{i}", use_container_width=True)
-    
-    st.markdown("---")
-    
-    st.markdown("### 📈 Tu Potencial de Ingresos Extra")
-    
-    income_data = pd.DataFrame({
-        'Oportunidad': [opp['titulo'].split(' ', 1)[1] for opp in opportunities[:3]],
-        'Ingreso Mínimo': [300, 400, 150],
-        'Ingreso Máximo': [400, 600, 250]
-    })
-    
-    fig = go.Figure()
-    fig.add_trace(go.Bar(
-        name='Ingreso Mínimo',
-        x=income_data['Oportunidad'],
-        y=income_data['Ingreso Mínimo'],
-        marker_color='#667eea'
-    ))
-    fig.add_trace(go.Bar(
-        name='Ingreso Máximo',
-        x=income_data['Oportunidad'],
-        y=income_data['Ingreso Máximo'],
-        marker_color='#764ba2'
-    ))
-    
-    fig.update_layout(
-        title='Potencial de Ingresos Extra (Top 3 Oportunidades)',
-        xaxis_title='Oportunidad',
-        yaxis_title='Ingreso Mensual ($)',
-        barmode='group',
-        height=400
-    )
-    
-    st.plotly_chart(fig, use_container_width=True)
-
-# Página Dashboard
-elif page == "📊 Mi Dashboard":
-    st.markdown("## 📊 Mi Dashboard Financiero")
-    
-    col1, col2, col3, col4 = st.columns(4)
-    
-    with col1:
-        st.metric("💰 Ingresos", f"${st.session_state.monthly_income}", "+$200")
-    
-    with col2:
-        total_expenses = st.session_state.expenses['Monto'].sum()
-        st.metric("💸 Gastos", f"${total_expenses}", "-$85")
-    
-    with col3:
-        savings = st.session_state.monthly_income - total_expenses
-        st.metric("💎 Ahorros", f"${savings}", f"+${st.session_state.total_saved}")
-    
-    with col4:
-        savings_rate = (savings / st.session_state.monthly_income) * 100
-        st.metric("📈 Tasa Ahorro", f"{savings_rate:.1f}%", "+3.2%")
-    
-    st.markdown("---")
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("### 💰 Distribución de Gastos")
-        fig = px.pie(
-            st.session_state.expenses,
-            values='Monto',
-            names='Categoría',
-            color_discrete_sequence=px.colors.sequential.Purples_r
-        )
-        fig.update_traces(textposition='inside', textinfo='percent+label')
-        st.plotly_chart(fig, use_container_width=True)
-    
-    with col2:
-        st.markdown("### 📈 Evolución de Ahorros")
-        months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun']
-        savings_evolution = [450, 520, 580, 640, 720, savings]
-        
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(
-            x=months,
-            y=savings_evolution,
-            mode='lines+markers',
-            name='Ahorros',
-            line=dict(color='#10b981', width=3),
-            marker=dict(size=10)
-        ))
-        fig.update_layout(
-            title='Progreso Mensual',
-            xaxis_title='Mes',
-            yaxis_title='Ahorros ($)',
-            height=300
-        )
-        st.plotly_chart(fig, use_container_width=True)
-    
-    st.markdown("---")
-    
-    # Tabla de transacciones recientes
-    st.markdown("### 🔄 Transacciones Recientes")
-    
-    transactions = pd.DataFrame({
-        'Fecha': pd.date_range(end=datetime.now(), periods=10).strftime('%Y-%m-%d'),
-        'Descripción': ['Supermercado', 'Netflix', 'Gasolina', 'Restaurante', 'Farmacia', 
-                       'Amazon', 'Uber', 'Starbucks', 'Gimnasio', 'Electricidad'],
-        'Categoría': ['Alimentación', 'Suscripciones', 'Transporte', 'Entretenimiento', 'Salud',
-                     'Compras', 'Transporte', 'Alimentación', 'Suscripciones', 'Servicios'],
-        'Monto': [-85.50, -15.99, -45.00, -62.30, -23.45, -127.89, -18.50, -6.75, -45.00, -89.20]
-    })
-    
-    st.dataframe(transactions, use_container_width=True, hide_index=True)
-
-# Footer
-st.markdown("---")
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.markdown("**🛡️ Seguridad Bancaria**")
-    st.caption("Encriptación nivel bancario")
-
-with col2:
-    st.markdown("**🔒 Privacidad**")
-    st.caption("Tus datos nunca se venden")
-
-with col3:
-    st.markdown("**💬 Soporte 24/7**")
-    st.caption("IA siempre disponible")
-
-st.markdown("<p style='text-align: center; color: #999; margin-top: 2rem;'>Alivia © 2025 - Tu aliado financiero IA</p>", unsafe_allow_html=True)
+            "inversión": "Con tu perfil de ahorro actual de $700/mes, recomiendo: 60% en fondo indexado diversificado, 30% en cuenta de ahorro de alto rendimiento, 10% en cripto (solo lo que puedas perder). Esto balancea crecimiento y seguridad.",
+            "deuda": "Prioriza pagar primero la tarjeta con mayor interés (23% APR). Si transfieres el balance a una tarjeta 0% APR por 12 meses, a
