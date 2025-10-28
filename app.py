@@ -1,337 +1,780 @@
-import streamlit as st
+import io
+import json
+import shutil
+import zipfile
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Dict, List, Literal, Optional
+
+import hashlib
+
 import pandas as pd
-from datetime import datetime, timedelta
-import random
+import streamlit as st
 
-# Configuración de la página
-st.set_page_config(
-    page_title="Alivia - Tu Aliado Financiero IA",
-    page_icon="💰",
-    layout="wide"
-)
+try:  # Python 3.11+
+    import tomllib  # type: ignore[attr-defined]
+except ModuleNotFoundError:  # pragma: no cover
+    import tomli as tomllib  # type: ignore[no-redef]
 
-# Inicializar estado de sesión
-if 'initialized' not in st.session_state:
-    st.session_state.initialized = True
-    st.session_state.connected_accounts = False
-    st.session_state.scan_complete = False
-    st.session_state.total_saved = 0
-    st.session_state.monthly_income = 3500
-    st.session_state.chat_history = []
-    
-    # Datos de ejemplo para suscripciones
-    st.session_state.subscriptions = [
-        {"nombre": "Gimnasio Premium", "costo": 45, "uso": "Última visita hace 4 meses", "activo": True},
-        {"nombre": "Streaming Plus", "costo": 15.99, "uso": "Sin uso en 2 meses", "activo": True},
-        {"nombre": "Cloud Storage Pro", "costo": 9.99, "uso": "Usando solo 10% del espacio", "activo": True},
-        {"nombre": "Revista Digital", "costo": 6.99, "uso": "Sin abrir en 3 meses", "activo": True},
-    ]
-    
-    # Datos de gastos para análisis
-    st.session_state.expenses = pd.DataFrame({
-        'Categoría': ['Vivienda', 'Alimentación', 'Transporte', 'Entretenimiento', 'Suscripciones', 'Servicios', 'Otros'],
-        'Monto': [1200, 450, 280, 180, 78, 320, 150]
-    })
 
-# CSS personalizado
-st.markdown("""
-    <style>
-    .main-header {
-        font-size: 3rem;
-        font-weight: bold;
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-align: center;
-        margin-bottom: 0.5rem;
-    }
-    .tagline {
-        text-align: center;
-        color: #666;
-        font-size: 1.2rem;
-        margin-bottom: 2rem;
-    }
-    .metric-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 1.5rem;
-        border-radius: 10px;
-        color: white;
-        text-align: center;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    .metric-card h3 {
-        margin: 0;
-        font-size: 1.2rem;
-    }
-    .savings-highlight {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: #10b981;
-        margin: 0.5rem 0;
-    }
-    .feature-box {
-        background: #f8f9fa;
-        padding: 1.5rem;
-        border-radius: 10px;
-        border-left: 4px solid #667eea;
-        margin: 1rem 0;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-    .feature-box h4 {
-        margin-top: 0;
-        color: #667eea;
-    }
-    .opportunity-card {
-        background: white;
-        padding: 1rem;
-        border-radius: 8px;
-        border: 2px solid #e5e7eb;
-        margin: 0.5rem 0;
-    }
-    .match-badge {
-        background: #10b981;
-        color: white;
-        padding: 0.25rem 0.5rem;
-        border-radius: 12px;
-        font-size: 0.9rem;
-        font-weight: bold;
-    }
-    </style>
-""", unsafe_allow_html=True)
+SUPPORTED_UPLOADS = {".zip", ".mrpack"}
+CONFIG_DIR_NAMES = ["config", "defaultconfigs", "serverconfig"]
+DATA_PACK_DIR = "datapacks"
+RESOURCE_PACK_DIR = "resourcepacks"
+SHADER_PACK_DIR = "shaderpacks"
 
-# Header
-st.markdown('<h1 class="main-header">💰 Alivia</h1>', unsafe_allow_html=True)
-st.markdown('<p class="tagline">Tu Aliado Financiero IA - Combate el estrés económico automáticamente</p>', unsafe_allow_html=True)
+LOADER_FAMILIES = {
+    "forge": {"forge", "neoforge"},
+    "neoforge": {"forge", "neoforge"},
+    "fabric": {"fabric", "quilt"},
+    "quilt": {"fabric", "quilt"},
+}
 
-# Sidebar
-with st.sidebar:
-    st.markdown("### 💰 Alivia")
-    st.markdown("---")
-    st.markdown("### 🎯 Navegación")
-    page = st.radio(
-        "Selecciona una sección:",
-        ["🏠 Inicio", "🔍 Detector de Fugas", "🤖 Copiloto IA", "💵 Generador de Ingresos", "📊 Mi Dashboard"],
-        label_visibility="collapsed"
+
+@dataclass
+class Dep:
+    modid: str
+    version_range: Optional[str] = None
+    required: bool = True
+
+
+@dataclass
+class Mod:
+    id: str
+    name: str
+    filename: str
+    path: Path
+    version: Optional[str]
+    loader: Optional[str]
+    enabled: bool = True
+    hashes: Dict[str, str] = field(default_factory=dict)
+    dependencies: List[Dep] = field(default_factory=list)
+    incompatibilities: List[str] = field(default_factory=list)
+    source: Literal["curseforge", "modrinth", "manual"] = "manual"
+
+
+@dataclass
+class ConfigFile:
+    path: Path
+    relative_path: Path
+    format: str
+    original_content: str
+    content: str
+
+
+@dataclass
+class Manifests:
+    curseforge: Optional[Dict] = None
+    modrinth: Optional[Dict] = None
+    packwiz: Optional[Dict] = None
+
+
+@dataclass
+class ValidationResult:
+    errors: List[str] = field(default_factory=list)
+    warnings: List[str] = field(default_factory=list)
+    suggestions: List[str] = field(default_factory=list)
+
+
+@dataclass
+class Pack:
+    name: str
+    mc_version: Optional[str]
+    loader: Optional[str]
+    working_root: Path
+    immutable_root: Path
+    manifests: Manifests
+    mods: List[Mod]
+    configs: List[ConfigFile]
+    datapacks: List[Path] = field(default_factory=list)
+    resourcepacks: List[Path] = field(default_factory=list)
+    shaderpacks: List[Path] = field(default_factory=list)
+    validation: ValidationResult = field(default_factory=ValidationResult)
+
+
+def get_temp_workspace() -> Path:
+    workspace = Path(st.session_state.get("workspace_dir", Path.cwd() / ".app_workspace"))
+    workspace.mkdir(exist_ok=True)
+    st.session_state.workspace_dir = str(workspace)
+    return workspace
+
+
+def save_upload(upload, workspace: Path) -> Path:
+    dest = workspace / upload.name
+    dest.write_bytes(upload.getbuffer())
+    return dest
+
+
+def extract_upload(archive: Path, workspace: Path) -> Path:
+    extract_root = workspace / "extracted"
+    if extract_root.exists():
+        shutil.rmtree(extract_root)
+    extract_root.mkdir()
+    with zipfile.ZipFile(archive) as zf:
+        zf.extractall(extract_root)
+    inner_items = list(extract_root.iterdir())
+    if len(inner_items) == 1 and inner_items[0].is_dir():
+        return inner_items[0]
+    return extract_root
+
+
+def detect_loader_from_mods(mods: List[Mod]) -> Optional[str]:
+    loaders = {m.loader for m in mods if m.loader}
+    if not loaders:
+        return None
+    if len(loaders) == 1:
+        return loaders.pop()
+    return ", ".join(sorted(loaders))
+
+
+def parse_manifest(root: Path) -> Manifests:
+    manifests = Manifests()
+    curseforge_manifest = root / "manifest.json"
+    if curseforge_manifest.exists():
+        manifests.curseforge = json.loads(curseforge_manifest.read_text())
+    modrinth_manifest = root / "modrinth.index.json"
+    if modrinth_manifest.exists():
+        manifests.modrinth = json.loads(modrinth_manifest.read_text())
+    packwiz_manifest = root / "pack.toml"
+    if not packwiz_manifest.exists():
+        packwiz_manifest = root / "packwiz.toml"
+    if packwiz_manifest.exists():
+        manifests.packwiz = tomllib.loads(packwiz_manifest.read_text())
+    return manifests
+
+
+def detect_mc_version(manifests: Manifests) -> Optional[str]:
+    if manifests.curseforge:
+        return manifests.curseforge.get("minecraft", {}).get("version")
+    if manifests.modrinth:
+        return manifests.modrinth.get("game", {}).get("version") or manifests.modrinth.get("game_version")
+    if manifests.packwiz:
+        return manifests.packwiz.get("versions", {}).get("minecraft")
+    return None
+
+
+def detect_loader(manifests: Manifests, mods: List[Mod]) -> Optional[str]:
+    if manifests.curseforge:
+        mod_loaders = manifests.curseforge.get("minecraft", {}).get("modLoaders", [])
+        if mod_loaders:
+            return mod_loaders[0].get("id")
+    if manifests.modrinth:
+        loaders = manifests.modrinth.get("dependencies", [])
+        if isinstance(loaders, dict):
+            return loaders.get("forge") or loaders.get("fabric")
+    if manifests.packwiz:
+        loader_info = manifests.packwiz.get("versions", {})
+        for candidate in ("forge", "neoforge", "fabric", "quilt"):
+            if candidate in loader_info:
+                return candidate
+    return detect_loader_from_mods(mods)
+
+
+def compute_hash(path: Path) -> str:
+    hasher = hashlib.sha1()
+    with path.open("rb") as fh:
+        for chunk in iter(lambda: fh.read(8192), b""):
+            hasher.update(chunk)
+    return hasher.hexdigest()
+
+
+def load_fabric_metadata(zf: zipfile.ZipFile) -> Optional[Dict]:
+    for name in ("fabric.mod.json", "quilt.mod.json"):
+        if name in zf.namelist():
+            return json.loads(zf.read(name))
+    return None
+
+
+def load_forge_metadata(zf: zipfile.ZipFile) -> Optional[Dict]:
+    for name in ("META-INF/mods.toml", "META-INF/neoforge.mods.toml"):
+        if name in zf.namelist():
+            data = tomllib.loads(zf.read(name).decode("utf-8"))
+            return data
+    return None
+
+
+def parse_dependencies_from_fabric(metadata: Dict) -> List[Dep]:
+    deps: List[Dep] = []
+    depends = metadata.get("depends", {})
+    if isinstance(depends, dict):
+        for key, value in depends.items():
+            if key == "minecraft":
+                continue
+            if isinstance(value, list):
+                version = ",".join(str(v) for v in value)
+            else:
+                version = str(value)
+            deps.append(Dep(modid=key, version_range=version or None))
+    return deps
+
+
+def parse_dependencies_from_forge(metadata: Dict) -> List[Dep]:
+    deps: List[Dep] = []
+    if not metadata:
+        return deps
+    mods = metadata.get("mods", [])
+    if not isinstance(mods, list):
+        return deps
+    for mod_entry in mods:
+        rels = mod_entry.get("dependencies") or []
+        for dep_entry in rels:
+            modid = dep_entry.get("modId") or dep_entry.get("modid")
+            if not modid:
+                continue
+            version_range = dep_entry.get("versionRange") or dep_entry.get("version_range")
+            mandatory = dep_entry.get("mandatory", True)
+            deps.append(Dep(modid=modid, version_range=version_range, required=bool(mandatory)))
+    return deps
+
+
+def parse_mod_metadata(jar_path: Path) -> Mod:
+    mod_id = jar_path.stem
+    mod_name = jar_path.stem
+    version = None
+    loader: Optional[str] = None
+    dependencies: List[Dep] = []
+    hashes = {"sha1": compute_hash(jar_path)}
+    try:
+        with zipfile.ZipFile(jar_path) as zf:
+            fabric_meta = load_fabric_metadata(zf)
+            if fabric_meta:
+                loader = "fabric" if "fabric.mod.json" in zf.namelist() else "quilt"
+                mod_id = fabric_meta.get("id", mod_id)
+                mod_name = fabric_meta.get("name", mod_name)
+                version = fabric_meta.get("version")
+                dependencies.extend(parse_dependencies_from_fabric(fabric_meta))
+            forge_meta = load_forge_metadata(zf)
+            if forge_meta:
+                loader = forge_meta.get("modLoader") or loader or "forge"
+                if forge_meta.get("mods"):
+                    primary = forge_meta["mods"][0]
+                    mod_id = primary.get("modId", mod_id)
+                    mod_name = primary.get("displayName", mod_name)
+                    version = primary.get("version") or version
+                dependencies.extend(parse_dependencies_from_forge(forge_meta))
+            manifest_name = next((n for n in zf.namelist() if n.endswith("MANIFEST.MF")), None)
+            if manifest_name and not fabric_meta and not forge_meta:
+                manifest_text = zf.read(manifest_name).decode("utf-8", errors="ignore")
+                for line in manifest_text.splitlines():
+                    if line.lower().startswith("implementation-title"):
+                        mod_name = line.split(":", 1)[-1].strip() or mod_name
+                    if line.lower().startswith("implementation-version"):
+                        version = line.split(":", 1)[-1].strip() or version
+    except zipfile.BadZipFile:
+        st.warning(f"{jar_path.name} no es un archivo JAR válido.")
+    return Mod(
+        id=mod_id,
+        name=mod_name,
+        filename=jar_path.name,
+        path=jar_path,
+        version=version,
+        loader=loader,
+        enabled=True,
+        hashes=hashes,
+        dependencies=dependencies,
+        incompatibilities=[],
     )
-    
-    st.markdown("---")
-    st.markdown("### 💎 Tu Cuenta")
-    if st.session_state.total_saved > 0:
-        st.success(f"**Ahorrado este mes:**\n${st.session_state.total_saved:.2f}")
-    
-    plan = st.selectbox("Plan actual:", ["Gratuito", "Premium ($7/mes)"])
-    
-    if plan == "Gratuito":
-        st.info("✨ Mejora a Premium para acciones automatizadas ilimitadas")
 
-# Página de Inicio
-if page == "🏠 Inicio":
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        st.markdown("""
-            <div class="metric-card">
-                <h3>🎯 Ahorros Detectados</h3>
-                <div class="savings-highlight">$127</div>
-                <p>Este mes</p>
-            </div>
-        """, unsafe_allow_html=True)
-    
-    with col2:
-        st.markdown("""
-            <div class="metric-card">
-                <h3>⏱️ Tiempo Ahorrado</h3>
-                <div class="savings-highlight">12h</div>
-                <p>En gestión financiera</p>
-            </div>
-        """, unsafe_allow_html=True)
-    
-    with col3:
-        st.markdown("""
-            <div class="metric-card">
-                <h3>💡 Oportunidades</h3>
-                <div class="savings-highlight">5</div>
-                <p>De ingresos extra</p>
-            </div>
-        """, unsafe_allow_html=True)
-    
-    st.markdown("---")
-    
-    # Onboarding rápido
-    if not st.session_state.connected_accounts:
-        st.markdown("### 🚀 Comienza en 3 Pasos")
-        
-        st.markdown("""
-        <div class="feature-box">
-            <h4>📱 Paso 1: Conecta tus cuentas de forma segura</h4>
-            <p>Conecta tus bancos y tarjetas para que Alivia analice tus finanzas (conexión encriptada de nivel bancario)</p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        if st.button("🔗 Conectar Cuentas Ahora", type="primary", use_container_width=True):
-            with st.spinner("Conectando de forma segura..."):
-                import time
-                time.sleep(2)
-                st.session_state.connected_accounts = True
-                st.rerun()
-    
+
+def discover_mods(root: Path) -> List[Mod]:
+    mods: List[Mod] = []
+    mods_dir = root / "mods"
+    disabled_dir = root / "mods_disabled"
+
+    if mods_dir.exists():
+        for jar_path in sorted(mods_dir.glob("*.jar")):
+            mod = parse_mod_metadata(jar_path)
+            mod.enabled = True
+            mods.append(mod)
+        # Compatibilidad con mods renombrados a .disabled
+        for jar_path in sorted(mods_dir.glob("*.jar.disabled")):
+            mod = parse_mod_metadata(jar_path)
+            mod.enabled = False
+            mods.append(mod)
+
+    if disabled_dir.exists():
+        for jar_path in sorted(disabled_dir.glob("*.jar")):
+            mod = parse_mod_metadata(jar_path)
+            mod.enabled = False
+            mods.append(mod)
+
+    return mods
+
+
+def discover_configs(root: Path, immutable_root: Path) -> List[ConfigFile]:
+    configs: List[ConfigFile] = []
+    for directory in CONFIG_DIR_NAMES:
+        working_dir = root / directory
+        if not working_dir.exists():
+            continue
+        immutable_dir = immutable_root / directory
+        for file in working_dir.rglob("*"):
+            if file.is_file():
+                rel_path = file.relative_to(root)
+                fmt = file.suffix.lower().lstrip(".") or "txt"
+                content = file.read_text(errors="ignore")
+                immutable_file = immutable_dir / file.relative_to(working_dir)
+                original_content = immutable_file.read_text(errors="ignore") if immutable_file.exists() else content
+                configs.append(
+                    ConfigFile(
+                        path=file,
+                        relative_path=rel_path,
+                        format=fmt,
+                        original_content=original_content,
+                        content=content,
+                    )
+                )
+    return configs
+
+
+def discover_assets(root: Path, relative: str) -> List[Path]:
+    directory = root / relative
+    if not directory.exists():
+        return []
+    return sorted([p.relative_to(root) for p in directory.iterdir()])
+
+
+def build_validation(mods: List[Mod], loader: Optional[str] = None) -> ValidationResult:
+    result = ValidationResult()
+    active_mods = [mod for mod in mods if mod.enabled]
+    seen_hashes: Dict[str, List[str]] = {}
+    mod_ids = {mod.id for mod in active_mods}
+    for mod in active_mods:
+        sha1 = mod.hashes.get("sha1")
+        if not sha1:
+            continue
+        seen_hashes.setdefault(sha1, []).append(mod.name)
+    duplicates = [names for names in seen_hashes.values() if len(names) > 1]
+    for dup_group in duplicates:
+        warning = f"Duplicado detectado: {', '.join(dup_group)}"
+        result.warnings.append(warning)
+        result.suggestions.append("Revisa los mods duplicados y deja solo una versión habilitada.")
+    for mod in active_mods:
+        for dep in mod.dependencies:
+            if dep.required and dep.modid not in mod_ids:
+                message = (
+                    f"{mod.name} requiere {dep.modid} "
+                    f"({dep.version_range or 'sin versión especificada'})"
+                )
+                result.errors.append(message)
+                result.suggestions.append(
+                    f"Añade {dep.modid} al pack o vuelve a habilitarlo para satisfacer las dependencias de {mod.name}."
+                )
+    if loader:
+        normalized_loader = loader.lower()
+        expected_family = LOADER_FAMILIES.get(normalized_loader, {normalized_loader})
+        for mod in active_mods:
+            if mod.loader and mod.loader.lower() not in expected_family:
+                result.warnings.append(
+                    f"{mod.name} parece ser un mod para {mod.loader}, que puede no ser compatible con {loader}."
+                )
+                result.suggestions.append(
+                    f"Valida si {mod.name} requiere cambiar el loader o busca una versión compatible con {loader}."
+                )
+    if not active_mods:
+        result.warnings.append("No se encontraron mods en la carpeta /mods.")
+    if result.suggestions:
+        result.suggestions = list(dict.fromkeys(result.suggestions))
+    return result
+
+
+def disable_mod(mod: Mod, pack: Pack) -> bool:
+    if not mod.enabled:
+        return False
+    mods_disabled = pack.working_root / "mods_disabled"
+    mods_disabled.mkdir(exist_ok=True)
+    target = mods_disabled / mod.path.name
+    try:
+        shutil.move(str(mod.path), target)
+    except OSError as exc:
+        st.error(f"No se pudo deshabilitar {mod.name}: {exc}")
+        return False
+    mod.path = target
+    mod.filename = target.name
+    mod.enabled = False
+    return True
+
+
+def enable_mod(mod: Mod, pack: Pack) -> bool:
+    if mod.enabled:
+        return False
+    mods_dir = pack.working_root / "mods"
+    mods_dir.mkdir(exist_ok=True)
+    current_path = mod.path
+    if current_path.suffix == ".disabled":
+        target = Path(str(current_path)[: -len(".disabled")])
     else:
-        if not st.session_state.scan_complete:
-            st.markdown("### 🔍 Escaneando tus finanzas...")
-            progress_bar = st.progress(0)
-            status_text = st.empty()
-            
-            steps = [
-                "Analizando transacciones...",
-                "Identificando suscripciones...",
-                "Detectando cobros duplicados...",
-                "Buscando oportunidades de ahorro...",
-                "¡Análisis completo!"
-            ]
-            
-            for i, step in enumerate(steps):
-                status_text.text(step)
-                progress_bar.progress((i + 1) * 20)
-                import time
-                time.sleep(0.5)
-            
-            st.session_state.scan_complete = True
-            st.balloons()
-            st.rerun()
-        
-        else:
-            st.success("✅ ¡Análisis completo! Hemos encontrado oportunidades para ahorrar **$127 al mes**")
-            
-            st.markdown("### 🎯 Acciones Recomendadas")
-            
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                st.markdown("""
-                <div class="feature-box">
-                    <h4>💸 Cancelar suscripciones no usadas</h4>
-                    <p>Ahorro potencial: <strong>$77.97/mes</strong></p>
-                    <p>4 suscripciones detectadas sin uso reciente</p>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            with col2:
-                st.markdown("""
-                <div class="feature-box">
-                    <h4>💰 Generar ingresos extra</h4>
-                    <p>Potencial: <strong>$300-500/mes</strong></p>
-                    <p>5 oportunidades basadas en tu perfil</p>
-                </div>
-                """, unsafe_allow_html=True)
+        target = mods_dir / current_path.name
+    if target.exists():
+        st.error(
+            f"Ya existe un archivo llamado {target.name} en mods/. Renombra o elimina el duplicado antes de habilitar {mod.name}."
+        )
+        return False
+    try:
+        shutil.move(str(current_path), target)
+    except OSError as exc:
+        st.error(f"No se pudo habilitar {mod.name}: {exc}")
+        return False
+    mod.path = target
+    mod.filename = target.name
+    mod.enabled = True
+    return True
 
-# Página Detector de Fugas
-elif page == "🔍 Detector de Fugas":
-    st.markdown("## 🔍 Detector de Fugas de Dinero")
-    st.markdown("Identifica gastos innecesarios y ahorra desde la primera semana")
-    
-    st.markdown("---")
-    
-    # Resumen de ahorros
-    total_leak = sum([sub['costo'] for sub in st.session_state.subscriptions if sub['activo']])
-    st.markdown(f"### 💡 Ahorro potencial detectado: **${total_leak:.2f}/mes**")
-    
-    st.markdown("#### 📱 Suscripciones sin Uso")
-    
-    for i, sub in enumerate(st.session_state.subscriptions):
-        if sub['activo']:
-            with st.container():
-                col1, col2, col3, col4 = st.columns([3, 2, 2, 2])
-                
-                with col1:
-                    st.markdown(f"**{sub['nombre']}**")
-                    st.caption(sub['uso'])
-                
-                with col2:
-                    st.metric("Costo mensual", f"${sub['costo']}")
-                
-                with col3:
-                    st.metric("Ahorro anual", f"${sub['costo']*12:.0f}")
-                
-                with col4:
-                    if st.button("❌ Cancelar", key=f"cancel_{i}"):
-                        st.session_state.subscriptions[i]['activo'] = False
-                        st.session_state.total_saved += sub['costo']
-                        st.success(f"✅ {sub['nombre']} cancelado. ¡Ahorrarás ${sub['costo']}/mes!")
-                        st.rerun()
-                
-                st.markdown("---")
-    
-    # Suscripciones canceladas
-    cancelled = [sub for sub in st.session_state.subscriptions if not sub['activo']]
-    if cancelled:
-        st.markdown("#### ✅ Suscripciones Canceladas")
-        for sub in cancelled:
-            st.success(f"✓ {sub['nombre']} - Ahorrando ${sub['costo']}/mes")
-    
-    # Otras oportunidades
-    st.markdown("#### 🎯 Otras Oportunidades de Ahorro")
-    
-    opportunities = [
-        {"título": "Tarifa bancaria elevada", "ahorro": "$12/mes", "acción": "Cambiar a cuenta sin comisiones"},
-        {"título": "Seguro de auto sobrevalorado", "ahorro": "$25/mes", "acción": "Renegociar con IA Alivia"},
-        {"título": "Plan de datos móvil excesivo", "ahorro": "$15/mes", "acción": "Optimizar plan según uso real"},
+
+def hydrate_configs(pack: Pack):
+    for cfg in pack.configs:
+        current_content = cfg.path.read_text(errors="ignore")
+        cfg.content = current_content
+
+
+def load_pack(upload) -> Pack:
+    workspace = get_temp_workspace()
+    archive = save_upload(upload, workspace)
+    root = extract_upload(archive, workspace)
+    immutable_root = workspace / "immutable"
+    working_root = workspace / "working"
+    if immutable_root.exists():
+        shutil.rmtree(immutable_root)
+    if working_root.exists():
+        shutil.rmtree(working_root)
+    shutil.copytree(root, immutable_root)
+    shutil.copytree(root, working_root)
+
+    manifests = parse_manifest(working_root)
+    mods = discover_mods(working_root)
+    configs = discover_configs(working_root, immutable_root)
+    datapacks = discover_assets(working_root, DATA_PACK_DIR)
+    resourcepacks = discover_assets(working_root, RESOURCE_PACK_DIR)
+    shaderpacks = discover_assets(working_root, SHADER_PACK_DIR)
+    mc_version = detect_mc_version(manifests)
+    loader = detect_loader(manifests, mods)
+    validation = build_validation(mods, loader)
+    name = manifests.curseforge.get("name") if manifests.curseforge else upload.name
+    pack = Pack(
+        name=name,
+        mc_version=mc_version,
+        loader=loader,
+        working_root=working_root,
+        immutable_root=immutable_root,
+        manifests=manifests,
+        mods=mods,
+        configs=configs,
+        datapacks=datapacks,
+        resourcepacks=resourcepacks,
+        shaderpacks=shaderpacks,
+        validation=validation,
+    )
+    return pack
+
+
+def render_overview_tab(pack: Pack):
+    st.subheader("Estado general del pack")
+    cols = st.columns(4)
+    cols[0].metric("Minecraft", pack.mc_version or "Desconocido")
+    cols[1].metric("Loader", pack.loader or "Desconocido")
+    cols[2].metric("Mods", len(pack.mods))
+    cols[3].metric("Configs", len(pack.configs))
+
+    if pack.validation.errors:
+        st.error("\n".join(pack.validation.errors))
+    if pack.validation.warnings:
+        st.warning("\n".join(pack.validation.warnings))
+
+    if pack.manifests.curseforge:
+        st.markdown("### Manifest de CurseForge")
+        st.json(pack.manifests.curseforge)
+    if pack.manifests.modrinth:
+        st.markdown("### Manifest de Modrinth")
+        st.json(pack.manifests.modrinth)
+    if pack.manifests.packwiz:
+        st.markdown("### Manifest de packwiz")
+        st.json(pack.manifests.packwiz)
+
+
+def render_dependency_graph(pack: Pack):
+    edges = []
+    active_mods = [mod for mod in pack.mods if mod.enabled]
+    for mod in active_mods:
+        for dep in mod.dependencies:
+            edges.append((mod.name, dep.modid))
+    if not edges:
+        st.info("No hay dependencias declaradas en los metadatos analizados.")
+        return
+    dot_lines = ["digraph dependencies {", "rankdir=LR;"]
+    for mod in active_mods:
+        dot_lines.append(f'"{mod.name}" [shape=box]')
+    for source, target in edges:
+        dot_lines.append(f'"{source}" -> "{target}"')
+    dot_lines.append("}")
+    st.graphviz_chart("\n".join(dot_lines))
+
+
+def render_mods_tab(pack: Pack):
+    st.subheader("Gestor de mods")
+    data = [
+        {
+            "ID": mod.id,
+            "Nombre": mod.name,
+            "Versión": mod.version or "?",
+            "Loader": mod.loader or "?",
+            "Archivo": mod.filename,
+            "Carpeta": mod.path.parent.name,
+            "SHA1": mod.hashes.get("sha1", ""),
+            "Habilitado": mod.enabled,
+            "Dependencias": ", ".join(dep.modid for dep in mod.dependencies) or "—",
+        }
+        for mod in pack.mods
     ]
-    
-    for opp in opportunities:
-        with st.expander(f"💰 {opp['título']} - Ahorra {opp['ahorro']}"):
-            st.write(f"**Acción recomendada:** {opp['acción']}")
-            st.button("🤖 Dejar que IA lo gestione", key=f"ai_{opp['título']}")
+    df = pd.DataFrame(data)
+    edited = st.experimental_data_editor(df, num_rows="dynamic", use_container_width=True)
+    st.caption(
+        "Marca o desmarca la casilla de `Habilitado` para mover mods entre `mods/` y `mods_disabled/` en la copia de trabajo."
+    )
+    changes = []
+    for idx, row in edited.iterrows():
+        if idx >= len(pack.mods):
+            continue
+        mod = pack.mods[idx]
+        desired_state = bool(row["Habilitado"])
+        if desired_state == mod.enabled:
+            continue
+        toggled = enable_mod(mod, pack) if desired_state else disable_mod(mod, pack)
+        if toggled:
+            changes.append(mod.name)
+    if changes:
+        pack.validation = build_validation(pack.mods, pack.loader)
+        st.success("Se actualizaron los estados: " + ", ".join(changes))
 
-# Página Copiloto IA
-elif page == "🤖 Copiloto IA":
-    st.markdown("## 🤖 Copiloto Financiero Inteligente")
-    st.markdown("Tu asesor personal 24/7 - Pregunta lo que necesites")
-    
-    st.markdown("---")
-    
-    # Sugerencias rápidas
-    st.markdown("#### 💡 Preguntas Frecuentes")
-    col1, col2, col3 = st.columns(3)
-    
+    st.markdown("### Duplicados y conflictos")
+    duplicates = [w for w in pack.validation.warnings if "Duplicado" in w]
+    if duplicates:
+        for dup in duplicates:
+            st.warning(dup)
+    else:
+        st.success("No se detectaron duplicados por hash.")
+
+    st.markdown("### Grafo de dependencias")
+    render_dependency_graph(pack)
+
+
+def render_config_diff(config: ConfigFile, edited_content: str):
+    import difflib
+
+    diff = difflib.unified_diff(
+        config.original_content.splitlines(),
+        edited_content.splitlines(),
+        fromfile="original",
+        tofile="editado",
+        lineterm="",
+    )
+    st.code("\n".join(diff) or "Sin cambios respecto al original")
+
+
+def render_configs_tab(pack: Pack):
+    st.subheader("Editor de configuraciones")
+    if not pack.configs:
+        st.info("No se encontraron archivos de configuración.")
+        return
+
+    config_map = {str(cfg.relative_path): cfg for cfg in pack.configs}
+    selected_path = st.selectbox("Selecciona un archivo", sorted(config_map.keys()))
+    if not selected_path:
+        return
+    cfg = config_map[selected_path]
+
+    st.markdown(f"**Ruta:** `{cfg.relative_path}`")
+    edited_content = st.text_area(
+        "Contenido",
+        value=st.session_state.setdefault("config_edits", {}).get(selected_path, cfg.content),
+        height=400,
+    )
+    st.session_state.config_edits[selected_path] = edited_content
+
+    col1, col2 = st.columns(2)
     with col1:
-        if st.button("💡 ¿Cómo bajar mi factura de luz?", use_container_width=True):
-            st.session_state.chat_history.append({
-                "user": "¿Cómo puedo bajar mi factura de luz?",
-                "ai": "Basándome en tu consumo, te recomiendo: 1) Cambiar a bombillas LED (ahorro ~$8/mes), 2) Ajustar termostato 2°C (ahorro ~$15/mes), 3) Desenchufar aparatos en standby (ahorro ~$5/mes). Total: **$28/mes de ahorro**. ¿Quieres que busque proveedores con mejores tarifas en tu zona?"
-            })
-    
+        if st.button("Guardar cambios"):
+            cfg.path.write_text(edited_content)
+            cfg.content = edited_content
+            st.success("Archivo guardado en la copia de trabajo.")
+        if st.button("Revertir al original"):
+            cfg.path.write_text(cfg.original_content)
+            cfg.content = cfg.original_content
+            st.session_state.config_edits[selected_path] = cfg.original_content
+            st.info("Cambios revertidos.")
     with col2:
-        if st.button("🎯 ¿Qué puedo recortar?", use_container_width=True):
-            st.session_state.chat_history.append({
-                "user": "¿Qué puedo recortar este mes sin dejar de disfrutar?",
-                "ai": "He analizado tus hábitos. Puedes: 1) Reducir delivery (cocinas bien, pides por comodidad) → Ahorro $60/mes, 2) Cambiar streaming premium a estándar (rara vez usas 4K) → Ahorro $5/mes, 3) Gym → clases al aire libre gratis → Ahorro $45/mes. **Total: $110/mes** manteniendo tu calidad de vida."
-            })
-    
-    with col3:
-        if st.button("📊 Crear presupuesto", use_container_width=True):
-            st.session_state.chat_history.append({
-                "user": "Ayúdame a crear un presupuesto",
-                "ai": "He creado un presupuesto basado en tus ingresos ($3,500/mes) y patrones reales de gasto. Regla 50/30/20 adaptada: **Necesidades** (55%: $1,925), **Gustos** (25%: $875), **Ahorros** (20%: $700). Te notificaré si te desvías. ¿Quieres ajustar alguna categoría?"
-            })
-    
-    st.markdown("---")
-    
-    # Chat interface
-    st.markdown("#### 💬 Chatea con tu Copiloto IA")
-    
-    # Mostrar historial
-    for msg in st.session_state.chat_history:
-        with st.chat_message("user"):
-            st.write(msg["user"])
-        with st.chat_message("assistant"):
-            st.write(msg["ai"])
-    
-    # Input del usuario
-    user_input = st.chat_input("Escribe tu pregunta financiera...")
-    
-    if user_input:
-        # Respuestas simuladas de IA
-        responses = {
-            "ahorrar": "He analizado tus gastos y encontré 3 áreas de mejora inmediata: 1) Suscripciones no usadas ($78/mes), 2) Comisiones bancarias evitables ($12/mes), 3) Optimización de seguros ($25/mes). **Total ahorro potencial: $115/mes**.",
-            "inversión": "Con tu perfil de ahorro actual de $700/mes, recomiendo: 60% en fondo indexado diversificado, 30% en cuenta de ahorro de alto rendimiento, 10% en cripto (solo lo que puedas perder). Esto balancea crecimiento y seguridad.",
-            "deuda": "Prioriza pagar primero la tarjeta con mayor interés (23% APR). Si transfieres el balance a una tarjeta 0% APR por 12 meses, a
+        st.markdown("**Diff vs original**")
+        render_config_diff(cfg, edited_content)
+
+
+def render_scripts_tab(pack: Pack):
+    st.subheader("Workspace de scripts (KubeJS)")
+    kube_root = pack.working_root / "kubejs"
+    if not kube_root.exists():
+        st.info("No se encontró carpeta kubejs en el pack.")
+        return
+    files = sorted([p.relative_to(pack.working_root) for p in kube_root.rglob("*.js")])
+    if not files:
+        st.info("No hay scripts JS para mostrar.")
+        return
+    selected = st.selectbox("Selecciona un script", [str(p) for p in files])
+    script_path = pack.working_root / selected
+    content = script_path.read_text(errors="ignore")
+    st.text_area("Editor", value=content, height=400, key=f"script_{selected}")
+    st.caption("Edición básica habilitada. Integración completa con Monaco/Ace es una futura mejora.")
+
+
+def render_data_tab(pack: Pack):
+    st.subheader("Data packs / Recursos / Shaders")
+    col1, col2, col3 = st.columns(3)
+    col1.markdown("### Datapacks")
+    if pack.datapacks:
+        col1.write("\n".join(f"• {p}" for p in pack.datapacks))
+    else:
+        col1.info("Sin datapacks detectados")
+
+    col2.markdown("### Resourcepacks")
+    if pack.resourcepacks:
+        col2.write("\n".join(f"• {p}" for p in pack.resourcepacks))
+    else:
+        col2.info("Sin resourcepacks detectados")
+
+    col3.markdown("### Shaderpacks")
+    if pack.shaderpacks:
+        col3.write("\n".join(f"• {p}" for p in pack.shaderpacks))
+    else:
+        col3.info("Sin shaderpacks detectados")
+
+
+def render_diagnostics_tab(pack: Pack):
+    st.subheader("Diagnósticos y validaciones")
+    st.markdown("### Resultados de validación")
+    if pack.validation.errors:
+        st.error("\n".join(pack.validation.errors))
+    else:
+        st.success("Sin errores críticos detectados en dependencias.")
+    if pack.validation.warnings:
+        st.warning("\n".join(pack.validation.warnings))
+    else:
+        st.info("Sin advertencias adicionales.")
+    if pack.validation.suggestions:
+        st.markdown("### Sugerencias automáticas")
+        for suggestion in pack.validation.suggestions:
+            st.info(suggestion)
+    else:
+        st.caption("No hay sugerencias adicionales en este análisis.")
+
+    logs_dir = pack.working_root / "logs"
+    latest_log = logs_dir / "latest.log"
+    if latest_log.exists():
+        st.markdown("### latest.log (fragmento)")
+        st.text(latest_log.read_text(errors="ignore")[-5000:])
+    else:
+        st.caption("Sube tus logs en la carpeta /logs para obtener análisis adicionales en futuras versiones.")
+
+
+def create_zip_bytes(root: Path) -> io.BytesIO:
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED) as zf:
+        for file in root.rglob("*"):
+            if file.is_file():
+                zf.write(file, arcname=file.relative_to(root))
+    buffer.seek(0)
+    return buffer
+
+
+def render_export_tab(pack: Pack):
+    st.subheader("Exportar pack")
+    st.markdown("Prepara una exportación rápida del workspace actual.")
+
+    export_zip = create_zip_bytes(pack.working_root)
+    st.download_button(
+        label="Descargar ZIP (modo laboratorio)",
+        data=export_zip,
+        file_name=f"{pack.name or 'pack'}-export.zip",
+        mime="application/zip",
+    )
+
+    st.markdown("### Changelog básico")
+    mod_lines = [
+        f"{'✓' if mod.enabled else '✗'} {mod.name} ({mod.version or 'desconocida'})"
+        for mod in pack.mods
+    ]
+    st.text("Mods detectados:\n" + "\n".join(mod_lines))
+    if st.session_state.get("config_edits"):
+        changed = [path for path, content in st.session_state.config_edits.items() if content]
+        st.text("Configuraciones editadas:\n" + "\n".join(changed))
+    else:
+        st.caption("Sin cambios registrados en configuraciones en esta sesión.")
+
+
+def sidebar(pack: Optional[Pack]):
+    with st.sidebar:
+        st.markdown("## Pack manager")
+        st.markdown("Crea un workspace temporal para inspeccionar y modificar tus packs de Minecraft.")
+        upload = st.file_uploader("Importar pack", type=[ext.lstrip(".") for ext in SUPPORTED_UPLOADS])
+        if upload is not None:
+            try:
+                st.session_state.pack = load_pack(upload)
+                st.success("Pack importado correctamente. Usa las pestañas para explorarlo.")
+            except zipfile.BadZipFile:
+                st.error("El archivo seleccionado no es un paquete comprimido válido.")
+            except Exception as exc:  # pragma: no cover - errores inesperados
+                st.exception(exc)
+        st.markdown("---")
+        if pack:
+            st.markdown(f"**Nombre:** {pack.name}")
+            st.markdown(f"**Minecraft:** {pack.mc_version or '—'}")
+            st.markdown(f"**Loader:** {pack.loader or '—'}")
+            st.markdown(f"**Mods:** {len(pack.mods)}")
+            st.markdown(f"**Configs:** {len(pack.configs)}")
+            st.caption(f"Workspace: {pack.working_root}")
+        st.markdown("---")
+        st.markdown("### Acciones rápidas")
+        if pack and st.button("Refrescar datos"):
+            hydrate_configs(pack)
+            pack.validation = build_validation(pack.mods, pack.loader)
+            st.experimental_rerun()
+
+
+def main():
+    st.set_page_config(page_title="PackSmith", layout="wide", page_icon="🧰")
+    st.title("🧰 PackSmith - Laboratorio de modpacks")
+    st.caption(
+        "Importa, analiza y ajusta tus modpacks de Minecraft con una experiencia de escritorio optimizada."
+    )
+
+    pack: Optional[Pack] = st.session_state.get("pack")
+    sidebar(pack)
+
+    if not pack:
+        st.info("Importa un modpack para comenzar. Aceptamos exportaciones de CurseForge y Modrinth en formato ZIP/MRPACK.")
+        return
+
+    tabs = st.tabs([
+        "Overview",
+        "Mods",
+        "Configs",
+        "Scripts",
+        "Data / Resources",
+        "Diagnostics",
+        "Export",
+    ])
+
+    with tabs[0]:
+        render_overview_tab(pack)
+    with tabs[1]:
+        render_mods_tab(pack)
+    with tabs[2]:
+        render_configs_tab(pack)
+    with tabs[3]:
+        render_scripts_tab(pack)
+    with tabs[4]:
+        render_data_tab(pack)
+    with tabs[5]:
+        render_diagnostics_tab(pack)
+    with tabs[6]:
+        render_export_tab(pack)
+
+
+if __name__ == "__main__":
+    main()
