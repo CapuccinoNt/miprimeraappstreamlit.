@@ -1,7 +1,8 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime, timedelta
-import random
+impor t random
+import english_test_app
 
 # Configuración de la página
 st.set_page_config(
@@ -94,11 +95,11 @@ st.markdown("""
         padding: 0.25rem 0.5rem;
         border-radius: 12px;
         font-size: 0.9rem;
-        font-weight: bold;
-    }
-    </style>
-""", unsafe_allow_html=True)
-
+        #font-weight: bold;
+    }#
+    </st#yle>
+""", uns#afe_allow_html=True)
+, "📖 T#est de inglés"
 # Header
 st.markdown('<h1 class="main-header">💰 Alivia</h1>', unsafe_allow_html=True)
 st.markdown('<p class="tagline">Tu Aliado Financiero IA - Combate el estrés económico automáticamente</p>', unsafe_allow_html=True)
