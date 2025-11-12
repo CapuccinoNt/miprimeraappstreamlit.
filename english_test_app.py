@@ -35,7 +35,7 @@ LEVEL_RULES: Dict[str, Dict[str, int]] = {
 EARLY_STOP_WRONGS = 3
 MAX_QUESTIONS = 50
 PRACTICE_QUESTIONS = 20
-CHOICE_PLACEHOLDER = "Selecciona una opción"
+CHOICE_PLACEHOLDER_BASE = "Selecciona una opción"
 
 
 def new_block(level: str) -> Dict[str, Any]:
@@ -50,14 +50,32 @@ def new_block(level: str) -> Dict[str, Any]:
     }
 
 
+def _placeholder_label(options: List[str]) -> str:
+    """Return a placeholder label that does not collide with the choices."""
+
+    base = CHOICE_PLACEHOLDER_BASE
+    if base not in options:
+        return base
+
+    suffix = 1
+    candidate = f"{base} ({suffix})"
+    while candidate in options:
+        suffix += 1
+        candidate = f"{base} ({suffix})"
+    return candidate
+
+
 def render_choice_radio(label: str, options: List[str], key: str) -> str | None:
     """Render a radio group with an explicit placeholder for compatibility."""
 
     # Older Streamlit versions do not support ``index=None`` to avoid a default
     # selection. By injecting a placeholder option we can detect whether the
-    # user actually made a choice while keeping the interaction clear.
-    selection = st.radio(label, [CHOICE_PLACEHOLDER] + list(options), key=key)
-    return None if selection == CHOICE_PLACEHOLDER else selection
+    # user actually made a choice while keeping the interaction clear.  Some
+    # items may legitimately contain the placeholder copy as an answer choice,
+    # so we generate a unique sentinel when needed.
+    placeholder = _placeholder_label(list(options))
+    selection = st.radio(label, [placeholder] + list(options), key=key)
+    return None if selection == placeholder else selection
 
 
 @st.cache_data(show_spinner=False)
