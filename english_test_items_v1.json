@@ -5,14 +5,15 @@
       "level": "A1",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "I ___ breakfast at 7 o'clock every day.",
+      "prompt": "I ___ a teacher.",
       "options": [
-        "eat",
-        "eats",
-        "eating",
-        "ate"
+        "am",
+        "is",
+        "are",
+        "be"
       ],
-      "answer": "eat"
+      "answer": "am",
+      "explanation": "Con 'I' siempre usamos 'am' en presente simple del verbo 'to be'."
     },
     {
       "id": "A1-GR-002",
@@ -959,7 +960,7 @@
     {
       "id": "B1-GR-005",
       "level": "B1",
-      "skill": "grammar",
+      "skill": "use_of_english",
       "type": "multiple_choice",
       "prompt": "He ___ to the doctor if the pain continues.",
       "options": [
