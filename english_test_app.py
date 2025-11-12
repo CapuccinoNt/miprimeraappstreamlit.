@@ -35,6 +35,7 @@ LEVEL_RULES: Dict[str, Dict[str, int]] = {
 EARLY_STOP_WRONGS = 3
 MAX_QUESTIONS = 50
 PRACTICE_QUESTIONS = 20
+CHOICE_PLACEHOLDER = "Selecciona una opción"
 
 
 def new_block(level: str) -> Dict[str, Any]:
@@ -47,6 +48,16 @@ def new_block(level: str) -> Dict[str, Any]:
         "wrong": 0,
         "used_ids": set(),
     }
+
+
+def render_choice_radio(label: str, options: List[str], key: str) -> str | None:
+    """Render a radio group with an explicit placeholder for compatibility."""
+
+    # Older Streamlit versions do not support ``index=None`` to avoid a default
+    # selection. By injecting a placeholder option we can detect whether the
+    # user actually made a choice while keeping the interaction clear.
+    selection = st.radio(label, [CHOICE_PLACEHOLDER] + list(options), key=key)
+    return None if selection == CHOICE_PLACEHOLDER else selection
 
 
 @st.cache_data(show_spinner=False)
@@ -404,11 +415,8 @@ def render_adaptive_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) ->
                 st.write("No hay explicación adicional para este ítem.")
             st.write(f"Respuesta correcta: **{feedback['answer']}**")
 
-    choice = st.radio(
-        "Elige la respuesta correcta:",
-        question["options"],
-        index=None,
-        key=key,
+    choice = render_choice_radio(
+        "Elige la respuesta correcta:", question["options"], key
     )
 
     if st.button(
@@ -520,9 +528,6 @@ def render_practice_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) ->
 
     question = practice_state["questions"][practice_state["index"]]
     key = f"practice_choice_{practice_state['index']}_{question['id']}"
-    if key not in st.session_state:
-        st.session_state[key] = None
-
     st.subheader(f"Práctica guiada – Nivel {level}")
     st.write(
         f"Pregunta {practice_state['index'] + 1} de {total_questions}."
@@ -534,11 +539,8 @@ def render_practice_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) ->
     st.write(question["text"])
     st.caption(f"Habilidad enfocada: {question['skill'].replace('_', ' ').title()}")
 
-    choice = st.radio(
-        "Elige la respuesta correcta",
-        question["options"],
-        index=None,
-        key=key,
+    choice = render_choice_radio(
+        "Elige la respuesta correcta", question["options"], key
     )
 
     if st.button(
