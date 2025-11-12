@@ -1,34 +1,69 @@
 # english_test_app.py
 # English Pro Test – Aplicación profesional de evaluación CEFR
-# Adaptativo A1→C2 con landing profesional y banco de 30 ítems por nivel
+# Adaptativo A1→C2 con landing profesional y banco demostrativo (10 ítems por nivel)
 
 from __future__ import annotations
-import json, random
+
+import json
+import math
+import random
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Any, Dict, List, Optional
+
 import streamlit as st
 
-LEVELS = ["A1","A2","B1","B2","C1","C2"]
+LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"]
+MIN_ITEMS_PER_LEVEL = 10
+MAX_TOTAL_ITEMS = 50
+EARLY_STOP_ERRORS = 3
 
 # -------------------------
 # Carga del banco de ítems
 # -------------------------
 def load_item_bank() -> Dict[str, List[Dict[str, Any]]]:
-    """
-    Intenta cargar english_test_items_v1.json (30 ítems por nivel).
-    Si no existe, muestra error ya que el archivo es necesario.
-    """
-    json_path = Path("english_test_items_v1.json")
+    """Carga el banco de ítems y valida su estructura mínima."""
+
+    json_path = Path(__file__).resolve().with_name("english_test_items_v1.json")
     if json_path.exists():
         try:
             data = json.loads(json_path.read_text(encoding="utf-8"))
-            # Validación
-            if all(lvl in data and isinstance(data[lvl], list) and len(data[lvl]) >= 20 for lvl in LEVELS):
+        except json.JSONDecodeError as exc:
+            st.error(
+                "⚠️ No se pudo decodificar 'english_test_items_v1.json'. "
+                f"Verifica el formato del archivo (JSONDecodeError: {exc})."
+            )
+        except Exception as exc:  # pragma: no cover - salvaguarda
+            st.error(f"⚠️ Error inesperado al cargar el banco de ítems: {exc}")
+        else:
+            problems: List[str] = []
+            if not isinstance(data, dict):
+                st.error(
+                    "⚠️ El archivo de ítems debe contener un objeto JSON con niveles como claves."
+                )
+                st.stop()
+            for level in LEVELS:
+                if level not in data:
+                    problems.append(f"- Falta la clave '{level}'.")
+                    continue
+                if not isinstance(data[level], list):
+                    problems.append(f"- Los ítems de '{level}' deben estar en una lista.")
+                    continue
+                if len(data[level]) < MIN_ITEMS_PER_LEVEL:
+                    problems.append(
+                        f"- '{level}' solo tiene {len(data[level])} ítems (mínimo {MIN_ITEMS_PER_LEVEL})."
+                    )
+
+            if not problems:
                 return data
-        except Exception as e:
-            st.error(f"Error al cargar el banco de ítems: {e}")
-    
-    st.error("⚠️ Archivo 'english_test_items_v1.json' no encontrado o inválido. Por favor, asegúrate de que el archivo esté en el mismo directorio que esta aplicación.")
+
+            st.error(
+                "⚠️ El banco de ítems es inválido:\n" + "\n".join(problems)
+            )
+
+    st.error(
+        "⚠️ Archivo 'english_test_items_v1.json' no encontrado o inválido. "
+        "Por favor, asegúrate de que el archivo esté en el mismo directorio que esta aplicación."
+    )
     st.stop()
 
 
@@ -117,9 +152,10 @@ def render_landing_page() -> bool:
         st.markdown("""
         **📈 Progresión Adaptativa:**
         - Comienza en nivel A1 (básico)
-        - Sube de nivel con cada respuesta correcta
-        - Se detiene en el primer error
-        - 20 preguntas diversas por nivel
+        - Evalúa bloques calibrados de 10-12 ítems por nivel
+        - Avanzas solo si superas el umbral psicométrico del bloque
+        - Confirmación doble: éxito consecutivo o intento fallido del nivel superior
+        - Hasta 50 ítems totales en esta versión demo
         
         **⏱️ Duración:**
         - Estimada: 15-30 minutos
@@ -249,51 +285,84 @@ def render_landing_page() -> bool:
 # ---------------------------------
 # Lógica adaptativa "de menos a más"
 # ---------------------------------
-def init_adaptive_state():
-    """Inicializa el estado del test adaptativo"""
-    st.session_state.mode = "adaptive"
-    st.session_state.level_idx = 0          # Empieza en A1 (nivel más bajo)
-    st.session_state.question_number = 0    # Contador de preguntas respondidas
-    st.session_state.history = []           # [(level, correct, qid, skill)]
-    st.session_state.finished = False
-    st.session_state.final_level = None
-    st.session_state.used_questions = {lvl: [] for lvl in LEVELS}  # IDs usados por nivel
-    st.session_state.current_question = None  # Pregunta actual
+def init_adaptive_state(bank: Dict[str, List[Dict[str, Any]]]):
+    """Inicializa el estado del test adaptativo profesional."""
+
+    st.session_state.adaptive = {
+        "current_level_idx": 0,
+        "history": [],
+        "finished": False,
+        "final_level": None,
+        "total_questions": 0,
+        "block_number": 0,
+        "current_block": None,
+        "block_results": [],
+        "success_streaks": {lvl: 0 for lvl in LEVELS},
+        "fail_counts": {lvl: 0 for lvl in LEVELS},
+        "last_successful_level": None,
+        "used_questions": {lvl: [] for lvl in LEVELS},
+        "last_announcement": 0,
+    }
+
+    start_new_block(LEVELS[0], bank)
 
 
-def pick_next_question(bank: Dict[str, List[Dict[str, Any]]], level: str) -> Dict[str, Any]:
-    """
-    Selecciona una pregunta no usada del nivel actual.
-    Mezcla tipos de habilidades para variedad.
-    """
-    available = [
-        q for q in bank[level] 
-        if q["id"] not in st.session_state.used_questions[level]
-    ]
-    
-    if not available:
-        # Si se acabaron, reinicia (no debería pasar con 30 preguntas)
-        st.session_state.used_questions[level] = []
-        available = bank[level]
-    
-    # Selecciona aleatoriamente para variedad
-    question = random.choice(available)
-    st.session_state.used_questions[level].append(question["id"])
-    
-    return question
+def get_block_rules(level: str, bank: Dict[str, List[Dict[str, Any]]]) -> Dict[str, int]:
+    """Determina tamaño y umbral del bloque según el nivel y disponibilidad."""
+
+    desired_size = 12 if level in {"C1", "C2"} else 10
+    available = len(bank[level])
+    block_size = max(5, min(desired_size, available))
+    target_pct = 0.75 if level in {"C1", "C2"} else 0.8
+    threshold = max(1, math.ceil(block_size * target_pct))
+
+    return {"block_size": block_size, "threshold": threshold}
 
 
-def render_question(q: Dict[str, Any]) -> Optional[bool]:
+def start_new_block(level: str, bank: Dict[str, List[Dict[str, Any]]]):
+    """Prepara un nuevo bloque de preguntas para el nivel indicado."""
+
+    state = st.session_state.adaptive
+    rules = get_block_rules(level, bank)
+
+    used_ids = set(state["used_questions"][level])
+    pool = [q for q in bank[level] if q["id"] not in used_ids]
+    if len(pool) < rules["block_size"]:
+        # Reiniciar pool para permitir más bloques en el mismo nivel.
+        pool = bank[level][:]
+        state["used_questions"][level] = []
+        used_ids = set()
+
+    random.shuffle(pool)
+    questions = pool[: rules["block_size"]]
+    state["used_questions"][level].extend(q["id"] for q in questions)
+
+    state["block_number"] += 1
+    state["current_level_idx"] = LEVELS.index(level)
+    state["current_block"] = {
+        "level": level,
+        "questions": questions,
+        "index": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "answered": 0,
+        "threshold": rules["threshold"],
+        "block_size": rules["block_size"],
+        "display_id": state["block_number"],
+    }
+
+
+def render_question(q: Dict[str, Any], block: Dict[str, Any]) -> Optional[bool]:
     """
     Renderiza una pregunta y retorna True/False/None.
     None = esperando respuesta
     """
-    # Información contextual
+    # Información contextual (sin revelar nivel explícito durante el test)
     col_info1, col_info2, col_info3 = st.columns(3)
     with col_info1:
-        st.metric("Nivel Actual", q["level"])
+        st.metric("Bloque", f"#{block['display_id']}")
     with col_info2:
-        st.metric("Pregunta #", st.session_state.question_number + 1)
+        st.metric("Pregunta", f"{block['index'] + 1} de {block['block_size']}")
     with col_info3:
         skill_names = {
             "grammar": "Gramática",
@@ -313,137 +382,217 @@ def render_question(q: Dict[str, Any]) -> Optional[bool]:
         "Selecciona tu respuesta:",
         q["options"],
         index=None,
-        key=f"q_{st.session_state.question_number}"
+        key=f"adaptive_q_{block['display_id']}_{block['index']}"
     )
-    
+
     # Botón de envío
     col_btn1, col_btn2, col_btn3 = st.columns([1, 1, 1])
     with col_btn2:
-        submitted = st.button("✓ Responder", type="primary", use_container_width=True)
-    
+        submitted = st.button(
+            "✓ Responder",
+            type="primary",
+            use_container_width=True,
+            key=f"adaptive_submit_{block['display_id']}_{block['index']}"
+        )
+
     if submitted:
         if choice is None:
             st.warning("⚠️ Por favor selecciona una opción antes de continuar.")
             return None
-        
+
         is_correct = (choice == q["answer"])
-        
+
         # Mostrar feedback inmediato
         if is_correct:
             st.success("✅ ¡Correcto!")
         else:
             st.error(f"❌ Incorrecto. La respuesta correcta es: **{q['answer']}**")
-        
+
         # Mostrar explicación
         with st.expander("📖 Ver explicación"):
             st.markdown(f"**Respuesta correcta:** {q['answer']}")
             if q.get("explanation"):
                 st.markdown(f"**Explicación:** {q['explanation']}")
-        
+
         return is_correct
-    
+
     return None
 
 
+def finalize_block(success: bool, bank: Dict[str, List[Dict[str, Any]]], reason: str):
+    """Registra el resultado del bloque y decide el siguiente paso adaptativo."""
+
+    state = st.session_state.adaptive
+    block = state["current_block"]
+    level = block["level"]
+
+    state["block_results"].append(
+        {
+            "level": level,
+            "success": success,
+            "correct": block["correct"],
+            "total": block["answered"],
+            "threshold": block["threshold"],
+            "reason": reason,
+        }
+    )
+
+    if success:
+        state["success_streaks"][level] += 1
+        state["last_successful_level"] = level
+
+        if state["success_streaks"][level] >= 2 or LEVELS.index(level) == len(LEVELS) - 1:
+            state["final_level"] = level
+            state["finished"] = True
+            state["current_block"] = None
+            return
+
+        next_level = LEVELS[min(len(LEVELS) - 1, LEVELS.index(level) + 1)]
+        start_new_block(next_level, bank)
+
+    else:
+        state["fail_counts"][level] += 1
+        state["success_streaks"][level] = 0
+
+        if LEVELS.index(level) == 0:
+            if state["fail_counts"][level] < 2 and state["total_questions"] < MAX_TOTAL_ITEMS:
+                start_new_block(level, bank)
+            else:
+                state["final_level"] = level
+                state["finished"] = True
+                state["current_block"] = None
+        else:
+            previous_level = state["last_successful_level"] or LEVELS[LEVELS.index(level) - 1]
+            state["final_level"] = previous_level
+            state["finished"] = True
+            state["current_block"] = None
+
+
 def render_adaptive_test(bank: Dict[str, List[Dict[str, Any]]]):
-    """Renderiza el test adaptativo principal"""
-    
-    if "mode" not in st.session_state or st.session_state.mode != "adaptive":
-        init_adaptive_state()
-    
-    # Header del test
+    """Renderiza el test adaptativo profesional con bloques por nivel."""
+
+    if "adaptive" not in st.session_state:
+        init_adaptive_state(bank)
+
+    state = st.session_state.adaptive
+
     st.markdown("""
-        <div style='background: linear-gradient(90deg, #11998e 0%, #38ef7d 100%); 
-                    padding: 1.5rem; border-radius: 8px; color: white; margin-bottom: 2rem;'>
-            <h2 style='margin: 0; color: white;'>🎯 Test Adaptativo en Progreso</h2>
+        <div style='background: linear-gradient(135deg, #0f3443 0%, #34e89e 100%);
+                    padding: 1.5rem; border-radius: 12px; color: white; margin-bottom: 2rem;'>
+            <h2 style='margin: 0; color: white;'>🎯 Test Adaptativo Profesional</h2>
             <p style='margin: 0.5rem 0 0 0; opacity: 0.9;'>
-                El test comienza en A1 y sube automáticamente con cada acierto. Se detiene en tu primer error.
+                Avanza por bloques calibrados estilo Cambridge. El nivel final se confirma al concluir el algoritmo.
             </p>
         </div>
     """, unsafe_allow_html=True)
-    
-    # Si terminó
-    if st.session_state.finished:
-        final_level = st.session_state.final_level or LEVELS[max(0, st.session_state.level_idx - 1)]
-        
-        # Resultado final
+
+    if not state["finished"] and state["block_results"] and state["last_announcement"] < len(state["block_results"]):
+        last_block = state["block_results"][-1]
+        if last_block["success"]:
+            st.success(
+                f"Bloque de nivel {last_block['level']} superado: {last_block['correct']} correctas de {last_block['total']}.")
+        else:
+            st.warning(
+                f"Bloque de nivel {last_block['level']} no alcanzó el umbral: {last_block['correct']} correctas de {last_block['total']}.")
+        state["last_announcement"] = len(state["block_results"])
+
+    if state["finished"]:
+        final_level = state["final_level"] or state["last_successful_level"] or LEVELS[state["current_level_idx"]]
+
         st.balloons()
         st.markdown(f"""
-            <div style='background: #d4edda; padding: 2rem; border-radius: 10px; border: 2px solid #28a745; text-align: center;'>
-                <h1 style='color: #28a745; margin: 0;'>🎉 Test Completado</h1>
-                <h2 style='color: #155724; margin: 1rem 0;'>Tu nivel estimado es: <strong>{final_level}</strong></h2>
-                <p style='font-size: 1.1rem; color: #155724;'>
-                    Has respondido correctamente {len([h for h in st.session_state.history if h[1]])} de {len(st.session_state.history)} preguntas.
-                </p>
+            <div style='background: #0b3d2e; padding: 2.5rem; border-radius: 16px; border: 2px solid #34e89e; text-align: center;'>
+                <h1 style='color: #34e89e; margin: 0;'>🎉 Nivel Confirmado</h1>
+                <h2 style='color: #a5f2d5; margin: 1rem 0 0 0;'>Resultado estimado CEFR:</h2>
+                <h1 style='font-size: 3rem; color: #ffffff; letter-spacing: 4px;'>{final_level}</h1>
+                <p style='font-size: 1.1rem; color: #c9fff0;'>Bloques completados: {len(state['block_results'])} • Ítems respondidos: {state['total_questions']}</p>
             </div>
         """, unsafe_allow_html=True)
-        
-        # Interpretación del nivel
+
         level_descriptions = {
-            "A1": "**Básico:** Puedes entender y usar expresiones cotidianas muy básicas.",
-            "A2": "**Elemental:** Puedes comunicarte en tareas simples y rutinarias.",
-            "B1": "**Intermedio:** Puedes manejar situaciones durante viajes y describir experiencias.",
-            "B2": "**Intermedio Alto:** Puedes interactuar con hablantes nativos con fluidez y naturalidad.",
-            "C1": "**Avanzado:** Puedes usar el idioma de forma flexible y efectiva para fines sociales, académicos y profesionales.",
-            "C2": "**Maestría:** Puedes comprender y expresar prácticamente todo con facilidad."
+            "A1": "**Básico:** Puedes entender expresiones cotidianas muy frecuentes y formular frases sencillas.",
+            "A2": "**Elemental:** Te comunicas en tareas simples y describres aspectos de tu entorno inmediato.",
+            "B1": "**Intermedio:** Manejas situaciones habituales en viajes y puedes narrar experiencias de forma clara.",
+            "B2": "**Intermedio alto:** Interactúas con fluidez con hablantes nativos y defiendes argumentos complejos.",
+            "C1": "**Avanzado:** Utilizas el idioma de forma flexible y efectiva en contextos académicos y profesionales.",
+            "C2": "**Maestría:** Comprendes prácticamente todo y te expresas con precisión en cualquier situación."
         }
-        
-        st.info(f"**Significado del nivel {final_level}:**\n\n{level_descriptions.get(final_level, '')}")
-        
-        # Historial detallado
-        with st.expander("📊 Ver historial detallado de respuestas"):
-            for i, (lvl, correct, qid, skill) in enumerate(st.session_state.history, 1):
+
+        st.info(f"**Interpretación del resultado {final_level}:**\n\n{level_descriptions.get(final_level, '')}")
+
+        with st.expander("📊 Ver resumen de bloques"):
+            for i, block in enumerate(state["block_results"], 1):
+                status = "✅" if block["success"] else "⚠️"
+                st.write(
+                    f"{i}. {status} Bloque nivel {block['level']}: {block['correct']} correctas de {block['total']} "
+                    f"(umbral {block['threshold']})."
+                )
+
+        with st.expander("🗂️ Historial de respuestas por ítem"):
+            for i, (lvl, correct, qid, skill) in enumerate(state["history"], 1):
                 icon = "✅" if correct else "❌"
-                st.write(f"{i}. {icon} **Nivel {lvl}** - {skill} - ID: {qid}")
-        
-        # Botón de reinicio
+                st.write(f"{i}. {icon} Nivel {lvl} • {skill} • ID {qid}")
+
         col_r1, col_r2, col_r3 = st.columns([1, 1, 1])
         with col_r2:
-            if st.button("🔄 Realizar otro test", type="primary", use_container_width=True):
+            if st.button("🔄 Realizar un nuevo diagnóstico", type="primary", use_container_width=True):
                 for key in list(st.session_state.keys()):
                     del st.session_state[key]
                 st.rerun()
-        
+
         return
-    
-    # Obtener pregunta actual
-    current_level = LEVELS[st.session_state.level_idx]
-    
-    if st.session_state.current_question is None:
-        st.session_state.current_question = pick_next_question(bank, current_level)
-    
-    q = st.session_state.current_question
-    
-    # Renderizar pregunta
-    result = render_question(q)
-    
+
+    block = state.get("current_block")
+    if block is None:
+        start_new_block(LEVELS[state["current_level_idx"]], bank)
+        block = state["current_block"]
+
+    st.progress(
+        block["answered"] / block["block_size"],
+        text=f"Bloque #{block['display_id']} • Pregunta {block['answered'] + 1} de {block['block_size']}"
+    )
+
+    total_ratio = min(1.0, state["total_questions"] / MAX_TOTAL_ITEMS)
+    st.progress(total_ratio, text=f"Progreso global del test ({state['total_questions']} / {MAX_TOTAL_ITEMS} ítems)")
+
+    question = block["questions"][block["index"]]
+    result = render_question(question, block)
+
     if result is None:
-        return  # Esperando respuesta
-    
-    # Registrar resultado
-    st.session_state.history.append((current_level, result, q["id"], q["skill"]))
-    st.session_state.question_number += 1
-    st.session_state.current_question = None  # Limpiar para próxima pregunta
-    
-    # Decidir siguiente paso
+        return
+
+    state["history"].append((block["level"], result, question["id"], question["skill"]))
+    state["total_questions"] += 1
+    block["answered"] += 1
+    block["index"] += 1
     if result:
-        # ✅ Respuesta correcta
-        if st.session_state.level_idx < len(LEVELS) - 1:
-            # Subir de nivel
-            st.session_state.level_idx += 1
-            st.success(f"🎉 ¡Excelente! Subiendo a nivel {LEVELS[st.session_state.level_idx]}...")
-            st.rerun()
-        else:
-            # Ya está en C2 y acertó
-            st.session_state.final_level = "C2"
-            st.session_state.finished = True
-            st.rerun()
+        block["correct"] += 1
     else:
-        # ❌ Primera respuesta incorrecta → Fin del test
-        prev_idx = max(0, st.session_state.level_idx - 1)
-        st.session_state.final_level = LEVELS[prev_idx]
-        st.session_state.finished = True
+        block["incorrect"] += 1
+
+    success = None
+    reason = "continuing"
+
+    if block["correct"] >= block["threshold"]:
+        success = True
+        reason = "threshold"
+    elif block["incorrect"] >= EARLY_STOP_ERRORS and block["correct"] < block["threshold"]:
+        success = False
+        reason = "early_stop"
+    elif block["answered"] >= block["block_size"]:
+        success = block["correct"] >= block["threshold"]
+        reason = "completed"
+
+    if state["total_questions"] >= MAX_TOTAL_ITEMS and success is None:
+        success = block["correct"] >= block["threshold"]
+        reason = "global_limit"
+
+    if success is not None:
+        finalize_block(success, bank, reason)
         st.rerun()
+        return
+
+    st.rerun()
 
 
 # ---------------------------------
@@ -451,24 +600,22 @@ def render_adaptive_test(bank: Dict[str, List[Dict[str, Any]]]):
 # ---------------------------------
 def init_practice_state(level: str):
     """Inicializa el modo práctica"""
-    st.session_state.mode = "practice"
     st.session_state.practice_level = level
     st.session_state.practice_idx = 0
     st.session_state.practice_correct = 0
-    st.session_state.practice_total = 20  # 20 preguntas por sesión
     st.session_state.practice_questions = []
     st.session_state.practice_current = None
 
 
 def render_practice_mode(bank: Dict[str, List[Dict[str, Any]]]):
-    """Modo de práctica: 20 preguntas del nivel seleccionado"""
+    """Modo de práctica: hasta 20 preguntas del nivel seleccionado"""
     
     st.markdown("""
         <div style='background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%); 
                     padding: 1.5rem; border-radius: 8px; color: white; margin-bottom: 2rem;'>
             <h2 style='margin: 0; color: white;'>🎯 Modo Práctica por Nivel</h2>
             <p style='margin: 0.5rem 0 0 0; opacity: 0.9;'>
-                Elige un nivel específico y practica con 20 preguntas aleatorias.
+                Elige un nivel específico y practica con hasta 20 preguntas aleatorias.
             </p>
         </div>
     """, unsafe_allow_html=True)
@@ -481,11 +628,16 @@ def render_practice_mode(bank: Dict[str, List[Dict[str, Any]]]):
         key="practice_level_selector"
     )
     
-    # Verificar si cambió el nivel
-    if "mode" not in st.session_state or st.session_state.mode != "practice" or \
-       st.session_state.get("practice_level") != level:
-        if len(bank[level]) < 20:
-            st.warning(f"⚠️ El nivel {level} tiene menos de 20 preguntas. Se usarán todas las disponibles.")
+    # Verificar si cambió el nivel o es la primera vez
+    needs_init = (
+        "practice_questions" not in st.session_state
+        or st.session_state.get("practice_level") != level
+    )
+    if needs_init:
+        if len(bank[level]) < MIN_ITEMS_PER_LEVEL:
+            st.warning(
+                f"⚠️ El nivel {level} tiene solo {len(bank[level])} preguntas. Se usarán todas las disponibles."
+            )
         init_practice_state(level)
         # Preparar preguntas
         all_questions = bank[level].copy()
@@ -540,7 +692,12 @@ def render_practice_mode(bank: Dict[str, List[Dict[str, Any]]]):
     
     col_pb1, col_pb2, col_pb3 = st.columns([1, 1, 1])
     with col_pb2:
-        submitted = st.button("✓ Responder", type="primary", use_container_width=True)
+        submitted = st.button(
+            "✓ Responder",
+            type="primary",
+            use_container_width=True,
+            key=f"practice_submit_{st.session_state.practice_idx}"
+        )
     
     if submitted:
         if choice is None:
