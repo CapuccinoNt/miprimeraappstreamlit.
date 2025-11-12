@@ -1,34 +1,61 @@
 # english_test_app.py
 # English Pro Test – Aplicación profesional de evaluación CEFR
-# Adaptativo A1→C2 con landing profesional y banco de 30 ítems por nivel
+# Adaptativo A1→C2 con landing profesional y banco demostrativo (10 ítems por nivel)
 
 from __future__ import annotations
-import json, random
+
+import json
+import random
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Any, Dict, List, Optional
+
 import streamlit as st
 
-LEVELS = ["A1","A2","B1","B2","C1","C2"]
+LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"]
+MIN_ITEMS_PER_LEVEL = 10
 
 # -------------------------
 # Carga del banco de ítems
 # -------------------------
 def load_item_bank() -> Dict[str, List[Dict[str, Any]]]:
-    """
-    Intenta cargar english_test_items_v1.json (30 ítems por nivel).
-    Si no existe, muestra error ya que el archivo es necesario.
-    """
+    """Carga el banco de ítems y valida su estructura mínima."""
+
     json_path = Path("english_test_items_v1.json")
     if json_path.exists():
         try:
             data = json.loads(json_path.read_text(encoding="utf-8"))
-            # Validación
-            if all(lvl in data and isinstance(data[lvl], list) and len(data[lvl]) >= 20 for lvl in LEVELS):
+        except json.JSONDecodeError as exc:
+            st.error(
+                "⚠️ No se pudo decodificar 'english_test_items_v1.json'. "
+                f"Verifica el formato del archivo (JSONDecodeError: {exc})."
+            )
+        except Exception as exc:  # pragma: no cover - salvaguarda
+            st.error(f"⚠️ Error inesperado al cargar el banco de ítems: {exc}")
+        else:
+            problems: List[str] = []
+            for level in LEVELS:
+                if level not in data:
+                    problems.append(f"- Falta la clave '{level}'.")
+                    continue
+                if not isinstance(data[level], list):
+                    problems.append(f"- Los ítems de '{level}' deben estar en una lista.")
+                    continue
+                if len(data[level]) < MIN_ITEMS_PER_LEVEL:
+                    problems.append(
+                        f"- '{level}' solo tiene {len(data[level])} ítems (mínimo {MIN_ITEMS_PER_LEVEL})."
+                    )
+
+            if not problems:
                 return data
-        except Exception as e:
-            st.error(f"Error al cargar el banco de ítems: {e}")
-    
-    st.error("⚠️ Archivo 'english_test_items_v1.json' no encontrado o inválido. Por favor, asegúrate de que el archivo esté en el mismo directorio que esta aplicación.")
+
+            st.error(
+                "⚠️ El banco de ítems es inválido:\n" + "\n".join(problems)
+            )
+
+    st.error(
+        "⚠️ Archivo 'english_test_items_v1.json' no encontrado o inválido. "
+        "Por favor, asegúrate de que el archivo esté en el mismo directorio que esta aplicación."
+    )
     st.stop()
 
 
@@ -119,7 +146,7 @@ def render_landing_page() -> bool:
         - Comienza en nivel A1 (básico)
         - Sube de nivel con cada respuesta correcta
         - Se detiene en el primer error
-        - 20 preguntas diversas por nivel
+        - Hasta 10 preguntas diversas por nivel en esta versión demo
         
         **⏱️ Duración:**
         - Estimada: 15-30 minutos
@@ -250,11 +277,11 @@ def render_landing_page() -> bool:
 # Lógica adaptativa "de menos a más"
 # ---------------------------------
 def init_adaptive_state():
-    """Inicializa el estado del test adaptativo"""
-    st.session_state.mode = "adaptive"
-    st.session_state.level_idx = 0          # Empieza en A1 (nivel más bajo)
-    st.session_state.question_number = 0    # Contador de preguntas respondidas
-    st.session_state.history = []           # [(level, correct, qid, skill)]
+    """Inicializa el estado del test adaptativo."""
+
+    st.session_state.level_idx = 0  # Empieza en A1 (nivel más bajo)
+    st.session_state.question_number = 0  # Contador de preguntas respondidas
+    st.session_state.history = []  # [(level, correct, qid, skill)]
     st.session_state.finished = False
     st.session_state.final_level = None
     st.session_state.used_questions = {lvl: [] for lvl in LEVELS}  # IDs usados por nivel
@@ -272,7 +299,7 @@ def pick_next_question(bank: Dict[str, List[Dict[str, Any]]], level: str) -> Dic
     ]
     
     if not available:
-        # Si se acabaron, reinicia (no debería pasar con 30 preguntas)
+        # Si se acabaron, reinicia (poco probable con el banco completo)
         st.session_state.used_questions[level] = []
         available = bank[level]
     
@@ -348,7 +375,16 @@ def render_question(q: Dict[str, Any]) -> Optional[bool]:
 def render_adaptive_test(bank: Dict[str, List[Dict[str, Any]]]):
     """Renderiza el test adaptativo principal"""
     
-    if "mode" not in st.session_state or st.session_state.mode != "adaptive":
+    required_keys = {
+        "level_idx",
+        "question_number",
+        "history",
+        "finished",
+        "final_level",
+        "used_questions",
+        "current_question",
+    }
+    if not required_keys.issubset(st.session_state.keys()):
         init_adaptive_state()
     
     # Header del test
@@ -451,24 +487,22 @@ def render_adaptive_test(bank: Dict[str, List[Dict[str, Any]]]):
 # ---------------------------------
 def init_practice_state(level: str):
     """Inicializa el modo práctica"""
-    st.session_state.mode = "practice"
     st.session_state.practice_level = level
     st.session_state.practice_idx = 0
     st.session_state.practice_correct = 0
-    st.session_state.practice_total = 20  # 20 preguntas por sesión
     st.session_state.practice_questions = []
     st.session_state.practice_current = None
 
 
 def render_practice_mode(bank: Dict[str, List[Dict[str, Any]]]):
-    """Modo de práctica: 20 preguntas del nivel seleccionado"""
+    """Modo de práctica: hasta 20 preguntas del nivel seleccionado"""
     
     st.markdown("""
         <div style='background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%); 
                     padding: 1.5rem; border-radius: 8px; color: white; margin-bottom: 2rem;'>
             <h2 style='margin: 0; color: white;'>🎯 Modo Práctica por Nivel</h2>
             <p style='margin: 0.5rem 0 0 0; opacity: 0.9;'>
-                Elige un nivel específico y practica con 20 preguntas aleatorias.
+                Elige un nivel específico y practica con hasta 20 preguntas aleatorias.
             </p>
         </div>
     """, unsafe_allow_html=True)
@@ -481,11 +515,16 @@ def render_practice_mode(bank: Dict[str, List[Dict[str, Any]]]):
         key="practice_level_selector"
     )
     
-    # Verificar si cambió el nivel
-    if "mode" not in st.session_state or st.session_state.mode != "practice" or \
-       st.session_state.get("practice_level") != level:
-        if len(bank[level]) < 20:
-            st.warning(f"⚠️ El nivel {level} tiene menos de 20 preguntas. Se usarán todas las disponibles.")
+    # Verificar si cambió el nivel o es la primera vez
+    needs_init = (
+        "practice_questions" not in st.session_state
+        or st.session_state.get("practice_level") != level
+    )
+    if needs_init:
+        if len(bank[level]) < MIN_ITEMS_PER_LEVEL:
+            st.warning(
+                f"⚠️ El nivel {level} tiene solo {len(bank[level])} preguntas. Se usarán todas las disponibles."
+            )
         init_practice_state(level)
         # Preparar preguntas
         all_questions = bank[level].copy()
