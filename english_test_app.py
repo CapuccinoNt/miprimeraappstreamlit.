@@ -1,262 +1,471 @@
-"""
-English Pro Test - Streamlit App (Adaptive)
+"""Streamlit interface for the English Pro adaptive and practice tests."""
 
-This Streamlit application implements a simplified adaptive English level test.
-It presents a series of multiple-choice questions grouped by CEFR level (A1
-through C2). The test begins at an intermediate level and moves up or down
-based on the user's answers. After a fixed number of questions, it estimates
-an overall level and provides feedback.
+from __future__ import annotations
 
-In a production system you would replace the hard‑coded question bank with a
-persistent database, add listening, writing and speaking sections, and adopt
-robust psychometric scoring. This code is meant as a starting point for a
-full‑featured exam platform.
-"""
+import random
+from pathlib import Path
+from typing import Any, Dict, List
 
 import streamlit as st
-from typing import Dict, List, Any
+
+from english_test_bank import load_item_bank
+
+LEVEL_SEQUENCE = ["A1", "A2", "B1", "B2", "C1", "C2"]
+SKILL_SEQUENCE = ["grammar", "vocab", "reading", "use_of_english"]
+ITEM_BANK_PATH = Path(__file__).with_name("english_test_items_v1.json")
+
+LEVEL_RULES: Dict[str, Dict[str, int]] = {
+    "A1": {"block_size": 10, "promotion_threshold": 8},
+    "A2": {"block_size": 10, "promotion_threshold": 8},
+    "B1": {"block_size": 10, "promotion_threshold": 8},
+    "B2": {"block_size": 10, "promotion_threshold": 8},
+    "C1": {"block_size": 12, "promotion_threshold": 9},
+    "C2": {"block_size": 12, "promotion_threshold": 9},
+}
+
+EARLY_STOP_WRONGS = 3
+MAX_QUESTIONS = 50
+PRACTICE_QUESTIONS = 20
 
 
-def get_questions_by_level() -> Dict[str, List[Dict[str, Any]]]:
-    """Return a dictionary mapping CEFR levels to lists of questions.
+def new_block(level: str) -> Dict[str, Any]:
+    """Create a fresh block state for the requested level."""
 
-    Each question is a dictionary with keys:
-      - text: the question prompt.
-      - options: a list of possible answers.
-      - answer: the index (0-based) of the correct option.
-
-    Questions are grouped by level to allow adaptive selection.
-    """
     return {
-        "A1": [
-            {
-                "text": "Complete the sentence: She ___ to school every day.",
-                "options": ["go", "goes", "going", "went"],
-                "answer": 1,
-            },
-            {
-                "text": "They ___ playing in the park yesterday.",
-                "options": ["were", "was", "are", "is"],
-                "answer": 0,
-            },
-            {
-                "text": "I ___ a book now.",
-                "options": ["read", "am reading", "reads", "readed"],
-                "answer": 1,
-            },
-        ],
-        "A2": [
-            {
-                "text": "Which word correctly completes the sentence: They haven't seen ____ for a long time.",
-                "options": ["their", "theirs", "them", "they"],
-                "answer": 2,
-            },
-            {
-                "text": "My brother is taller ___ me.",
-                "options": ["then", "than", "that", "so"],
-                "answer": 1,
-            },
-            {
-                "text": "I enjoy ___ to music.",
-                "options": ["listen", "to listen", "listening", "listened"],
-                "answer": 2,
-            },
-        ],
-        "B1": [
-            {
-                "text": "Choose the correct option: If I ___ you, I would take that job.",
-                "options": ["am", "were", "was", "be"],
-                "answer": 1,
-            },
-            {
-                "text": "She said she ___ the news already.",
-                "options": ["has seen", "had seen", "saw", "see"],
-                "answer": 1,
-            },
-            {
-                "text": "You need to study hard to ___ the exam.",
-                "options": ["pass", "passing", "passed", "passes"],
-                "answer": 0,
-            },
-        ],
-        "B2": [
-            {
-                "text": "Identify the correctly punctuated sentence:",
-                "options": [
-                    "Although he was tired, but he finished the assignment.",
-                    "Although he was tired he finished the assignment.",
-                    "Although he was tired, he finished the assignment.",
-                    "Although he was tired; he finished the assignment.",
-                ],
-                "answer": 2,
-            },
-            {
-                "text": "Choose the correct expression: I regret ___ to university earlier.",
-                "options": ["not going", "not to go", "not go", "not went"],
-                "answer": 0,
-            },
-            {
-                "text": "The project will be finished by the time you ___ back.",
-                "options": ["come", "came", "have come", "will come"],
-                "answer": 0,
-            },
-        ],
-        "C1": [
-            {
-                "text": "Select the most appropriate word: Her speech was so ___ that everyone listened attentively.",
-                "options": ["boring", "engaging", "tedious", "monotonous"],
-                "answer": 1,
-            },
-            {
-                "text": "Choose the sentence with correct parallel structure:",
-                "options": [
-                    "He not only enjoys to read but also writing poetry.",
-                    "He not only enjoys reading but also to write poetry.",
-                    "He enjoys not only reading but also writing poetry.",
-                    "He enjoys reading not only but also writing poetry.",
-                ],
-                "answer": 2,
-            },
-            {
-                "text": "Choose the best word to complete the sentence: The findings were ___ to the theory.",
-                "options": ["incompatible", "impassive", "incoherent", "incompetent"],
-                "answer": 0,
-            },
-        ],
-        "C2": [
-            {
-                "text": "Which sentence demonstrates correct use of the subjunctive mood?",
-                "options": [
-                    "If I was you, I would travel more.",
-                    "It's essential that he be informed immediately.",
-                    "She suggested that he goes to the doctor.",
-                    "I wish I was invited to the party.",
-                ],
-                "answer": 1,
-            },
-            {
-                "text": "Select the correctly used idiom:",
-                "options": [
-                    "She decided to take the bull by its horns and confront her boss.",
-                    "He let the cat out from the bag by mistake.",
-                    "They hit the nail on the head with their solution.",
-                    "She burned the midnight light to finish the report.",
-                ],
-                "answer": 2,
-            },
-            {
-                "text": "Choose the option that best completes the sentence: Hardly had I arrived at the station ___ the train left.",
-                "options": ["when", "than", "after", "then"],
-                "answer": 0,
-            },
-        ],
+        "level": level,
+        "presented": 0,
+        "correct": 0,
+        "wrong": 0,
+        "used_ids": set(),
     }
 
 
-def main() -> None:
-    """
-    Streamlit app entry point. Implements a simple adaptive
-    English level test that adjusts difficulty up or down
-    depending on the user's answers. The test begins at an
-    intermediate level (B1) and asks a fixed number of questions.
-    At the end, the user is given a CEFR level and feedback.
-    """
-    st.set_page_config(
-        page_title="English Pro Test",
-        page_icon="📘",
-        layout="centered",
-    )
-    st.title("English Pro Test")
-    st.write(
-        "Test your English proficiency across levels A1 to C2. "
-        "Answer the questions below, and we'll adapt the difficulty based on your responses "
-        "and estimate your CEFR level."
-    )
+@st.cache_data(show_spinner=False)
+def get_questions_by_level() -> Dict[str, List[Dict[str, Any]]]:
+    """Load and normalize the item bank grouped by CEFR level."""
 
-    levels = ["A1", "A2", "B1", "B2", "C1", "C2"]
-    questions_by_level = get_questions_by_level()
+    bank = load_item_bank(ITEM_BANK_PATH)
+    questions: Dict[str, List[Dict[str, Any]]] = {}
 
-    if "level_index" not in st.session_state:
-        st.session_state.level_index = 2
-    if "question_counters" not in st.session_state:
-        st.session_state.question_counters = {lvl: 0 for lvl in levels}
-    if "question_count" not in st.session_state:
-        st.session_state.question_count = 0
-    if "score" not in st.session_state:
-        st.session_state.score = 0
+    for level in LEVEL_SEQUENCE:
+        items = bank.get(level, [])
+        questions[level] = [
+            {
+                "id": item["id"],
+                "text": item["prompt"],
+                "options": item["options"],
+                "answer": item["options"].index(item["answer"]),
+                "skill": item["skill"],
+                "explanation": item.get("explanation"),
+                "level": level,
+            }
+            for item in items
+        ]
+
+    return questions
+
+
+def ensure_adaptive_state() -> None:
+    """Guarantee that the adaptive engine state exists in session."""
+
+    if "mode" not in st.session_state:
+        st.session_state.mode = "adaptive"
+    if "level_idx" not in st.session_state:
+        st.session_state.level_idx = 0
+    if "block" not in st.session_state:
+        st.session_state.block = new_block(LEVEL_SEQUENCE[0])
+    if "passed_blocks" not in st.session_state:
+        st.session_state.passed_blocks = {lvl: 0 for lvl in LEVEL_SEQUENCE}
+    if "history" not in st.session_state:
+        st.session_state.history = []
+    if "block_results" not in st.session_state:
+        st.session_state.block_results = []
     if "finished" not in st.session_state:
         st.session_state.finished = False
+    if "final_level" not in st.session_state:
+        st.session_state.final_level = None
+    if "confirmed" not in st.session_state:
+        st.session_state.confirmed = False
+    if "current_question" not in st.session_state:
+        st.session_state.current_question = None
+    if "current_question_key" not in st.session_state:
+        st.session_state.current_question_key = None
 
-    MAX_QUESTIONS = 10
+
+def reset_adaptive_state() -> None:
+    """Start the adaptive engine from the beginning."""
+
+    st.session_state.level_idx = 0
+    st.session_state.block = new_block(LEVEL_SEQUENCE[0])
+    st.session_state.passed_blocks = {lvl: 0 for lvl in LEVEL_SEQUENCE}
+    st.session_state.history = []
+    st.session_state.block_results = []
+    st.session_state.finished = False
+    st.session_state.final_level = None
+    st.session_state.confirmed = False
+    st.session_state.current_question = None
+    st.session_state.current_question_key = None
+
+
+def pick_question_for_block(
+    level: str,
+    questions_by_level: Dict[str, List[Dict[str, Any]]],
+    block: Dict[str, Any],
+) -> Dict[str, Any]:
+    """Choose the next question prioritising skill rotation and avoiding repeats."""
+
+    desired_skill = SKILL_SEQUENCE[block["presented"] % len(SKILL_SEQUENCE)]
+    pool = [
+        q for q in questions_by_level[level] if q["id"] not in block["used_ids"]
+    ]
+    preferred = [q for q in pool if q["skill"] == desired_skill]
+
+    if preferred:
+        chosen = random.choice(preferred)
+    elif pool:
+        chosen = random.choice(pool)
+    else:
+        # Exhausted the set within the block – allow reuse to avoid dead ends.
+        chosen = random.choice(questions_by_level[level])
+        block["used_ids"].clear()
+
+    block["used_ids"].add(chosen["id"])
+    return chosen
+
+
+def finish_adaptive(level: str, confirmed: bool) -> None:
+    """Mark the adaptive flow as finished with the supplied outcome."""
+
+    st.session_state.finished = True
+    st.session_state.final_level = level
+    st.session_state.confirmed = confirmed
+    st.session_state.level_idx = LEVEL_SEQUENCE.index(level)
+    st.session_state.current_question = None
+    st.session_state.current_question_key = None
+
+
+def best_level_guess() -> str:
+    """Infer the best level based on the blocks already passed."""
+
+    highest_idx = None
+    for idx, level in enumerate(LEVEL_SEQUENCE):
+        if st.session_state.passed_blocks.get(level, 0) > 0:
+            highest_idx = idx
+
+    if highest_idx is not None:
+        return LEVEL_SEQUENCE[highest_idx]
+
+    return LEVEL_SEQUENCE[st.session_state.level_idx]
+
+
+def record_block_result(block: Dict[str, Any], passed: bool) -> None:
+    """Persist the result of the completed block for later reporting."""
+
+    level = block["level"]
+    rule = LEVEL_RULES[level]
+    st.session_state.block_results.append(
+        {
+            "level": level,
+            "correct": block["correct"],
+            "wrong": block["wrong"],
+            "presented": block["presented"],
+            "goal": f"{rule['promotion_threshold']} / {rule['block_size']}",
+            "passed": passed,
+        }
+    )
+
+
+def evaluate_block_completion(block: Dict[str, Any]) -> None:
+    """Check if the current block finished and act according to the rules."""
+
+    level = block["level"]
+    rule = LEVEL_RULES[level]
+    threshold = rule["promotion_threshold"]
+    block_size = rule["block_size"]
+
+    block_finished = block["presented"] >= block_size or (
+        block["wrong"] >= EARLY_STOP_WRONGS and block["correct"] < threshold
+    )
+
+    if not block_finished:
+        return
+
+    passed = block["correct"] >= threshold
+    record_block_result(block, passed)
+
+    if passed:
+        st.session_state.passed_blocks[level] += 1
+        if level == "C2":
+            finish_adaptive("C2", True)
+            return
+        if st.session_state.passed_blocks[level] >= 2:
+            finish_adaptive(level, True)
+            return
+
+        if st.session_state.level_idx < len(LEVEL_SEQUENCE) - 1:
+            st.session_state.level_idx += 1
+            next_level = LEVEL_SEQUENCE[st.session_state.level_idx]
+            st.session_state.block = new_block(next_level)
+        else:
+            finish_adaptive(level, True)
+            return
+    else:
+        if st.session_state.level_idx == 0:
+            # Consolidate the starting level with another block.
+            st.session_state.block = new_block(level)
+        else:
+            confirmed_level = LEVEL_SEQUENCE[st.session_state.level_idx - 1]
+            finish_adaptive(confirmed_level, True)
+            return
+
+    st.session_state.current_question = None
+    st.session_state.current_question_key = None
+
+
+def process_adaptive_answer(question: Dict[str, Any], selected_option: str) -> None:
+    """Update the adaptive state after an answer submission."""
+
+    block = st.session_state.block
+    is_correct = question["options"].index(selected_option) == question["answer"]
+
+    block["presented"] += 1
+    if is_correct:
+        block["correct"] += 1
+    else:
+        block["wrong"] += 1
+
+    st.session_state.history.append(
+        {
+            "level": question["level"],
+            "id": question["id"],
+            "correct": is_correct,
+            "skill": question["skill"],
+        }
+    )
+
+    evaluate_block_completion(block)
+
+    if not st.session_state.finished and len(st.session_state.history) >= MAX_QUESTIONS:
+        finish_adaptive(best_level_guess(), False)
+
+
+def render_adaptive_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) -> None:
+    """Render the simplified adaptive test flow."""
+
+    ensure_adaptive_state()
+    st.session_state.mode = "adaptive"
 
     if st.session_state.finished:
-        final_level = levels[st.session_state.level_index]
+        level = st.session_state.final_level or best_level_guess()
+        confirmation = "confirmed" if st.session_state.confirmed else "best estimate"
         st.success(
-            f"You've completed the test! Estimated level: **{final_level}**"
+            f"Adaptive test finished. Level: **{level}** ({confirmation})."
         )
-        st.write(
-            f"You answered {st.session_state.score} out of {st.session_state.question_count} questions correctly."
-        )
-        if final_level in {"A1", "A2"}:
-            st.write(
-                "You might want to focus on basic grammar and everyday vocabulary. "
-                "Consider taking beginner courses or practicing simple conversations."
+
+        if st.session_state.block_results:
+            st.subheader("Block summary")
+            st.table(
+                [
+                    {
+                        "Block": idx + 1,
+                        "Level": result["level"],
+                        "Result": f"{result['correct']} correct / {result['presented']} shown",
+                        "Goal": result["goal"],
+                        "Outcome": "✅ Pass" if result["passed"] else "❌ Repeat",
+                    }
+                    for idx, result in enumerate(st.session_state.block_results)
+                ]
             )
-        elif final_level in {"B1", "B2"}:
-            st.write(
-                "Your English is at an intermediate level. Try reading articles and books, "
-                "and practice writing short essays to improve your fluency."
-            )
-        else:
-            st.write(
-                "You're at an advanced level! To refine your skills, consider advanced grammar "
-                "studies, academic writing, and engaging with native speakers on complex topics."
-            )
-        if st.button("Take the test again"):
-            st.session_state.level_index = 2
-            st.session_state.question_counters = {lvl: 0 for lvl in levels}
-            st.session_state.question_count = 0
-            st.session_state.score = 0
-            st.session_state.finished = False
+
+        total_questions = len(st.session_state.history)
+        st.write(f"Questions answered: {total_questions}")
+
+        if st.button("Restart adaptive test"):
+            reset_adaptive_state()
             st.experimental_rerun()
         return
 
-    if st.session_state.question_count >= MAX_QUESTIONS:
-        st.session_state.finished = True
-        st.experimental_rerun()
+    block = st.session_state.block
+    level = block["level"]
+    rule = LEVEL_RULES[level]
+    questions = questions_by_level[level]
+
+    st.subheader(f"Adaptive mode – Level {level}")
+    st.caption(
+        "Reach the promotion threshold to move up. Three mistakes before the goal end the block early."
+    )
+
+    total_answered = len(st.session_state.history)
+    st.write(
+        f"Block progress: {block['correct']} correct, {block['wrong']} wrong, "
+        f"{block['presented']} of {rule['block_size']} questions answered."
+    )
+    st.write(f"Total questions answered: {total_answered} of {MAX_QUESTIONS} allowed.")
+
+    if not questions:
+        st.error(
+            "No questions available for this level. Please check the item bank configuration."
+        )
         return
 
-    current_level = levels[st.session_state.level_index]
-    q_index = st.session_state.question_counters[current_level]
-    questions_list = questions_by_level[current_level]
-    question = questions_list[q_index % len(questions_list)]
+    if st.session_state.current_question is None:
+        st.session_state.current_question = pick_question_for_block(level, questions_by_level, block)
+        key = f"adaptive_choice_{len(st.session_state.history)}_{st.session_state.current_question['id']}"
+        st.session_state.current_question_key = key
+        if key in st.session_state:
+            del st.session_state[key]
 
-    st.subheader(
-        f"Question {st.session_state.question_count + 1} of {MAX_QUESTIONS} (Level {current_level})"
-    )
+    question = st.session_state.current_question
+    key = st.session_state.current_question_key
+
     st.write(question["text"])
     choice = st.radio(
         "Choose the correct answer:",
         question["options"],
         index=None,
-        key=f"radio_{st.session_state.question_count}",
+        key=key,
     )
-    if st.button(
-        "Submit answer", key=f"submit_{st.session_state.question_count}"
-    ):
+
+    if st.button("Submit answer", key=f"submit_{question['id']}_{block['presented']}"):
         if choice is None:
-            st.warning("Please select an answer before proceeding.")
+            st.warning("Please select an answer before submitting.")
         else:
-            if question["options"].index(choice) == question["answer"]:
-                st.session_state.score += 1
-                if st.session_state.level_index < len(levels) - 1:
-                    st.session_state.level_index += 1
-            else:
-                if st.session_state.level_index > 0:
-                    st.session_state.level_index -= 1
-            st.session_state.question_counters[current_level] = q_index + 1
-            st.session_state.question_count += 1
+            process_adaptive_answer(question, choice)
+            if key in st.session_state:
+                del st.session_state[key]
+            st.session_state.current_question = None
+            st.session_state.current_question_key = None
             st.experimental_rerun()
+
+
+def reset_practice_state(level: str, questions_by_level: Dict[str, List[Dict[str, Any]]]) -> None:
+    """Initialise or reset the practice session for the chosen level."""
+
+    available = questions_by_level[level]
+    count = min(PRACTICE_QUESTIONS, len(available))
+    if count == 0:
+        st.session_state.practice_state = {
+            "level": level,
+            "questions": [],
+            "index": 0,
+            "correct": 0,
+            "answered": 0,
+            "completed": True,
+            "last_feedback": None,
+        }
+        return
+
+    selection = random.sample(available, count) if len(available) >= count else available
+    st.session_state.practice_state = {
+        "level": level,
+        "questions": selection,
+        "index": 0,
+        "correct": 0,
+        "answered": 0,
+        "completed": False,
+        "last_feedback": None,
+        "last_question": None,
+    }
+
+
+def render_practice_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) -> None:
+    """Render the fixed-length practice drill for a specific level."""
+
+    ensure_adaptive_state()
+    st.session_state.mode = "practice"
+
+    level = st.selectbox("Choose a level for practice", LEVEL_SEQUENCE)
+    available = questions_by_level[level]
+    if len(available) < PRACTICE_QUESTIONS:
+        st.warning(
+            f"Only {len(available)} questions available for {level}. Practice will use all of them."
+        )
+
+    if "practice_state" not in st.session_state or st.session_state.practice_state.get(
+        "level"
+    ) != level:
+        reset_practice_state(level, questions_by_level)
+
+    practice_state = st.session_state.practice_state
+
+    if practice_state["completed"]:
+        st.success(
+            f"Practice finished: {practice_state['correct']} correct out of {practice_state['answered']} questions."
+        )
+        if practice_state.get("last_feedback"):
+            st.info(practice_state["last_feedback"])
+        if st.button("Restart practice"):
+            reset_practice_state(level, questions_by_level)
+            st.experimental_rerun()
+        return
+
+    question = practice_state["questions"][practice_state["index"]]
+    key = f"practice_choice_{practice_state['index']}_{question['id']}"
+    if key not in st.session_state:
+        st.session_state[key] = None
+
+    st.subheader(f"Practice mode – Level {level}")
+    st.write(
+        f"Question {practice_state['index'] + 1} of {len(practice_state['questions'])}."
+    )
+    st.write(question["text"])
+
+    choice = st.radio("Select an answer", question["options"], index=None, key=key)
+
+    if st.button("Submit practice answer", key=f"practice_submit_{question['id']}"):
+        if choice is None:
+            st.warning("Please choose an option before submitting.")
+        else:
+            is_correct = question["options"].index(choice) == question["answer"]
+            practice_state["answered"] += 1
+            if is_correct:
+                practice_state["correct"] += 1
+                feedback = "✅ Correct!"
+            else:
+                feedback = "❌ Incorrect."
+                if question.get("explanation"):
+                    feedback += f" Explanation: {question['explanation']}"
+            practice_state["last_feedback"] = feedback
+            practice_state["last_question"] = question
+
+            if key in st.session_state:
+                del st.session_state[key]
+
+            practice_state["index"] += 1
+            if practice_state["index"] >= len(practice_state["questions"]):
+                practice_state["completed"] = True
+            st.experimental_rerun()
+
+    if practice_state.get("last_feedback"):
+        st.info(practice_state["last_feedback"])
+
+
+def main() -> None:
+    """Streamlit entry point."""
+
+    st.set_page_config(page_title="English Pro Test", page_icon="📘", layout="centered")
+    st.title("English Pro Test")
+    st.write(
+        "This app offers a simplified adaptive placement test that follows the pedagogy "
+        "team's promotion, confirmation, and early-stop rules, plus a fixed-length practice mode."
+    )
+
+    try:
+        questions_by_level = get_questions_by_level()
+    except (FileNotFoundError, ValueError) as exc:
+        st.error(f"Unable to load the item bank: {exc}")
+        st.stop()
+
+    mode = st.sidebar.radio(
+        "Mode",
+        ("Adaptive test", "Practice"),
+        index=0 if st.session_state.get("mode", "adaptive") == "adaptive" else 1,
+    )
+
+    if mode == "Adaptive test":
+        render_adaptive_mode(questions_by_level)
+    else:
+        render_practice_mode(questions_by_level)
 
 
 if __name__ == "__main__":
