@@ -480,12 +480,22 @@ def render_practice_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) ->
     total_questions = len(practice_state["questions"])
 
     if practice_state["completed"]:
+        if total_questions == 0:
+            st.warning(
+                "No hay preguntas disponibles para este nivel en modo práctica. "
+                "Elige otro nivel o revisa el banco de ítems."
+            )
+            return
+
         st.success(
             f"Práctica finalizada: {practice_state['correct']} aciertos de {practice_state['answered']} preguntas."
         )
         col1, col2 = st.columns(2)
         col1.metric("Aciertos", practice_state["correct"])
         col2.metric("Preguntas", practice_state["answered"])
+        if level in CEFR_DESCRIPTIONS:
+            st.info(CEFR_DESCRIPTIONS[level])
+
         feedback = practice_state.get("last_feedback")
         if feedback:
             message = (
