@@ -1,7 +1,7 @@
 {
   "A1": [
     {
-      "id": "A1-001",
+      "id": "A1-GR-001",
       "level": "A1",
       "skill": "grammar",
       "type": "multiple_choice",
@@ -16,899 +16,2688 @@
       "explanation": "Con 'I' siempre usamos 'am' en presente simple del verbo 'to be'."
     },
     {
-      "id": "A1-002",
+      "id": "A1-GR-002",
       "level": "A1",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "She ___ from Spain.",
+      "prompt": "They ___ in a small town.",
       "options": [
-        "am",
-        "is",
-        "are",
-        "be"
+        "live",
+        "lives",
+        "living",
+        "lived"
       ],
-      "answer": "is",
-      "explanation": "Con 'she/he/it' usamos 'is' en presente simple."
+      "answer": "live"
     },
     {
-      "id": "A1-003",
+      "id": "A1-GR-003",
       "level": "A1",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "There ___ two cats in the garden.",
-      "options": [
-        "is",
-        "are",
-        "am",
-        "be"
-      ],
-      "answer": "are",
-      "explanation": "Con sustantivos plurales usamos 'are'."
-    },
-    {
-      "id": "A1-004",
-      "level": "A1",
-      "skill": "grammar",
-      "type": "multiple_choice",
-      "prompt": "___ apple a day keeps the doctor away.",
-      "options": [
-        "A",
-        "An",
-        "The",
-        "—"
-      ],
-      "answer": "An",
-      "explanation": "Usamos 'an' antes de palabras que comienzan con sonido vocálico."
-    },
-    {
-      "id": "A1-005",
-      "level": "A1",
-      "skill": "grammar",
-      "type": "multiple_choice",
-      "prompt": "They ___ students.",
-      "options": [
-        "am",
-        "is",
-        "are",
-        "be"
-      ],
-      "answer": "are",
-      "explanation": "Con 'they' usamos 'are'."
-    },
-    {
-      "id": "A1-006",
-      "level": "A1",
-      "skill": "vocab",
-      "type": "multiple_choice",
-      "prompt": "What color is the sky on a clear day?",
-      "options": [
-        "red",
-        "blue",
-        "green",
-        "yellow"
-      ],
-      "answer": "blue",
-      "explanation": "El cielo despejado es azul."
-    },
-    {
-      "id": "A1-007",
-      "level": "A1",
-      "skill": "vocab",
-      "type": "multiple_choice",
-      "prompt": "I eat breakfast in the ___.",
-      "options": [
-        "morning",
-        "night",
-        "afternoon",
-        "evening"
-      ],
-      "answer": "morning",
-      "explanation": "El desayuno se toma por la mañana."
-    },
-    {
-      "id": "A1-008",
-      "level": "A1",
-      "skill": "reading",
-      "type": "multiple_choice",
-      "prompt": "Read: 'My name is Ana. I live in a small town with my family.'\n\nWhere does Ana live?",
-      "options": [
-        "In a big city",
-        "In a small town",
-        "At school",
-        "In the park"
-      ],
-      "answer": "In a small town",
-      "explanation": "El texto dice 'I live in a small town'."
-    },
-    {
-      "id": "A1-009",
-      "level": "A1",
-      "skill": "grammar",
-      "type": "multiple_choice",
-      "prompt": "She ___ English every day.",
+      "prompt": "She ___ English on Mondays.",
       "options": [
         "study",
         "studies",
         "studying",
-        "to study"
+        "studied"
       ],
-      "answer": "studies",
-      "explanation": "Tercera persona singular añade -s al verbo en presente simple."
+      "answer": "studies"
     },
     {
-      "id": "A1-010",
+      "id": "A1-GR-004",
       "level": "A1",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "How ___ you?",
+      "prompt": "We ___ happy to see you.",
       "options": [
+        "are",
         "am",
         "is",
-        "are",
         "be"
       ],
-      "answer": "are",
-      "explanation": "La pregunta 'How are you?' usa 'are'."
+      "answer": "are"
+    },
+    {
+      "id": "A1-GR-005",
+      "level": "A1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "My brother ___ tall.",
+      "options": [
+        "is",
+        "are",
+        "be",
+        "being"
+      ],
+      "answer": "is"
+    },
+    {
+      "id": "A1-GR-006",
+      "level": "A1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "___ you like coffee?",
+      "options": [
+        "Do",
+        "Does",
+        "Is",
+        "Are"
+      ],
+      "answer": "Do"
+    },
+    {
+      "id": "A1-GR-007",
+      "level": "A1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "There ___ a cat on the sofa.",
+      "options": [
+        "is",
+        "are",
+        "be",
+        "been"
+      ],
+      "answer": "is"
+    },
+    {
+      "id": "A1-GR-008",
+      "level": "A1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "He ___ his bike to school.",
+      "options": [
+        "rides",
+        "ride",
+        "riding",
+        "rode"
+      ],
+      "answer": "rides"
+    },
+    {
+      "id": "A1-VO-001",
+      "level": "A1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Choose the word that means the opposite of 'hot'.",
+      "options": [
+        "cold",
+        "warm",
+        "boiling",
+        "spicy"
+      ],
+      "answer": "cold"
+    },
+    {
+      "id": "A1-VO-002",
+      "level": "A1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Select the word that names a piece of furniture.",
+      "options": [
+        "table",
+        "apple",
+        "shoe",
+        "glass"
+      ],
+      "answer": "table"
+    },
+    {
+      "id": "A1-VO-003",
+      "level": "A1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Which word is a color?",
+      "options": [
+        "blue",
+        "bread",
+        "chair",
+        "clock"
+      ],
+      "answer": "blue"
+    },
+    {
+      "id": "A1-VO-004",
+      "level": "A1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Choose the word that best completes the sentence: I have a ___ friend.",
+      "options": [
+        "good",
+        "fast",
+        "slow",
+        "late"
+      ],
+      "answer": "good"
+    },
+    {
+      "id": "A1-VO-005",
+      "level": "A1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Pick the correct word for this definition: a place where you buy medicine.",
+      "options": [
+        "pharmacy",
+        "library",
+        "kitchen",
+        "garage"
+      ],
+      "answer": "pharmacy"
+    },
+    {
+      "id": "A1-VO-006",
+      "level": "A1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Find the word that names an animal.",
+      "options": [
+        "dog",
+        "desk",
+        "door",
+        "dish"
+      ],
+      "answer": "dog"
+    },
+    {
+      "id": "A1-VO-007",
+      "level": "A1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Choose the word that means 'fast'.",
+      "options": [
+        "quick",
+        "quiet",
+        "question",
+        "queue"
+      ],
+      "answer": "quick"
+    },
+    {
+      "id": "A1-VO-008",
+      "level": "A1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Select the word that completes the sentence: It's a sunny ___.",
+      "options": [
+        "day",
+        "book",
+        "shoe",
+        "plate"
+      ],
+      "answer": "day"
+    },
+    {
+      "id": "A1-RD-001",
+      "level": "A1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Maria likes apples and bananas.' What does Maria like?",
+      "options": [
+        "Apples and bananas",
+        "Oranges",
+        "Grapes",
+        "Peaches"
+      ],
+      "answer": "Apples and bananas"
+    },
+    {
+      "id": "A1-RD-002",
+      "level": "A1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'The bus arrives at nine o'clock.' When does the bus arrive?",
+      "options": [
+        "At nine o'clock",
+        "At ten",
+        "At eight",
+        "At noon"
+      ],
+      "answer": "At nine o'clock"
+    },
+    {
+      "id": "A1-RD-003",
+      "level": "A1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Tom has two sisters and one brother.' How many sisters does Tom have?",
+      "options": [
+        "Two",
+        "Three",
+        "One",
+        "Four"
+      ],
+      "answer": "Two"
+    },
+    {
+      "id": "A1-RD-004",
+      "level": "A1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'The store is closed on Sunday.' Which day is the store closed?",
+      "options": [
+        "Sunday",
+        "Monday",
+        "Friday",
+        "Saturday"
+      ],
+      "answer": "Sunday"
+    },
+    {
+      "id": "A1-RD-005",
+      "level": "A1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Anna drinks water every morning.' What does Anna drink?",
+      "options": [
+        "Water",
+        "Coffee",
+        "Tea",
+        "Juice"
+      ],
+      "answer": "Water"
+    },
+    {
+      "id": "A1-RD-006",
+      "level": "A1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'The teacher writes on the board.' Where does the teacher write?",
+      "options": [
+        "On the board",
+        "On the floor",
+        "On the door",
+        "On the book"
+      ],
+      "answer": "On the board"
+    },
+    {
+      "id": "A1-RD-007",
+      "level": "A1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Peter walks to work because it is close.' Why does Peter walk to work?",
+      "options": [
+        "Because it is close",
+        "Because it rains",
+        "Because he likes cars",
+        "Because he is late"
+      ],
+      "answer": "Because it is close"
+    },
+    {
+      "id": "A1-RD-008",
+      "level": "A1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Sara has a new blue jacket.' What color is Sara's jacket?",
+      "options": [
+        "Blue",
+        "Red",
+        "Green",
+        "Yellow"
+      ],
+      "answer": "Blue"
+    },
+    {
+      "id": "A1-UE-001",
+      "level": "A1",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Choose the correct word: I usually go to work ___ bus.",
+      "options": [
+        "by",
+        "in",
+        "at",
+        "on"
+      ],
+      "answer": "by"
+    },
+    {
+      "id": "A1-UE-002",
+      "level": "A1",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Select the correct phrase: Could you ___ me, please?",
+      "options": [
+        "help",
+        "helps",
+        "helping",
+        "helped"
+      ],
+      "answer": "help"
+    },
+    {
+      "id": "A1-UE-003",
+      "level": "A1",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Pick the right option: We are going ___ the park this afternoon.",
+      "options": [
+        "to",
+        "at",
+        "in",
+        "on"
+      ],
+      "answer": "to"
+    },
+    {
+      "id": "A1-UE-004",
+      "level": "A1",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Choose the correct sentence order: always / I / breakfast / have / at / home.",
+      "options": [
+        "I always have breakfast at home.",
+        "Always I have breakfast home at.",
+        "I have always breakfast at home.",
+        "I have breakfast always at home."
+      ],
+      "answer": "I always have breakfast at home."
+    },
+    {
+      "id": "A1-UE-005",
+      "level": "A1",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Select the correct completion: He is ___ than his brother.",
+      "options": [
+        "taller",
+        "tall",
+        "more tall",
+        "the tallest"
+      ],
+      "answer": "taller"
+    },
+    {
+      "id": "A1-UE-006",
+      "level": "A1",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Pick the word that completes the sentence: There aren't ___ apples left.",
+      "options": [
+        "any",
+        "some",
+        "much",
+        "many"
+      ],
+      "answer": "any"
+    },
+    {
+      "id": "A1-UE-007",
+      "level": "A1",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Choose the correct option: I'm looking forward ___ you soon.",
+      "options": [
+        "to seeing",
+        "seeing",
+        "to see",
+        "see"
+      ],
+      "answer": "to seeing"
+    },
+    {
+      "id": "A1-UE-008",
+      "level": "A1",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Select the correct word: We went to the cinema ___ Friday.",
+      "options": [
+        "on",
+        "in",
+        "at",
+        "to"
+      ],
+      "answer": "on"
     }
   ],
   "A2": [
     {
-      "id": "A2-001",
+      "id": "A2-GR-001",
       "level": "A2",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "My brother is taller ___ me.",
+      "prompt": "She is ___ dinner right now.",
       "options": [
-        "then",
-        "than",
-        "that",
-        "so"
+        "cooking",
+        "cook",
+        "cooks",
+        "cooked"
       ],
-      "answer": "than",
-      "explanation": "Se usa 'than' para comparar."
+      "answer": "cooking"
     },
     {
-      "id": "A2-002",
+      "id": "A2-GR-002",
       "level": "A2",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "They haven't seen ___ for a long time.",
+      "prompt": "We have ___ the museum twice this month.",
       "options": [
-        "their",
-        "theirs",
-        "them",
-        "they"
+        "visited",
+        "visiting",
+        "visit",
+        "visits"
       ],
-      "answer": "them",
-      "explanation": "Después de 'seen' se necesita un pronombre objeto."
+      "answer": "visited"
     },
     {
-      "id": "A2-003",
+      "id": "A2-GR-003",
       "level": "A2",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "I enjoy ___ to music.",
-      "options": [
-        "listen",
-        "to listen",
-        "listening",
-        "listened"
-      ],
-      "answer": "listening",
-      "explanation": "'Enjoy' va seguido de gerundio."
-    },
-    {
-      "id": "A2-004",
-      "level": "A2",
-      "skill": "grammar",
-      "type": "multiple_choice",
-      "prompt": "We have lived here ___ five years.",
-      "options": [
-        "since",
-        "for",
-        "by",
-        "from"
-      ],
-      "answer": "for",
-      "explanation": "'For' se usa con periodos de tiempo."
-    },
-    {
-      "id": "A2-005",
-      "level": "A2",
-      "skill": "grammar",
-      "type": "multiple_choice",
-      "prompt": "If it ___ tomorrow, we'll stay home.",
+      "prompt": "If it ___ tomorrow, we'll stay at home.",
       "options": [
         "rains",
+        "rain",
         "rained",
-        "will rain",
         "is raining"
       ],
-      "answer": "rains",
-      "explanation": "En la cláusula 'if' del primer condicional se usa presente simple."
+      "answer": "rains"
     },
     {
-      "id": "A2-006",
+      "id": "A2-GR-004",
       "level": "A2",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "She asked me ___ I could help her.",
+      "prompt": "They ___ to move to Canada next year.",
       "options": [
-        "if",
-        "what",
-        "which",
-        "when"
+        "plan",
+        "plans",
+        "planned",
+        "are plan"
       ],
-      "answer": "if",
-      "explanation": "Se usa 'if' para preguntas indirectas sí/no."
+      "answer": "plan"
     },
     {
-      "id": "A2-007",
+      "id": "A2-GR-005",
       "level": "A2",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "Where ___ you go last weekend?",
+      "prompt": "I ___ my homework before dinner yesterday.",
       "options": [
-        "did",
-        "do",
-        "were",
-        "gone"
+        "finished",
+        "finish",
+        "finishes",
+        "finishing"
       ],
-      "answer": "did",
-      "explanation": "Las preguntas en pasado simple comienzan con 'did'."
+      "answer": "finished"
     },
     {
-      "id": "A2-008",
+      "id": "A2-GR-006",
+      "level": "A2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "Have you ever ___ a kangaroo?",
+      "options": [
+        "seen",
+        "saw",
+        "see",
+        "seeing"
+      ],
+      "answer": "seen"
+    },
+    {
+      "id": "A2-GR-007",
+      "level": "A2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "By the time we arrived, the film ___ already started.",
+      "options": [
+        "had",
+        "has",
+        "have",
+        "having"
+      ],
+      "answer": "had"
+    },
+    {
+      "id": "A2-GR-008",
+      "level": "A2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "The book was ___ by a famous journalist.",
+      "options": [
+        "written",
+        "write",
+        "writing",
+        "writes"
+      ],
+      "answer": "written"
+    },
+    {
+      "id": "A2-VO-001",
       "level": "A2",
       "skill": "vocab",
       "type": "multiple_choice",
-      "prompt": "The opposite of 'cheap' is ___.",
+      "prompt": "Choose the best synonym for 'purchase'.",
       "options": [
-        "expensive",
-        "light",
-        "slow",
-        "short"
+        "buy",
+        "sell",
+        "borrow",
+        "lend"
       ],
-      "answer": "expensive",
-      "explanation": "'Expensive' es el antónimo de 'cheap'."
+      "answer": "buy"
     },
     {
-      "id": "A2-009",
+      "id": "A2-VO-002",
+      "level": "A2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Select the correct word to complete the sentence: I need to ___ a decision soon.",
+      "options": [
+        "make",
+        "do",
+        "build",
+        "take"
+      ],
+      "answer": "make"
+    },
+    {
+      "id": "A2-VO-003",
+      "level": "A2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Which word describes someone who likes meeting new people?",
+      "options": [
+        "friendly",
+        "lonely",
+        "lazy",
+        "quiet"
+      ],
+      "answer": "friendly"
+    },
+    {
+      "id": "A2-VO-004",
+      "level": "A2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Choose the word that means 'journey'.",
+      "options": [
+        "trip",
+        "meal",
+        "dream",
+        "gift"
+      ],
+      "answer": "trip"
+    },
+    {
+      "id": "A2-VO-005",
+      "level": "A2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Pick the correct word: The opposite of 'noisy' is ___.",
+      "options": [
+        "quiet",
+        "loud",
+        "busy",
+        "open"
+      ],
+      "answer": "quiet"
+    },
+    {
+      "id": "A2-VO-006",
+      "level": "A2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Find the word that means 'to postpone'.",
+      "options": [
+        "delay",
+        "decide",
+        "deliver",
+        "decorate"
+      ],
+      "answer": "delay"
+    },
+    {
+      "id": "A2-VO-007",
+      "level": "A2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Choose the best option for 'a person who designs buildings'.",
+      "options": [
+        "architect",
+        "author",
+        "pilot",
+        "chef"
+      ],
+      "answer": "architect"
+    },
+    {
+      "id": "A2-VO-008",
+      "level": "A2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Select the word that completes the sentence: She felt ___ after running the race.",
+      "options": [
+        "exhausted",
+        "exciting",
+        "excitement",
+        "exhaust"
+      ],
+      "answer": "exhausted"
+    },
+    {
+      "id": "A2-RD-001",
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Read: 'The museum opens at 10 a.m. and closes at 6 p.m.'\n\nWhat time does the museum close?",
+      "prompt": "Read: 'Lucas enjoys hiking on the weekends because it helps him relax.' Why does Lucas like hiking?",
       "options": [
-        "4 p.m.",
-        "5 p.m.",
-        "6 p.m.",
-        "7 p.m."
+        "It helps him relax",
+        "It is close to his home",
+        "He can compete",
+        "He earns money"
       ],
-      "answer": "6 p.m.",
-      "explanation": "El texto indica que cierra a las 6 p.m."
+      "answer": "It helps him relax"
     },
     {
-      "id": "A2-010",
+      "id": "A2-RD-002",
+      "level": "A2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'The cafe closes earlier during winter due to the cold weather.' When does the cafe close earlier?",
+      "options": [
+        "During winter",
+        "During summer",
+        "On holidays",
+        "On Mondays"
+      ],
+      "answer": "During winter"
+    },
+    {
+      "id": "A2-RD-003",
+      "level": "A2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Emma moved to Berlin to study design at a university.' Why did Emma move to Berlin?",
+      "options": [
+        "To study design",
+        "To visit friends",
+        "To find work",
+        "To learn German"
+      ],
+      "answer": "To study design"
+    },
+    {
+      "id": "A2-RD-004",
+      "level": "A2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'The local market sells fresh vegetables every Saturday morning.' What does the market sell?",
+      "options": [
+        "Fresh vegetables",
+        "Books",
+        "Furniture",
+        "Clothes"
+      ],
+      "answer": "Fresh vegetables"
+    },
+    {
+      "id": "A2-RD-005",
+      "level": "A2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Because the train was delayed, the passengers received free snacks.' What did passengers receive?",
+      "options": [
+        "Free snacks",
+        "New tickets",
+        "Hotel rooms",
+        "Taxi rides"
+      ],
+      "answer": "Free snacks"
+    },
+    {
+      "id": "A2-RD-006",
+      "level": "A2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'The museum offers guided tours in English and French.' Which languages are the tours in?",
+      "options": [
+        "English and French",
+        "Spanish and Italian",
+        "German only",
+        "English only"
+      ],
+      "answer": "English and French"
+    },
+    {
+      "id": "A2-RD-007",
+      "level": "A2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Sara downloaded a language app to practice her Spanish vocabulary.' Why did Sara download the app?",
+      "options": [
+        "To practice Spanish vocabulary",
+        "To watch movies",
+        "To learn to code",
+        "To track her fitness"
+      ],
+      "answer": "To practice Spanish vocabulary"
+    },
+    {
+      "id": "A2-RD-008",
+      "level": "A2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'The sports center closes at 8 p.m., so members must leave before then.' What time must members leave?",
+      "options": [
+        "Before 8 p.m.",
+        "After 9 p.m.",
+        "At midnight",
+        "At 10 a.m."
+      ],
+      "answer": "Before 8 p.m."
+    },
+    {
+      "id": "A2-UE-001",
       "level": "A2",
       "skill": "use_of_english",
       "type": "multiple_choice",
-      "prompt": "I'm looking forward to ___ you soon.",
+      "prompt": "Choose the correct phrase: We look forward ___ from you soon.",
       "options": [
-        "see",
-        "seeing",
-        "seen",
-        "to see"
+        "to hearing",
+        "hearing",
+        "to hear",
+        "hear"
       ],
-      "answer": "seeing",
-      "explanation": "'Look forward to' va seguido de gerundio."
+      "answer": "to hearing"
+    },
+    {
+      "id": "A2-UE-002",
+      "level": "A2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Select the correct word: He has lived here ___ five years.",
+      "options": [
+        "for",
+        "since",
+        "during",
+        "by"
+      ],
+      "answer": "for"
+    },
+    {
+      "id": "A2-UE-003",
+      "level": "A2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Pick the best option: If I were you, I ___ speak to the manager.",
+      "options": [
+        "would",
+        "will",
+        "can",
+        "am"
+      ],
+      "answer": "would"
+    },
+    {
+      "id": "A2-UE-004",
+      "level": "A2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Choose the correct completion: She hasn't finished the report ___.",
+      "options": [
+        "yet",
+        "still",
+        "already",
+        "just"
+      ],
+      "answer": "yet"
+    },
+    {
+      "id": "A2-UE-005",
+      "level": "A2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Select the correct collocation: My brother is afraid ___ flying.",
+      "options": [
+        "of",
+        "from",
+        "at",
+        "with"
+      ],
+      "answer": "of"
+    },
+    {
+      "id": "A2-UE-006",
+      "level": "A2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Pick the right option: We need to pick ___ the keys before leaving.",
+      "options": [
+        "up",
+        "on",
+        "in",
+        "out"
+      ],
+      "answer": "up"
+    },
+    {
+      "id": "A2-UE-007",
+      "level": "A2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Choose the correct sentence: ___ you ever tried Thai food?",
+      "options": [
+        "Have",
+        "Do",
+        "Did",
+        "Are"
+      ],
+      "answer": "Have"
+    },
+    {
+      "id": "A2-UE-008",
+      "level": "A2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Select the best phrase: This is the person ___ car was stolen.",
+      "options": [
+        "whose",
+        "who",
+        "which",
+        "whom"
+      ],
+      "answer": "whose"
     }
   ],
   "B1": [
     {
-      "id": "B1-001",
+      "id": "B1-GR-001",
       "level": "B1",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "If I ___ you, I would take that job.",
+      "prompt": "If I ___ more time, I would take another class.",
       "options": [
-        "am",
-        "were",
-        "was",
-        "be"
+        "had",
+        "have",
+        "has",
+        "having"
       ],
-      "answer": "were",
-      "explanation": "El segundo condicional usa 'were' para todas las personas."
+      "answer": "had"
     },
     {
-      "id": "B1-002",
+      "id": "B1-GR-002",
       "level": "B1",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "She said she ___ the news already.",
+      "prompt": "She said she ___ the documents before the meeting.",
       "options": [
-        "has seen",
-        "had seen",
-        "saw",
-        "see"
+        "had checked",
+        "checked",
+        "has checked",
+        "was checking"
       ],
-      "answer": "had seen",
-      "explanation": "Estilo indirecto con acción anterior usa pasado perfecto."
+      "answer": "had checked"
     },
     {
-      "id": "B1-003",
+      "id": "B1-GR-003",
       "level": "B1",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "You need to study hard to ___ the exam.",
+      "prompt": "When the phone rang, we ___ dinner.",
       "options": [
-        "pass",
-        "passing",
-        "passed",
-        "passes"
+        "were eating",
+        "ate",
+        "had eaten",
+        "eat"
       ],
-      "answer": "pass",
-      "explanation": "Después de 'to' usamos la forma base del verbo."
+      "answer": "were eating"
     },
     {
-      "id": "B1-004",
+      "id": "B1-GR-004",
       "level": "B1",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "We were late because the train ___ by the time we arrived.",
+      "prompt": "The project ___ by a multinational company last year.",
       "options": [
-        "left",
-        "had left",
-        "was leaving",
-        "has left"
+        "was acquired",
+        "acquired",
+        "is acquiring",
+        "has acquiring"
       ],
-      "answer": "had left",
-      "explanation": "Una acción completada antes de otra en el pasado usa pasado perfecto."
+      "answer": "was acquired"
     },
     {
-      "id": "B1-005",
+      "id": "B1-GR-005",
       "level": "B1",
       "skill": "use_of_english",
       "type": "multiple_choice",
-      "prompt": "He apologized ___ late.",
+      "prompt": "He ___ to the doctor if the pain continues.",
       "options": [
-        "for being",
-        "to be",
-        "being",
-        "about be"
+        "will go",
+        "goes",
+        "went",
+        "has gone"
       ],
-      "answer": "for being",
-      "explanation": "'Apologize for' va seguido de gerundio."
+      "answer": "will go"
     },
     {
-      "id": "B1-006",
+      "id": "B1-GR-006",
+      "level": "B1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "By next Friday, we ___ the report.",
+      "options": [
+        "will have finished",
+        "finish",
+        "have finished",
+        "finished"
+      ],
+      "answer": "will have finished"
+    },
+    {
+      "id": "B1-GR-007",
+      "level": "B1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "I regret ___ him the news so late.",
+      "options": [
+        "telling",
+        "to tell",
+        "tell",
+        "told"
+      ],
+      "answer": "telling"
+    },
+    {
+      "id": "B1-GR-008",
+      "level": "B1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "Not only ___ the presentation, but she also negotiated the contract.",
+      "options": [
+        "did she lead",
+        "she led",
+        "led she",
+        "does she lead"
+      ],
+      "answer": "did she lead"
+    },
+    {
+      "id": "B1-VO-001",
+      "level": "B1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Choose the best synonym for 'reliable'.",
+      "options": [
+        "dependable",
+        "unpredictable",
+        "temporary",
+        "fragile"
+      ],
+      "answer": "dependable"
+    },
+    {
+      "id": "B1-VO-002",
+      "level": "B1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Select the word that means 'a strong desire to succeed'.",
+      "options": [
+        "ambition",
+        "habit",
+        "doubt",
+        "routine"
+      ],
+      "answer": "ambition"
+    },
+    {
+      "id": "B1-VO-003",
+      "level": "B1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Which word refers to 'money paid for work'?",
+      "options": [
+        "salary",
+        "expense",
+        "budget",
+        "donation"
+      ],
+      "answer": "salary"
+    },
+    {
+      "id": "B1-VO-004",
+      "level": "B1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Choose the option that best completes the sentence: The article provides a ___ overview of the topic.",
+      "options": [
+        "comprehensive",
+        "complicated",
+        "convenient",
+        "careless"
+      ],
+      "answer": "comprehensive"
+    },
+    {
+      "id": "B1-VO-005",
+      "level": "B1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Pick the correct word: She has a very ___ attitude toward change.",
+      "options": [
+        "positive",
+        "passive",
+        "poisonous",
+        "peculiar"
+      ],
+      "answer": "positive"
+    },
+    {
+      "id": "B1-VO-006",
+      "level": "B1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Find the word that means 'to persuade someone to do something'.",
+      "options": [
+        "convince",
+        "contain",
+        "convert",
+        "conclude"
+      ],
+      "answer": "convince"
+    },
+    {
+      "id": "B1-VO-007",
+      "level": "B1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Choose the correct word for 'something that prevents progress'.",
+      "options": [
+        "obstacle",
+        "opinion",
+        "option",
+        "orbit"
+      ],
+      "answer": "obstacle"
+    },
+    {
+      "id": "B1-VO-008",
+      "level": "B1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Select the best synonym for 'increase'.",
+      "options": [
+        "boost",
+        "break",
+        "borrow",
+        "bounce"
+      ],
+      "answer": "boost"
+    },
+    {
+      "id": "B1-RD-001",
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Read: 'Laura moved to London last year. She now works for an international company and studies English every evening.'\n\nWhy does Laura study every evening?",
+      "prompt": "Read: 'The company introduced remote work policies to attract international talent.' Why did the company change its policies?",
       "options": [
-        "Because she hates London",
-        "Because she wants to improve English",
-        "Because she travels",
-        "Because she teaches"
+        "To attract international talent",
+        "To reduce office rent",
+        "To test new software",
+        "To open a new branch"
       ],
-      "answer": "Because she wants to improve English",
-      "explanation": "El texto indica que estudia inglés cada tarde, implícitamente para mejorar."
+      "answer": "To attract international talent"
     },
     {
-      "id": "B1-007",
+      "id": "B1-RD-002",
       "level": "B1",
-      "skill": "grammar",
+      "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "The meeting was postponed ___ next week.",
+      "prompt": "Read: 'After comparing several smartphones, Lina chose the one with the best camera.' What was important to Lina?",
       "options": [
-        "to",
-        "until",
-        "for",
-        "by"
+        "Having the best camera",
+        "Finding the cheapest phone",
+        "Choosing the largest screen",
+        "Buying a limited edition"
       ],
-      "answer": "until",
-      "explanation": "Se usa 'until' para expresar aplazamiento hasta un momento específico."
+      "answer": "Having the best camera"
     },
     {
-      "id": "B1-008",
+      "id": "B1-RD-003",
       "level": "B1",
-      "skill": "grammar",
+      "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Neither the teacher nor the students ___ ready.",
+      "prompt": "Read: 'During the workshop, participants practiced negotiation through role-playing exercises.' How did participants practice negotiation?",
       "options": [
-        "was",
-        "were",
-        "been",
-        "are"
+        "Through role-playing",
+        "By reading articles",
+        "By watching videos",
+        "Through written exams"
       ],
-      "answer": "were",
-      "explanation": "Con 'neither...nor' el verbo concuerda con el sujeto más cercano (students)."
+      "answer": "Through role-playing"
     },
     {
-      "id": "B1-009",
+      "id": "B1-RD-004",
       "level": "B1",
-      "skill": "grammar",
+      "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "By the time I finish this course, I ___ in London for two years.",
+      "prompt": "Read: 'The travel blog features stories from professionals who work while exploring new countries.' Who writes the stories?",
       "options": [
-        "will live",
-        "will have lived",
-        "am living",
-        "have lived"
+        "Professionals who travel",
+        "Retired teachers",
+        "Students on exchange",
+        "Local journalists"
       ],
-      "answer": "will have lived",
-      "explanation": "El futuro perfecto describe duración hasta un punto futuro."
+      "answer": "Professionals who travel"
     },
     {
-      "id": "B1-010",
+      "id": "B1-RD-005",
+      "level": "B1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Because the conference was postponed, attendees rescheduled their flights for October.' What did attendees do after the conference was postponed?",
+      "options": [
+        "Rescheduled their flights",
+        "Cancelled their hotels",
+        "Changed the venue",
+        "Requested refunds"
+      ],
+      "answer": "Rescheduled their flights"
+    },
+    {
+      "id": "B1-RD-006",
+      "level": "B1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'The city's recycling program expanded to include electronic devices such as tablets and laptops.' What items were added to the program?",
+      "options": [
+        "Electronic devices",
+        "Furniture",
+        "Plastic bottles",
+        "Clothing"
+      ],
+      "answer": "Electronic devices"
+    },
+    {
+      "id": "B1-RD-007",
+      "level": "B1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'The research concluded that regular breaks improve concentration during long study sessions.' What improves concentration?",
+      "options": [
+        "Regular breaks",
+        "Loud music",
+        "Late-night studying",
+        "Energy drinks"
+      ],
+      "answer": "Regular breaks"
+    },
+    {
+      "id": "B1-RD-008",
+      "level": "B1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Eva joined a mentoring network to get feedback on her startup ideas.' Why did Eva join the network?",
+      "options": [
+        "To get feedback on her startup ideas",
+        "To find a co-founder",
+        "To promote a product",
+        "To learn a new language"
+      ],
+      "answer": "To get feedback on her startup ideas"
+    },
+    {
+      "id": "B1-UE-001",
       "level": "B1",
       "skill": "use_of_english",
       "type": "multiple_choice",
-      "prompt": "She is responsible ___ the marketing campaign.",
+      "prompt": "Choose the correct phrase: The report must be handed in ___ Friday at noon.",
       "options": [
-        "for",
+        "by",
+        "until",
+        "during",
+        "since"
+      ],
+      "answer": "by"
+    },
+    {
+      "id": "B1-UE-002",
+      "level": "B1",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Select the correct word: We couldn't attend the meeting because we ___ informed in time.",
+      "options": [
+        "weren't",
+        "haven't",
+        "didn't",
+        "don't"
+      ],
+      "answer": "weren't"
+    },
+    {
+      "id": "B1-UE-003",
+      "level": "B1",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Pick the best option: Hardly had we started the trip ___ it began to rain.",
+      "options": [
+        "when",
+        "than",
+        "because",
+        "so"
+      ],
+      "answer": "when"
+    },
+    {
+      "id": "B1-UE-004",
+      "level": "B1",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Choose the correct completion: She asked me ___ I had completed the assignment.",
+      "options": [
+        "whether",
+        "because",
+        "despite",
+        "unless"
+      ],
+      "answer": "whether"
+    },
+    {
+      "id": "B1-UE-005",
+      "level": "B1",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Select the correct collocation: They took advantage ___ the early-bird discount.",
+      "options": [
         "of",
-        "about",
+        "for",
+        "at",
         "to"
       ],
-      "answer": "for",
-      "explanation": "'Responsible for' es la combinación correcta."
+      "answer": "of"
+    },
+    {
+      "id": "B1-UE-006",
+      "level": "B1",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Pick the right option: The sooner you call, the ___ appointment you will get.",
+      "options": [
+        "better",
+        "best",
+        "more good",
+        "most good"
+      ],
+      "answer": "better"
+    },
+    {
+      "id": "B1-UE-007",
+      "level": "B1",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Choose the correct sentence: No sooner ___ the train left than it started snowing.",
+      "options": [
+        "had",
+        "has",
+        "have",
+        "having"
+      ],
+      "answer": "had"
+    },
+    {
+      "id": "B1-UE-008",
+      "level": "B1",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Select the best phrase: We should have the results ready by the time they ___.",
+      "options": [
+        "arrive",
+        "arrived",
+        "arrives",
+        "are arriving"
+      ],
+      "answer": "arrive"
     }
   ],
   "B2": [
     {
-      "id": "B2-001",
-      "level": "B2",
-      "skill": "use_of_english",
-      "type": "multiple_choice",
-      "prompt": "Identify the correctly punctuated sentence:",
-      "options": [
-        "Although he was tired, but he finished the assignment.",
-        "Although he was tired he finished the assignment.",
-        "Although he was tired, he finished the assignment.",
-        "Although he was tired; he finished the assignment."
-      ],
-      "answer": "Although he was tired, he finished the assignment.",
-      "explanation": "'Although' no se combina con 'but' y requiere coma antes de la oración principal."
-    },
-    {
-      "id": "B2-002",
-      "level": "B2",
-      "skill": "use_of_english",
-      "type": "multiple_choice",
-      "prompt": "Choose the correct expression: I regret ___ to university earlier.",
-      "options": [
-        "not going",
-        "not to go",
-        "not go",
-        "not went"
-      ],
-      "answer": "not going",
-      "explanation": "'Regret' seguido de gerundio para acciones pasadas."
-    },
-    {
-      "id": "B2-003",
+      "id": "B2-GR-001",
       "level": "B2",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "The project will be finished by the time you ___ back.",
+      "prompt": "Had he ___ the warning signs, he might have avoided the mistake.",
       "options": [
-        "come",
-        "came",
-        "have come",
-        "will come"
+        "noticed",
+        "notice",
+        "noticing",
+        "notices"
       ],
-      "answer": "come",
-      "explanation": "Después de 'by the time' se usa presente simple para referirse al futuro."
+      "answer": "noticed"
     },
     {
-      "id": "B2-004",
+      "id": "B2-GR-002",
       "level": "B2",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "Had he known about the traffic, he ___ earlier.",
+      "prompt": "No sooner ___ the proposal presented than questions arose.",
       "options": [
-        "would leave",
-        "left",
-        "would have left",
-        "had left"
+        "was",
+        "is",
+        "has",
+        "had"
       ],
-      "answer": "would have left",
-      "explanation": "Tercer condicional con inversión requiere 'would have + participio'."
+      "answer": "was"
     },
     {
-      "id": "B2-005",
-      "level": "B2",
-      "skill": "use_of_english",
-      "type": "multiple_choice",
-      "prompt": "The committee insisted ___ informed immediately.",
-      "options": [
-        "on being",
-        "to be",
-        "being",
-        "on be"
-      ],
-      "answer": "on being",
-      "explanation": "'Insist on' va seguido de gerundio."
-    },
-    {
-      "id": "B2-006",
-      "level": "B2",
-      "skill": "vocab",
-      "type": "multiple_choice",
-      "prompt": "Select the best word: The scientist presented a highly ___ argument.",
-      "options": [
-        "compelling",
-        "compel",
-        "compulsion",
-        "compelled"
-      ],
-      "answer": "compelling",
-      "explanation": "'Compelling' significa convincente y encaja con 'argument'."
-    },
-    {
-      "id": "B2-007",
+      "id": "B2-GR-003",
       "level": "B2",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "___ had the meeting started when the fire alarm rang.",
-      "options": [
-        "Only",
-        "Barely",
-        "Hardly",
-        "Rarely"
-      ],
-      "answer": "Hardly",
-      "explanation": "'Hardly had...when' es la inversión correcta para eventos casi simultáneos."
-    },
-    {
-      "id": "B2-008",
-      "level": "B2",
-      "skill": "reading",
-      "type": "multiple_choice",
-      "prompt": "Read: 'The new policy aims to reduce waste by encouraging departments to share resources and track consumption.'\n\nWhat is the purpose of the policy?",
-      "options": [
-        "To increase individual budgets",
-        "To monitor and lower resource waste",
-        "To hire more staff",
-        "To replace existing technology"
-      ],
-      "answer": "To monitor and lower resource waste",
-      "explanation": "El texto menciona reducir desechos y rastrear consumo."
-    },
-    {
-      "id": "B2-009",
-      "level": "B2",
-      "skill": "use_of_english",
-      "type": "multiple_choice",
-      "prompt": "The proposal lacks ___ and needs revision.",
-      "options": [
-        "clarity",
-        "clarify",
-        "clear",
-        "clearly"
-      ],
-      "answer": "clarity",
-      "explanation": "Se necesita el sustantivo 'clarity' tras 'lacks'."
-    },
-    {
-      "id": "B2-010",
-      "level": "B2",
-      "skill": "vocab",
-      "type": "multiple_choice",
-      "prompt": "We need a solution that is ___ with our long-term strategy.",
-      "options": [
-        "consistent",
-        "consistency",
-        "consisted",
-        "consist"
-      ],
-      "answer": "consistent",
-      "explanation": "'Consistent with' es la combinación adecuada."
-    }
-  ],
-  "C1": [
-    {
-      "id": "C1-001",
-      "level": "C1",
-      "skill": "vocab",
-      "type": "multiple_choice",
-      "prompt": "Her speech was so ___ that everyone listened attentively.",
-      "options": [
-        "boring",
-        "engaging",
-        "tedious",
-        "monotonous"
-      ],
-      "answer": "engaging",
-      "explanation": "'Engaging' significa cautivador."
-    },
-    {
-      "id": "C1-002",
-      "level": "C1",
-      "skill": "use_of_english",
-      "type": "multiple_choice",
-      "prompt": "Choose the sentence with correct parallel structure:",
-      "options": [
-        "He not only enjoys to read but also writing poetry.",
-        "He not only enjoys reading but also to write poetry.",
-        "He enjoys not only reading but also writing poetry.",
-        "He enjoys reading not only but also writing poetry."
-      ],
-      "answer": "He enjoys not only reading but also writing poetry.",
-      "explanation": "Mantiene paralelismo con dos gerundios."
-    },
-    {
-      "id": "C1-003",
-      "level": "C1",
-      "skill": "vocab",
-      "type": "multiple_choice",
-      "prompt": "The findings were ___ to the theory.",
-      "options": [
-        "incompatible",
-        "impassive",
-        "incoherent",
-        "incompetent"
-      ],
-      "answer": "incompatible",
-      "explanation": "'Incompatible' significa que no concuerdan con la teoría."
-    },
-    {
-      "id": "C1-004",
-      "level": "C1",
-      "skill": "grammar",
-      "type": "multiple_choice",
-      "prompt": "The director demanded that every team member ___ the new policy.",
-      "options": [
-        "follow",
-        "follows",
-        "followed",
-        "will follow"
-      ],
-      "answer": "follow",
-      "explanation": "Verbos de mandato en subjuntivo usan la forma base."
-    },
-    {
-      "id": "C1-005",
-      "level": "C1",
-      "skill": "vocab",
-      "type": "multiple_choice",
-      "prompt": "Despite the committee's ___ objections, the project moved forward.",
-      "options": [
-        "vehement",
-        "vehemently",
-        "vehemence",
-        "vehementness"
-      ],
-      "answer": "vehement",
-      "explanation": "Se necesita un adjetivo que describa las objeciones."
-    },
-    {
-      "id": "C1-006",
-      "level": "C1",
-      "skill": "vocab",
-      "type": "multiple_choice",
-      "prompt": "The researcher presented a ___ analysis that impressed the panel.",
-      "options": [
-        "meticulous",
-        "mitigate",
-        "meticulousness",
-        "meticulously"
-      ],
-      "answer": "meticulous",
-      "explanation": "Se requiere un adjetivo para describir 'analysis'."
-    },
-    {
-      "id": "C1-007",
-      "level": "C1",
-      "skill": "grammar",
-      "type": "multiple_choice",
-      "prompt": "Not only ___ to the conference, but she also delivered the keynote.",
-      "options": [
-        "did she travel",
-        "she traveled",
-        "traveled she",
-        "had she traveled"
-      ],
-      "answer": "did she travel",
-      "explanation": "Inversion con 'not only' usa auxiliar + sujeto + verbo base."
-    },
-    {
-      "id": "C1-008",
-      "level": "C1",
-      "skill": "reading",
-      "type": "multiple_choice",
-      "prompt": "Read: 'The report underscores the importance of cross-functional collaboration to accelerate innovation.'\n\nWhat does the report emphasize?",
-      "options": [
-        "Hiring more staff",
-        "Improving cross-functional collaboration",
-        "Cutting project budgets",
-        "Reducing training programs"
-      ],
-      "answer": "Improving cross-functional collaboration",
-      "explanation": "El texto resalta la colaboración interfuncional."
-    },
-    {
-      "id": "C1-009",
-      "level": "C1",
-      "skill": "grammar",
-      "type": "multiple_choice",
-      "prompt": "The consultant recommended that the contract ___ reviewed annually.",
+      "prompt": "The committee insisted that the report ___ rewritten in plain language.",
       "options": [
         "be",
         "is",
         "was",
         "being"
       ],
-      "answer": "be",
-      "explanation": "Recomendaciones usan subjuntivo: 'that ... be'."
+      "answer": "be"
     },
     {
-      "id": "C1-010",
-      "level": "C1",
-      "skill": "use_of_english",
-      "type": "multiple_choice",
-      "prompt": "The company will have to ___ the new regulations.",
-      "options": [
-        "adhere to",
-        "comply for",
-        "adapt on",
-        "agree in"
-      ],
-      "answer": "adhere to",
-      "explanation": "'Adhere to' significa cumplir con algo."
-    }
-  ],
-  "C2": [
-    {
-      "id": "C2-001",
-      "level": "C2",
+      "id": "B2-GR-004",
+      "level": "B2",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "Which sentence demonstrates correct use of the subjunctive mood?",
+      "prompt": "If she ___ the offer earlier, she would be working with us now.",
       "options": [
-        "If I was you, I would travel more.",
-        "It's essential that he be informed immediately.",
-        "She suggested that he goes to the doctor.",
-        "I wish I was invited to the party."
+        "had accepted",
+        "accepted",
+        "accepts",
+        "has accepted"
       ],
-      "answer": "It's essential that he be informed immediately.",
-      "explanation": "'Be' es la forma subjuntiva correcta tras expresiones de necesidad."
+      "answer": "had accepted"
     },
     {
-      "id": "C2-002",
-      "level": "C2",
-      "skill": "use_of_english",
-      "type": "multiple_choice",
-      "prompt": "Select the correctly used idiom:",
-      "options": [
-        "She decided to take the bull by its horns and confront her boss.",
-        "He let the cat out from the bag by mistake.",
-        "They hit the nail on the head with their solution.",
-        "She burned the midnight light to finish the report."
-      ],
-      "answer": "They hit the nail on the head with their solution.",
-      "explanation": "Es la única expresión idiomática usada correctamente."
-    },
-    {
-      "id": "C2-003",
-      "level": "C2",
+      "id": "B2-GR-005",
+      "level": "B2",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "Choose the option that best completes the sentence: Hardly had I arrived at the station ___ the train left.",
+      "prompt": "The new guidelines require employees ___ training every six months.",
+      "options": [
+        "to undergo",
+        "undergo",
+        "undergoing",
+        "to be undergone"
+      ],
+      "answer": "to undergo"
+    },
+    {
+      "id": "B2-GR-006",
+      "level": "B2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "Hardly ___ into the interview when the fire alarm sounded.",
+      "options": [
+        "had she settled",
+        "she had settled",
+        "she settled",
+        "has she settled"
+      ],
+      "answer": "had she settled"
+    },
+    {
+      "id": "B2-GR-007",
+      "level": "B2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "The data, together with the supporting documents, ___ available online.",
+      "options": [
+        "is",
+        "are",
+        "was",
+        "has"
+      ],
+      "answer": "are"
+    },
+    {
+      "id": "B2-GR-008",
+      "level": "B2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "Despite ___ a tight deadline, the team delivered exceptional work.",
+      "options": [
+        "facing",
+        "face",
+        "faced",
+        "to face"
+      ],
+      "answer": "facing"
+    },
+    {
+      "id": "B2-VO-001",
+      "level": "B2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Choose the word that best completes the sentence: The scientist's theory was widely ___ by the community.",
+      "options": [
+        "endorsed",
+        "ignored",
+        "distracted",
+        "disturbed"
+      ],
+      "answer": "endorsed"
+    },
+    {
+      "id": "B2-VO-002",
+      "level": "B2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Select the option closest in meaning to 'meticulous'.",
+      "options": [
+        "thorough",
+        "reckless",
+        "hasty",
+        "casual"
+      ],
+      "answer": "thorough"
+    },
+    {
+      "id": "B2-VO-003",
+      "level": "B2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Which word describes a 'temporary halt in activity'?",
+      "options": [
+        "hiatus",
+        "harmony",
+        "harvest",
+        "heritage"
+      ],
+      "answer": "hiatus"
+    },
+    {
+      "id": "B2-VO-004",
+      "level": "B2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Choose the best replacement for 'compelling' in the sentence 'She gave a compelling presentation'.",
+      "options": [
+        "persuasive",
+        "convenient",
+        "passive",
+        "provincial"
+      ],
+      "answer": "persuasive"
+    },
+    {
+      "id": "B2-VO-005",
+      "level": "B2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Pick the word that means 'to make something less severe'.",
+      "options": [
+        "alleviate",
+        "allocate",
+        "allude",
+        "alter"
+      ],
+      "answer": "alleviate"
+    },
+    {
+      "id": "B2-VO-006",
+      "level": "B2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Find the option that means 'capable of being believed'.",
+      "options": [
+        "plausible",
+        "pliable",
+        "palpable",
+        "portable"
+      ],
+      "answer": "plausible"
+    },
+    {
+      "id": "B2-VO-007",
+      "level": "B2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Choose the best synonym for 'diligent'.",
+      "options": [
+        "hardworking",
+        "indifferent",
+        "lenient",
+        "reserved"
+      ],
+      "answer": "hardworking"
+    },
+    {
+      "id": "B2-VO-008",
+      "level": "B2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Select the word meaning 'to strongly criticize publicly'.",
+      "options": [
+        "condemn",
+        "conserve",
+        "confer",
+        "condense"
+      ],
+      "answer": "condemn"
+    },
+    {
+      "id": "B2-RD-001",
+      "level": "B2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'The documentary highlights communities that adapted innovative farming techniques to combat drought.' What does the documentary highlight?",
+      "options": [
+        "Communities using innovative farming techniques",
+        "Cities investing in highways",
+        "Scientists debating climate data",
+        "Artists discussing sustainable design"
+      ],
+      "answer": "Communities using innovative farming techniques"
+    },
+    {
+      "id": "B2-RD-002",
+      "level": "B2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'After extensive trials, the startup launched a platform that automates ethical supply-chain audits.' What did the startup release?",
+      "options": [
+        "A platform for ethical supply-chain audits",
+        "A new marketing campaign",
+        "An employee wellness program",
+        "An electric delivery van"
+      ],
+      "answer": "A platform for ethical supply-chain audits"
+    },
+    {
+      "id": "B2-RD-003",
+      "level": "B2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'The journalist juxtaposed personal stories with statistics to emphasize the report's urgency.' How did the journalist emphasize urgency?",
+      "options": [
+        "By combining stories with statistics",
+        "By using only numbers",
+        "By ignoring interviews",
+        "By shortening the report"
+      ],
+      "answer": "By combining stories with statistics"
+    },
+    {
+      "id": "B2-RD-004",
+      "level": "B2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Because the policy lacked transparency, stakeholders demanded a revised framework.' Why did stakeholders demand a revision?",
+      "options": [
+        "The policy lacked transparency",
+        "It cost too much",
+        "It was too short",
+        "It included interviews"
+      ],
+      "answer": "The policy lacked transparency"
+    },
+    {
+      "id": "B2-RD-005",
+      "level": "B2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'The engineer credited her success to mentors who challenged her assumptions.' What did mentors do?",
+      "options": [
+        "Challenged her assumptions",
+        "Funded her company",
+        "Hired her team",
+        "Reduced her workload"
+      ],
+      "answer": "Challenged her assumptions"
+    },
+    {
+      "id": "B2-RD-006",
+      "level": "B2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Participants concluded that collaborative leadership fosters more resilient teams.' What conclusion did participants reach?",
+      "options": [
+        "Collaborative leadership builds resilient teams",
+        "Individual decisions are fastest",
+        "Remote work hinders innovation",
+        "Budgets should be reduced"
+      ],
+      "answer": "Collaborative leadership builds resilient teams"
+    },
+    {
+      "id": "B2-RD-007",
+      "level": "B2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'The research lab secured grants by demonstrating measurable environmental impact.' How did the lab secure grants?",
+      "options": [
+        "By demonstrating measurable environmental impact",
+        "By hiring new marketers",
+        "By cutting salaries",
+        "By outsourcing production"
+      ],
+      "answer": "By demonstrating measurable environmental impact"
+    },
+    {
+      "id": "B2-RD-008",
+      "level": "B2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Because the city prioritized public transport, commute times dropped significantly.' What happened to commute times?",
+      "options": [
+        "They dropped significantly",
+        "They became unpredictable",
+        "They increased slightly",
+        "They remained unchanged"
+      ],
+      "answer": "They dropped significantly"
+    },
+    {
+      "id": "B2-UE-001",
+      "level": "B2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Choose the correct phrase: The initiative aims ___ reducing waste across the organization.",
+      "options": [
+        "at",
+        "for",
+        "to",
+        "into"
+      ],
+      "answer": "at"
+    },
+    {
+      "id": "B2-UE-002",
+      "level": "B2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Select the correct word: Had it not been for her guidance, we ___ lost the client.",
+      "options": [
+        "would have",
+        "will have",
+        "would",
+        "had"
+      ],
+      "answer": "would have"
+    },
+    {
+      "id": "B2-UE-003",
+      "level": "B2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Pick the best option: The CEO demanded that the report ___ submitted by Monday.",
+      "options": [
+        "be",
+        "is",
+        "was",
+        "being"
+      ],
+      "answer": "be"
+    },
+    {
+      "id": "B2-UE-004",
+      "level": "B2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Choose the correct completion: Scarcely had the meeting started ___ the fire drill began.",
       "options": [
         "when",
         "than",
-        "after",
-        "then"
+        "before",
+        "after"
       ],
-      "answer": "when",
-      "explanation": "'Hardly...when' es la estructura correcta."
+      "answer": "when"
     },
     {
-      "id": "C2-004",
-      "level": "C2",
+      "id": "B2-UE-005",
+      "level": "B2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Select the correct collocation: They attributed the breakthrough ___ years of experimentation.",
+      "options": [
+        "to",
+        "for",
+        "by",
+        "from"
+      ],
+      "answer": "to"
+    },
+    {
+      "id": "B2-UE-006",
+      "level": "B2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Pick the right option: We would rather you ___ the draft again before publishing.",
+      "options": [
+        "reviewed",
+        "reviews",
+        "review",
+        "reviewing"
+      ],
+      "answer": "reviewed"
+    },
+    {
+      "id": "B2-UE-007",
+      "level": "B2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Choose the correct sentence: Seldom ___ such a rapid shift in consumer behavior observed.",
+      "options": [
+        "is",
+        "has",
+        "are",
+        "was"
+      ],
+      "answer": "is"
+    },
+    {
+      "id": "B2-UE-008",
+      "level": "B2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Select the best phrase: The more carefully you plan, the ___ surprises you'll encounter.",
+      "options": [
+        "fewer",
+        "few",
+        "less",
+        "little"
+      ],
+      "answer": "fewer"
+    }
+  ],
+  "C1": [
+    {
+      "id": "C1-GR-001",
+      "level": "C1",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "No sooner ___ the announcement made than the phones rang.",
+      "prompt": "Should the board ___ the proposal, the merger will proceed.",
+      "options": [
+        "approve",
+        "approves",
+        "approved",
+        "approving"
+      ],
+      "answer": "approve"
+    },
+    {
+      "id": "C1-GR-002",
+      "level": "C1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "The report, portions of which ___ confidential, was circulated internally.",
+      "options": [
+        "remain",
+        "remains",
+        "remaining",
+        "remained"
+      ],
+      "answer": "remain"
+    },
+    {
+      "id": "C1-GR-003",
+      "level": "C1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "Only after the audit ___ completed did the investors regain confidence.",
       "options": [
         "was",
-        "had",
         "were",
-        "would"
+        "has",
+        "had"
       ],
-      "answer": "had",
-      "explanation": "'No sooner had ... than ...' requiere pasado perfecto."
+      "answer": "was"
     },
     {
-      "id": "C2-005",
-      "level": "C2",
+      "id": "C1-GR-004",
+      "level": "C1",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "Had it not been for her dedication, the project ___ .",
+      "prompt": "Had the policy been implemented earlier, fewer clients ___ affected.",
       "options": [
-        "would have failed",
-        "failed",
-        "would fail",
-        "has failed"
+        "would have been",
+        "will be",
+        "were",
+        "are"
       ],
-      "answer": "would have failed",
-      "explanation": "Condicional mixto con inversión usa 'would have failed'."
+      "answer": "would have been"
     },
     {
-      "id": "C2-006",
-      "level": "C2",
+      "id": "C1-GR-005",
+      "level": "C1",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "The judge ordered that the documents ___ submitted by Friday.",
+      "prompt": "Were we ___ a larger budget, we could expand internationally.",
+      "options": [
+        "to secure",
+        "securing",
+        "secured",
+        "secure"
+      ],
+      "answer": "to secure"
+    },
+    {
+      "id": "C1-GR-006",
+      "level": "C1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "The CEO demanded that every department ___ measurable outcomes.",
+      "options": [
+        "deliver",
+        "delivers",
+        "delivered",
+        "delivering"
+      ],
+      "answer": "deliver"
+    },
+    {
+      "id": "C1-GR-007",
+      "level": "C1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "Despite the analysts' predictions, not once ___ the company miss a deadline.",
+      "options": [
+        "did",
+        "does",
+        "had",
+        "has"
+      ],
+      "answer": "did"
+    },
+    {
+      "id": "C1-GR-008",
+      "level": "C1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "Were it not for her diplomacy, the negotiations ___ collapsed.",
+      "options": [
+        "might have",
+        "must have",
+        "should have",
+        "will have"
+      ],
+      "answer": "might have"
+    },
+    {
+      "id": "C1-VO-001",
+      "level": "C1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Choose the word that best completes the sentence: The committee praised his ___ leadership style.",
+      "options": [
+        "visionary",
+        "vulnerable",
+        "vacant",
+        "volatile"
+      ],
+      "answer": "visionary"
+    },
+    {
+      "id": "C1-VO-002",
+      "level": "C1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Select the option closest in meaning to 'circumspect'.",
+      "options": [
+        "cautious",
+        "careless",
+        "candid",
+        "casual"
+      ],
+      "answer": "cautious"
+    },
+    {
+      "id": "C1-VO-003",
+      "level": "C1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Which word describes 'a person who supports a cause publicly'?",
+      "options": [
+        "advocate",
+        "adversary",
+        "admirer",
+        "adolescent"
+      ],
+      "answer": "advocate"
+    },
+    {
+      "id": "C1-VO-004",
+      "level": "C1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Choose the best replacement for 'ubiquitous' in the sentence 'Mobile payments are becoming ubiquitous'.",
+      "options": [
+        "commonplace",
+        "costly",
+        "coarse",
+        "convoluted"
+      ],
+      "answer": "commonplace"
+    },
+    {
+      "id": "C1-VO-005",
+      "level": "C1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Pick the word that means 'to make something clearer or easier to understand'.",
+      "options": [
+        "elucidate",
+        "eliminate",
+        "elevate",
+        "emulate"
+      ],
+      "answer": "elucidate"
+    },
+    {
+      "id": "C1-VO-006",
+      "level": "C1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Find the option that means 'showing great attention to detail or correct behavior'.",
+      "options": [
+        "scrupulous",
+        "spontaneous",
+        "speculative",
+        "subtle"
+      ],
+      "answer": "scrupulous"
+    },
+    {
+      "id": "C1-VO-007",
+      "level": "C1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Choose the best synonym for 'resilient'.",
+      "options": [
+        "robust",
+        "redundant",
+        "reluctant",
+        "resistant"
+      ],
+      "answer": "robust"
+    },
+    {
+      "id": "C1-VO-008",
+      "level": "C1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Select the word meaning 'to publicly support a particular policy or idea'.",
+      "options": [
+        "champion",
+        "challenge",
+        "chastise",
+        "channel"
+      ],
+      "answer": "champion"
+    },
+    {
+      "id": "C1-RD-001",
+      "level": "C1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'The white paper argues that regulating artificial intelligence requires cross-border consensus and adaptive frameworks.' What does the white paper argue?",
+      "options": [
+        "AI regulation needs cross-border consensus",
+        "AI should be banned entirely",
+        "AI is cheaper than robotics",
+        "AI has no ethical issues"
+      ],
+      "answer": "AI regulation needs cross-border consensus"
+    },
+    {
+      "id": "C1-RD-002",
+      "level": "C1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Having synthesized decades of climate data, the panel advocated immediate investment in resilient infrastructure.' What did the panel advocate?",
+      "options": [
+        "Immediate investment in resilient infrastructure",
+        "Cuts to energy research",
+        "Delayed spending",
+        "Privatizing transport"
+      ],
+      "answer": "Immediate investment in resilient infrastructure"
+    },
+    {
+      "id": "C1-RD-003",
+      "level": "C1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'The editorial juxtaposes historical context with current policy debates to illuminate systemic biases.' What technique does the editorial use?",
+      "options": [
+        "Juxtaposing history with current debates",
+        "Avoiding historical references",
+        "Focusing solely on data",
+        "Highlighting personal anecdotes"
+      ],
+      "answer": "Juxtaposing history with current debates"
+    },
+    {
+      "id": "C1-RD-004",
+      "level": "C1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Because the startup scaled responsibly, it preserved culture while doubling revenue annually.' What was the result of scaling responsibly?",
+      "options": [
+        "The company preserved culture while doubling revenue",
+        "The company reduced staff",
+        "The company delayed expansion",
+        "The company closed offices"
+      ],
+      "answer": "The company preserved culture while doubling revenue"
+    },
+    {
+      "id": "C1-RD-005",
+      "level": "C1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'The researcher contends that inclusive teams outperform homogeneous groups over time.' What is the researcher's claim?",
+      "options": [
+        "Inclusive teams outperform homogeneous groups",
+        "Homogeneous groups innovate more",
+        "Teams should avoid diversity",
+        "Leaders must centralize power"
+      ],
+      "answer": "Inclusive teams outperform homogeneous groups"
+    },
+    {
+      "id": "C1-RD-006",
+      "level": "C1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'After scrutinizing the methodology, reviewers deemed the findings provisional pending replication.' How did reviewers describe the findings?",
+      "options": [
+        "Provisional pending replication",
+        "Conclusive and final",
+        "Irrelevant",
+        "Unethical"
+      ],
+      "answer": "Provisional pending replication"
+    },
+    {
+      "id": "C1-RD-007",
+      "level": "C1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'The documentary interrogates supply chains to expose labor violations otherwise hidden from consumers.' What does the documentary investigate?",
+      "options": [
+        "Supply chains to expose labor violations",
+        "Consumer privacy",
+        "Wildlife conservation",
+        "Sports governance"
+      ],
+      "answer": "Supply chains to expose labor violations"
+    },
+    {
+      "id": "C1-RD-008",
+      "level": "C1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Because the nonprofit leverages open data, its reports withstand rigorous peer review.' Why do the nonprofit's reports withstand review?",
+      "options": [
+        "They leverage open data",
+        "They keep data private",
+        "They publish anonymously",
+        "They avoid statistics"
+      ],
+      "answer": "They leverage open data"
+    },
+    {
+      "id": "C1-UE-001",
+      "level": "C1",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Choose the correct phrase: The initiative is contingent ___ securing stakeholder alignment.",
+      "options": [
+        "upon",
+        "about",
+        "across",
+        "within"
+      ],
+      "answer": "upon"
+    },
+    {
+      "id": "C1-UE-002",
+      "level": "C1",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Select the correct word: Little ___ the consultants anticipate such rapid regulatory changes.",
+      "options": [
+        "did",
+        "do",
+        "have",
+        "are"
+      ],
+      "answer": "did"
+    },
+    {
+      "id": "C1-UE-003",
+      "level": "C1",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Pick the best option: Were the negotiations to fail, we ___ alternative funding sources.",
+      "options": [
+        "would pursue",
+        "pursue",
+        "will pursue",
+        "pursued"
+      ],
+      "answer": "would pursue"
+    },
+    {
+      "id": "C1-UE-004",
+      "level": "C1",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Choose the correct completion: Scarcely had the keynote ended ___ the questions began flooding in.",
+      "options": [
+        "when",
+        "than",
+        "before",
+        "after"
+      ],
+      "answer": "when"
+    },
+    {
+      "id": "C1-UE-005",
+      "level": "C1",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Select the correct collocation: They reached consensus ___ a series of facilitated workshops.",
+      "options": [
+        "through",
+        "at",
+        "under",
+        "onto"
+      ],
+      "answer": "through"
+    },
+    {
+      "id": "C1-UE-006",
+      "level": "C1",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Pick the right option: The chair requested that all remarks ___ confined to three minutes.",
       "options": [
         "be",
         "are",
         "were",
         "being"
       ],
-      "answer": "be",
-      "explanation": "Órdenes formales usan subjuntivo 'be'."
+      "answer": "be"
     },
     {
-      "id": "C2-007",
+      "id": "C1-UE-007",
+      "level": "C1",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Choose the correct sentence: Rarely ___ such an eloquent defense of the policy heard.",
+      "options": [
+        "is",
+        "has",
+        "are",
+        "was"
+      ],
+      "answer": "is"
+    },
+    {
+      "id": "C1-UE-008",
+      "level": "C1",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Select the best phrase: The more transparently we communicate, the ___ stakeholders trust our decisions.",
+      "options": [
+        "more",
+        "most",
+        "many",
+        "much"
+      ],
+      "answer": "more"
+    }
+  ],
+  "C2": [
+    {
+      "id": "C2-GR-001",
       "level": "C2",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "Select the sentence that uses inversion correctly.",
+      "prompt": "Were the data ___ more robust, the hypothesis might withstand scrutiny.",
       "options": [
-        "Rarely I have seen such dedication.",
-        "Rarely have I seen such dedication.",
-        "Rarely have seen I such dedication.",
-        "Rarely I seen have such dedication."
+        "to be",
+        "been",
+        "being",
+        "be"
       ],
-      "answer": "Rarely have I seen such dedication.",
-      "explanation": "Las expresiones negativas iniciales requieren inversión auxiliar-sujeto."
+      "answer": "to be"
     },
     {
-      "id": "C2-008",
+      "id": "C2-GR-002",
+      "level": "C2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "At no point ___ the board concede that the forecasts were flawed.",
+      "options": [
+        "did",
+        "has",
+        "had",
+        "was"
+      ],
+      "answer": "did"
+    },
+    {
+      "id": "C2-GR-003",
+      "level": "C2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "The report recommended that funding ___ contingent upon verified outcomes.",
+      "options": [
+        "remain",
+        "remained",
+        "remains",
+        "remaining"
+      ],
+      "answer": "remain"
+    },
+    {
+      "id": "C2-GR-004",
+      "level": "C2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "Should the legislation ___ enacted, multinational firms will reassess their strategies.",
+      "options": [
+        "be",
+        "being",
+        "been",
+        "to be"
+      ],
+      "answer": "be"
+    },
+    {
+      "id": "C2-GR-005",
+      "level": "C2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "Little ___ the researchers anticipate the paradigm shift their study would trigger.",
+      "options": [
+        "did",
+        "do",
+        "have",
+        "are"
+      ],
+      "answer": "did"
+    },
+    {
+      "id": "C2-GR-006",
+      "level": "C2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "Not until the transcripts ___ digitized were they made publicly accessible.",
+      "options": [
+        "were",
+        "are",
+        "have",
+        "had"
+      ],
+      "answer": "were"
+    },
+    {
+      "id": "C2-GR-007",
+      "level": "C2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "Were it not for the whistleblower, the malpractice ___ undiscovered.",
+      "options": [
+        "would have gone",
+        "will go",
+        "has gone",
+        "is going"
+      ],
+      "answer": "would have gone"
+    },
+    {
+      "id": "C2-GR-008",
+      "level": "C2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "Had the guidelines been interpreted narrowly, several stakeholders ___ excluded.",
+      "options": [
+        "would have been",
+        "were",
+        "are",
+        "will be"
+      ],
+      "answer": "would have been"
+    },
+    {
+      "id": "C2-VO-001",
       "level": "C2",
       "skill": "vocab",
       "type": "multiple_choice",
-      "prompt": "The professor's explanation was so ___ that even experts were challenged.",
+      "prompt": "Choose the word that best completes the sentence: The philosopher's arguments were grounded in a ___ understanding of ethics.",
       "options": [
-        "esoteric",
-        "mundane",
-        "transparent",
-        "simplistic"
+        "nuanced",
+        "naive",
+        "narrow",
+        "nominal"
       ],
-      "answer": "esoteric",
-      "explanation": "'Esoteric' describe algo comprensible solo para especialistas."
+      "answer": "nuanced"
     },
     {
-      "id": "C2-009",
+      "id": "C2-VO-002",
       "level": "C2",
       "skill": "vocab",
       "type": "multiple_choice",
-      "prompt": "Despite ___ evidence to the contrary, he maintained his position.",
+      "prompt": "Select the option closest in meaning to 'equivocate'.",
       "options": [
-        "overwhelming",
-        "overwhelm",
-        "overwhelmed",
-        "overwhelms"
+        "prevaricate",
+        "pronounce",
+        "persevere",
+        "perturb"
       ],
-      "answer": "overwhelming",
-      "explanation": "Se necesita adjetivo para describir 'evidence'."
+      "answer": "prevaricate"
     },
     {
-      "id": "C2-010",
+      "id": "C2-VO-003",
+      "level": "C2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Which word describes 'a leader who exercises absolute power often cruelly'?",
+      "options": [
+        "despot",
+        "delegate",
+        "deacon",
+        "debutant"
+      ],
+      "answer": "despot"
+    },
+    {
+      "id": "C2-VO-004",
+      "level": "C2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Choose the best replacement for 'esoteric' in the sentence 'The lecture explored esoteric legal doctrines'.",
+      "options": [
+        "arcane",
+        "artful",
+        "arbitrary",
+        "articulate"
+      ],
+      "answer": "arcane"
+    },
+    {
+      "id": "C2-VO-005",
+      "level": "C2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Pick the word that means 'to formally cancel or reverse a decision'.",
+      "options": [
+        "rescind",
+        "resist",
+        "relish",
+        "recount"
+      ],
+      "answer": "rescind"
+    },
+    {
+      "id": "C2-VO-006",
+      "level": "C2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Find the option that means 'expressing sorrow or remorse'.",
+      "options": [
+        "contrite",
+        "cohesive",
+        "concise",
+        "contiguous"
+      ],
+      "answer": "contrite"
+    },
+    {
+      "id": "C2-VO-007",
+      "level": "C2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Choose the best synonym for 'perspicacious'.",
+      "options": [
+        "astute",
+        "apathetic",
+        "amiable",
+        "abrupt"
+      ],
+      "answer": "astute"
+    },
+    {
+      "id": "C2-VO-008",
+      "level": "C2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Select the word meaning 'to publicly denounce or condemn'.",
+      "options": [
+        "decry",
+        "defer",
+        "deplete",
+        "devalue"
+      ],
+      "answer": "decry"
+    },
+    {
+      "id": "C2-RD-001",
+      "level": "C2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'The investigative series indicts opaque procurement practices that facilitate systemic corruption across public agencies.' What does the series indict?",
+      "options": [
+        "Opaque procurement practices",
+        "Transparent budgeting",
+        "Private philanthropy",
+        "Global supply chains"
+      ],
+      "answer": "Opaque procurement practices"
+    },
+    {
+      "id": "C2-RD-002",
+      "level": "C2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'By tracing the jurisprudence, the scholar elucidates how precedent constrains judicial discretion.' What does the scholar elucidate?",
+      "options": [
+        "How precedent constrains judicial discretion",
+        "Why courts ignore evidence",
+        "How juries are selected",
+        "Why legislation is delayed"
+      ],
+      "answer": "How precedent constrains judicial discretion"
+    },
+    {
+      "id": "C2-RD-003",
+      "level": "C2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'The commission's dossier interweaves forensic audits with whistleblower testimony to substantiate its allegations.' How does the dossier substantiate its allegations?",
+      "options": [
+        "By combining forensic audits with whistleblower testimony",
+        "By relying on anonymous blogs",
+        "By summarizing press releases",
+        "By citing unrelated statistics"
+      ],
+      "answer": "By combining forensic audits with whistleblower testimony"
+    },
+    {
+      "id": "C2-RD-004",
+      "level": "C2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Because the treaty eschews punitive measures, it relies on voluntary compliance and peer accountability.' What does the treaty rely on?",
+      "options": [
+        "Voluntary compliance and peer accountability",
+        "Strict sanctions",
+        "Financial penalties",
+        "Military enforcement"
+      ],
+      "answer": "Voluntary compliance and peer accountability"
+    },
+    {
+      "id": "C2-RD-005",
+      "level": "C2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'The panel contends that algorithmic opacity perpetuates inequity in credit scoring.' What is the panel's contention?",
+      "options": [
+        "Algorithmic opacity perpetuates inequity",
+        "Manual reviews are obsolete",
+        "Credit demand is falling",
+        "Regulators overreach"
+      ],
+      "answer": "Algorithmic opacity perpetuates inequity"
+    },
+    {
+      "id": "C2-RD-006",
+      "level": "C2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Having synthesized multilingual testimonies, the report delineates a blueprint for transitional justice.' What does the report delineate?",
+      "options": [
+        "A blueprint for transitional justice",
+        "A plan for infrastructure",
+        "A guide to tax reform",
+        "A manual for software"
+      ],
+      "answer": "A blueprint for transitional justice"
+    },
+    {
+      "id": "C2-RD-007",
+      "level": "C2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'The thesis interrogates how philanthropic capital can catalyze civic innovation without entrenching elite control.' What does the thesis interrogate?",
+      "options": [
+        "How philanthropic capital can catalyze civic innovation",
+        "How cities fund roads",
+        "Why taxes remain high",
+        "Why elections are delayed"
+      ],
+      "answer": "How philanthropic capital can catalyze civic innovation"
+    },
+    {
+      "id": "C2-RD-008",
+      "level": "C2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Because the nonprofit publishes its methodology, external evaluators corroborate its impact assessments.' What enables evaluators to corroborate the assessments?",
+      "options": [
+        "Publishing the methodology",
+        "Lobbying politicians",
+        "Limiting field visits",
+        "Reducing sample sizes"
+      ],
+      "answer": "Publishing the methodology"
+    },
+    {
+      "id": "C2-UE-001",
       "level": "C2",
       "skill": "use_of_english",
       "type": "multiple_choice",
-      "prompt": "The policy was designed to ensure that resources were allocated ___.",
+      "prompt": "Choose the correct phrase: The policy hinges ___ whether regulators embrace interoperable standards.",
       "options": [
-        "equitably",
-        "equitable",
-        "equitability",
-        "equity"
+        "on",
+        "in",
+        "with",
+        "by"
       ],
-      "answer": "equitably",
-      "explanation": "El adverbio 'equitably' modifica 'allocated'."
+      "answer": "on"
+    },
+    {
+      "id": "C2-UE-002",
+      "level": "C2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Select the correct word: Rarely ___ policymakers confront such multifaceted dilemmas with unanimity.",
+      "options": [
+        "do",
+        "have",
+        "had",
+        "are"
+      ],
+      "answer": "do"
+    },
+    {
+      "id": "C2-UE-003",
+      "level": "C2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Pick the best option: The tribunal ordered that all evidence ___ disclosed to the defense immediately.",
+      "options": [
+        "be",
+        "is",
+        "was",
+        "being"
+      ],
+      "answer": "be"
+    },
+    {
+      "id": "C2-UE-004",
+      "level": "C2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Choose the correct completion: No sooner had the ruling been announced ___ investors reacted nervously.",
+      "options": [
+        "than",
+        "when",
+        "before",
+        "after"
+      ],
+      "answer": "than"
+    },
+    {
+      "id": "C2-UE-005",
+      "level": "C2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Select the correct collocation: The initiative seeks to hold corporations ___ meaningful transparency benchmarks.",
+      "options": [
+        "to",
+        "for",
+        "at",
+        "over"
+      ],
+      "answer": "to"
+    },
+    {
+      "id": "C2-UE-006",
+      "level": "C2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Pick the right option: The chair insisted that dissenting opinions ___ archived alongside the final report.",
+      "options": [
+        "be",
+        "are",
+        "were",
+        "being"
+      ],
+      "answer": "be"
+    },
+    {
+      "id": "C2-UE-007",
+      "level": "C2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Choose the correct sentence: Hardly ___ a precedent as consequential as this one.",
+      "options": [
+        "has there been",
+        "there has",
+        "had there been",
+        "there having been"
+      ],
+      "answer": "has there been"
+    },
+    {
+      "id": "C2-UE-008",
+      "level": "C2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Select the best phrase: The more stringently we audit, the ___ anomalies we overlook.",
+      "options": [
+        "fewer",
+        "less",
+        "few",
+        "little"
+      ],
+      "answer": "fewer"
     }
   ]
 }
