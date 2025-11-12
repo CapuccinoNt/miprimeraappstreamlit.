@@ -1,0 +1,1102 @@
+{
+  "A1": [
+    {
+      "id": "A1-001",
+      "level": "A1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "I ___ a teacher.",
+      "options": ["am", "is", "are", "be"],
+      "answer": "am",
+      "explanation": "Con 'I' siempre usamos 'am' en presente simple del verbo 'to be'."
+    },
+    {
+      "id": "A1-002",
+      "level": "A1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "She ___ from Spain.",
+      "options": ["am", "is", "are", "be"],
+      "answer": "is",
+      "explanation": "Con 'she/he/it' usamos 'is' en presente simple."
+    },
+    {
+      "id": "A1-003",
+      "level": "A1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "What color is the sky on a clear day?",
+      "options": ["red", "blue", "green", "yellow"],
+      "answer": "blue",
+      "explanation": "El cielo en un día despejado es azul (blue)."
+    },
+    {
+      "id": "A1-004",
+      "level": "A1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "There ___ two cats in the garden.",
+      "options": ["is", "are", "am", "be"],
+      "answer": "are",
+      "explanation": "Con sustantivos plurales (two cats) usamos 'are'."
+    },
+    {
+      "id": "A1-005",
+      "level": "A1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "The opposite of 'hot' is ___.",
+      "options": ["warm", "cold", "big", "fast"],
+      "answer": "cold",
+      "explanation": "'Cold' (frío) es el antónimo de 'hot' (caliente)."
+    },
+    {
+      "id": "A1-006",
+      "level": "A1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "This is my brother. ___ name is Tom.",
+      "options": ["He", "Him", "His", "Her"],
+      "answer": "His",
+      "explanation": "'His' es el posesivo para 'he' (él)."
+    },
+    {
+      "id": "A1-007",
+      "level": "A1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'My name is Ana. I live in a small town with my family.'\n\nWhere does Ana live?",
+      "options": ["In a big city", "In a small town", "At school", "In the park"],
+      "answer": "In a small town",
+      "explanation": "El texto dice claramente 'I live in a small town'."
+    },
+    {
+      "id": "A1-008",
+      "level": "A1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "___ apple a day keeps the doctor away.",
+      "options": ["A", "An", "The", "—"],
+      "answer": "An",
+      "explanation": "Usamos 'an' antes de palabras que empiezan con sonido vocálico."
+    },
+    {
+      "id": "A1-009",
+      "level": "A1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "I eat breakfast in the ___.",
+      "options": ["morning", "night", "afternoon", "evening"],
+      "answer": "morning",
+      "explanation": "El desayuno (breakfast) se come por la mañana (morning)."
+    },
+    {
+      "id": "A1-010",
+      "level": "A1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "They ___ students.",
+      "options": ["am", "is", "are", "be"],
+      "answer": "are",
+      "explanation": "Con 'they' usamos 'are'."
+    },
+    {
+      "id": "A1-011",
+      "level": "A1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "What do you use to write?",
+      "options": ["a pen", "a shoe", "a cup", "a bed"],
+      "answer": "a pen",
+      "explanation": "Usamos un lápiz o bolígrafo (pen) para escribir."
+    },
+    {
+      "id": "A1-012",
+      "level": "A1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "My sister ___ very tall.",
+      "options": ["am", "is", "are", "be"],
+      "answer": "is",
+      "explanation": "'My sister' es tercera persona singular, usa 'is'."
+    },
+    {
+      "id": "A1-013",
+      "level": "A1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'John has a dog. The dog is black and white.'\n\nWhat color is John's dog?",
+      "options": ["Red", "Black and white", "Brown", "Yellow"],
+      "answer": "Black and white",
+      "explanation": "El texto dice 'The dog is black and white'."
+    },
+    {
+      "id": "A1-014",
+      "level": "A1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "I ___ like coffee.",
+      "options": ["don't", "doesn't", "isn't", "aren't"],
+      "answer": "don't",
+      "explanation": "Con 'I' usamos 'don't' para negación en presente simple."
+    },
+    {
+      "id": "A1-015",
+      "level": "A1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "The ___ shines during the day.",
+      "options": ["moon", "sun", "star", "cloud"],
+      "answer": "sun",
+      "explanation": "El sol (sun) brilla durante el día."
+    },
+    {
+      "id": "A1-016",
+      "level": "A1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "We ___ at home.",
+      "options": ["am", "is", "are", "be"],
+      "answer": "are",
+      "explanation": "Con 'we' usamos 'are'."
+    },
+    {
+      "id": "A1-017",
+      "level": "A1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "A place where you sleep is a ___.",
+      "options": ["kitchen", "bathroom", "bedroom", "garden"],
+      "answer": "bedroom",
+      "explanation": "Dormimos en el dormitorio (bedroom)."
+    },
+    {
+      "id": "A1-018",
+      "level": "A1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "She ___ English every day.",
+      "options": ["study", "studies", "studying", "to study"],
+      "answer": "studies",
+      "explanation": "Tercera persona singular en presente simple: verbo + s."
+    },
+    {
+      "id": "A1-019",
+      "level": "A1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Maria likes pizza. She eats it every Friday.'\n\nWhen does Maria eat pizza?",
+      "options": ["Every Monday", "Every Friday", "Every day", "Never"],
+      "answer": "Every Friday",
+      "explanation": "El texto dice 'She eats it every Friday'."
+    },
+    {
+      "id": "A1-020",
+      "level": "A1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "How ___ you?",
+      "options": ["am", "is", "are", "be"],
+      "answer": "are",
+      "explanation": "La pregunta correcta es 'How are you?'"
+    },
+    {
+      "id": "A1-021",
+      "level": "A1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "The opposite of 'big' is ___.",
+      "options": ["small", "tall", "long", "heavy"],
+      "answer": "small",
+      "explanation": "'Small' (pequeño) es el antónimo de 'big' (grande)."
+    },
+    {
+      "id": "A1-022",
+      "level": "A1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "I ___ two brothers.",
+      "options": ["have", "has", "having", "to have"],
+      "answer": "have",
+      "explanation": "Con 'I/you/we/they' usamos 'have'."
+    },
+    {
+      "id": "A1-023",
+      "level": "A1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "What do you wear on your feet?",
+      "options": ["hat", "gloves", "shoes", "shirt"],
+      "answer": "shoes",
+      "explanation": "Los zapatos (shoes) se usan en los pies."
+    },
+    {
+      "id": "A1-024",
+      "level": "A1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "The book is ___ the table.",
+      "options": ["on", "in", "at", "of"],
+      "answer": "on",
+      "explanation": "'On' se usa para superficies (the book is on the table)."
+    },
+    {
+      "id": "A1-025",
+      "level": "A1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'I go to school by bus. My school starts at 8 o'clock.'\n\nHow does the person go to school?",
+      "options": ["By car", "By bus", "By bike", "On foot"],
+      "answer": "By bus",
+      "explanation": "El texto dice 'I go to school by bus'."
+    },
+    {
+      "id": "A1-026",
+      "level": "A1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "He ___ a car.",
+      "options": ["have", "has", "having", "to have"],
+      "answer": "has",
+      "explanation": "Tercera persona singular usa 'has'."
+    },
+    {
+      "id": "A1-027",
+      "level": "A1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "The first day of the week is ___.",
+      "options": ["Friday", "Sunday", "Monday", "Saturday"],
+      "answer": "Monday",
+      "explanation": "El lunes (Monday) es el primer día de la semana laboral."
+    },
+    {
+      "id": "A1-028",
+      "level": "A1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "I am ___ the park.",
+      "options": ["on", "in", "at", "of"],
+      "answer": "in",
+      "explanation": "Usamos 'in' para lugares cerrados o áreas: 'in the park'."
+    },
+    {
+      "id": "A1-029",
+      "level": "A1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "What do you drink in the morning?",
+      "options": ["bed", "chair", "coffee", "table"],
+      "answer": "coffee",
+      "explanation": "El café (coffee) es una bebida común por la mañana."
+    },
+    {
+      "id": "A1-030",
+      "level": "A1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "What ___ your name?",
+      "options": ["am", "is", "are", "be"],
+      "answer": "is",
+      "explanation": "La pregunta correcta es 'What is your name?'"
+    }
+  ],
+  "A2": [
+    {
+      "id": "A2-001",
+      "level": "A2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "I ___ to the cinema last night.",
+      "options": ["go", "went", "gone", "going"],
+      "answer": "went",
+      "explanation": "'Last night' indica pasado simple. 'Went' es el pasado de 'go'."
+    },
+    {
+      "id": "A2-002",
+      "level": "A2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "Have you got ___ milk?",
+      "options": ["some", "any", "much", "many"],
+      "answer": "any",
+      "explanation": "En preguntas con incontables usamos 'any'."
+    },
+    {
+      "id": "A2-003",
+      "level": "A2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "She usually ___ to work, but today she ___ by bus.",
+      "options": ["walks / goes", "is walking / goes", "walk / is going", "walks / is going"],
+      "answer": "walks / is going",
+      "explanation": "Hábito (presente simple) vs acción temporal hoy (presente continuo)."
+    },
+    {
+      "id": "A2-004",
+      "level": "A2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "'Boring' means ___",
+      "options": ["exciting", "not interesting", "dangerous", "funny"],
+      "answer": "not interesting",
+      "explanation": "'Boring' significa aburrido, no interesante."
+    },
+    {
+      "id": "A2-005",
+      "level": "A2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Last summer, Mark visited his grandparents in the countryside. He said it was the most relaxing holiday he has ever had.'\n\nHow did Mark feel about the holiday?",
+      "options": ["Boring", "Stressful", "Relaxing", "Expensive"],
+      "answer": "Relaxing",
+      "explanation": "El texto dice que fue 'the most relaxing holiday'."
+    },
+    {
+      "id": "A2-006",
+      "level": "A2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "There isn't ___ water in the bottle.",
+      "options": ["some", "any", "many", "few"],
+      "answer": "any",
+      "explanation": "En negaciones con incontables usamos 'any'."
+    },
+    {
+      "id": "A2-007",
+      "level": "A2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "A person who teaches is a ___.",
+      "options": ["doctor", "teacher", "driver", "cook"],
+      "answer": "teacher",
+      "explanation": "Un profesor (teacher) es quien enseña."
+    },
+    {
+      "id": "A2-008",
+      "level": "A2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "I ___ my homework when she called.",
+      "options": ["do", "did", "was doing", "am doing"],
+      "answer": "was doing",
+      "explanation": "Acción en progreso interrumpida en el pasado: pasado continuo."
+    },
+    {
+      "id": "A2-009",
+      "level": "A2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "The ___ is where you cook food.",
+      "options": ["bedroom", "kitchen", "bathroom", "living room"],
+      "answer": "kitchen",
+      "explanation": "La cocina (kitchen) es donde se preparan alimentos."
+    },
+    {
+      "id": "A2-010",
+      "level": "A2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "She ___ coffee every morning.",
+      "options": ["drink", "drinks", "drinking", "to drink"],
+      "answer": "drinks",
+      "explanation": "Hábito en presente simple: tercera persona singular + s."
+    },
+    {
+      "id": "A2-011",
+      "level": "A2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'The museum opens at 9 AM and closes at 5 PM. Tickets cost $10 for adults.'\n\nWhat time does the museum close?",
+      "options": ["9 AM", "5 PM", "10 PM", "7 AM"],
+      "answer": "5 PM",
+      "explanation": "El texto dice 'closes at 5 PM'."
+    },
+    {
+      "id": "A2-012",
+      "level": "A2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "We ___ to Paris two years ago.",
+      "options": ["go", "went", "have gone", "are going"],
+      "answer": "went",
+      "explanation": "Tiempo específico en el pasado ('two years ago') requiere pasado simple."
+    },
+    {
+      "id": "A2-013",
+      "level": "A2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "If you are not well, you should see a ___.",
+      "options": ["teacher", "doctor", "driver", "artist"],
+      "answer": "doctor",
+      "explanation": "Un doctor (médico) trata enfermedades."
+    },
+    {
+      "id": "A2-014",
+      "level": "A2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "How ___ books do you have?",
+      "options": ["much", "many", "any", "some"],
+      "answer": "many",
+      "explanation": "Con contables plurales (books) usamos 'many'."
+    },
+    {
+      "id": "A2-015",
+      "level": "A2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "The opposite of 'expensive' is ___.",
+      "options": ["cheap", "rich", "poor", "big"],
+      "answer": "cheap",
+      "explanation": "'Cheap' (barato) es el antónimo de 'expensive' (caro)."
+    },
+    {
+      "id": "A2-016",
+      "level": "A2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "They ___ watching TV now.",
+      "options": ["is", "are", "am", "be"],
+      "answer": "are",
+      "explanation": "Presente continuo con 'they': are + -ing."
+    },
+    {
+      "id": "A2-017",
+      "level": "A2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Sarah loves reading. She reads at least one book every week.'\n\nHow often does Sarah read a book?",
+      "options": ["Every day", "Every week", "Every month", "Every year"],
+      "answer": "Every week",
+      "explanation": "El texto dice 'at least one book every week'."
+    },
+    {
+      "id": "A2-018",
+      "level": "A2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "I'm ___ than my brother.",
+      "options": ["tall", "taller", "tallest", "more tall"],
+      "answer": "taller",
+      "explanation": "Comparativo de adjetivos cortos: tall → taller."
+    },
+    {
+      "id": "A2-019",
+      "level": "A2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "A ___ is an animal that says 'meow'.",
+      "options": ["dog", "cat", "bird", "fish"],
+      "answer": "cat",
+      "explanation": "Los gatos (cats) hacen 'meow'."
+    },
+    {
+      "id": "A2-020",
+      "level": "A2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "She didn't ___ to the party.",
+      "options": ["go", "went", "goes", "going"],
+      "answer": "go",
+      "explanation": "Después de 'didn't' usamos el infinitivo sin 'to'."
+    },
+    {
+      "id": "A2-021",
+      "level": "A2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "The place where you borrow books is a ___.",
+      "options": ["library", "hospital", "bank", "school"],
+      "answer": "library",
+      "explanation": "Una biblioteca (library) es donde se prestan libros."
+    },
+    {
+      "id": "A2-022",
+      "level": "A2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "I have ___ lived in London.",
+      "options": ["ever", "never", "already", "yet"],
+      "answer": "never",
+      "explanation": "'Never' significa 'nunca' y se usa con presente perfecto."
+    },
+    {
+      "id": "A2-023",
+      "level": "A2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Tom plays football every Saturday with his friends. He enjoys it very much.'\n\nWhat does Tom do every Saturday?",
+      "options": ["Studies", "Plays football", "Goes shopping", "Watches TV"],
+      "answer": "Plays football",
+      "explanation": "El texto dice 'Tom plays football every Saturday'."
+    },
+    {
+      "id": "A2-024",
+      "level": "A2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "This is the ___ beautiful place I've ever seen.",
+      "options": ["more", "most", "much", "many"],
+      "answer": "most",
+      "explanation": "Superlativo con adjetivos largos: the most + adjective."
+    },
+    {
+      "id": "A2-025",
+      "level": "A2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "When you are hungry, you want to ___.",
+      "options": ["sleep", "eat", "run", "sing"],
+      "answer": "eat",
+      "explanation": "Cuando tenemos hambre, queremos comer (eat)."
+    },
+    {
+      "id": "A2-026",
+      "level": "A2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "We must ___ now.",
+      "options": ["go", "going", "went", "to go"],
+      "answer": "go",
+      "explanation": "Después de verbos modales (must) usamos infinitivo sin 'to'."
+    },
+    {
+      "id": "A2-027",
+      "level": "A2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "The opposite of 'fast' is ___.",
+      "options": ["quick", "slow", "big", "small"],
+      "answer": "slow",
+      "explanation": "'Slow' (lento) es el antónimo de 'fast' (rápido)."
+    },
+    {
+      "id": "A2-028",
+      "level": "A2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "I'm looking forward ___ you.",
+      "options": ["see", "to see", "seeing", "to seeing"],
+      "answer": "to seeing",
+      "explanation": "'Look forward to' va seguido de gerundio (-ing)."
+    },
+    {
+      "id": "A2-029",
+      "level": "A2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'The weather today is sunny and warm. It's perfect for a picnic.'\n\nWhat is the weather like?",
+      "options": ["Rainy", "Sunny and warm", "Cold", "Snowy"],
+      "answer": "Sunny and warm",
+      "explanation": "El texto dice 'The weather today is sunny and warm'."
+    },
+    {
+      "id": "A2-030",
+      "level": "A2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "Could you ___ me the salt, please?",
+      "options": ["pass", "passing", "passed", "to pass"],
+      "answer": "pass",
+      "explanation": "Después de 'could you' usamos infinitivo sin 'to'."
+    }
+  ],
+  "B1": [
+    {
+      "id": "B1-001",
+      "level": "B1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "I ___ (never/see) such a beautiful beach.",
+      "options": ["have never seen", "never saw", "had never seen", "never seeing"],
+      "answer": "have never seen",
+      "explanation": "Experiencia de vida sin tiempo específico: presente perfecto."
+    },
+    {
+      "id": "B1-002",
+      "level": "B1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "When I was a child, I ___ to play outside.",
+      "options": ["used", "used to", "am used to", "use to"],
+      "answer": "used to",
+      "explanation": "'Used to' expresa hábitos pasados que ya no existen."
+    },
+    {
+      "id": "B1-003",
+      "level": "B1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "___ a decision.",
+      "options": ["do", "make", "take", "have"],
+      "answer": "make",
+      "explanation": "Colocación: 'make a decision' (tomar una decisión)."
+    },
+    {
+      "id": "B1-004",
+      "level": "B1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Many believe working from home improves productivity. However, studies show it can lead to longer working hours and difficulty separating work from personal life.'\n\nOne disadvantage of working from home is ___.",
+      "options": ["higher salary", "longer hours", "more meetings", "faster internet"],
+      "answer": "longer hours",
+      "explanation": "El texto menciona 'longer working hours' como desventaja."
+    },
+    {
+      "id": "B1-005",
+      "level": "B1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "If I ___ you, I would accept the job offer.",
+      "options": ["am", "was", "were", "will be"],
+      "answer": "were",
+      "explanation": "Segundo condicional: If + pasado simple (were con todas las personas)."
+    },
+    {
+      "id": "B1-006",
+      "level": "B1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "The company decided to ___ the project due to budget constraints.",
+      "options": ["cancel", "continue", "expand", "promote"],
+      "answer": "cancel",
+      "explanation": "'Cancel' (cancelar) es lo apropiado cuando hay restricciones presupuestarias."
+    },
+    {
+      "id": "B1-007",
+      "level": "B1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "She's been working here ___ 2015.",
+      "options": ["for", "since", "during", "while"],
+      "answer": "since",
+      "explanation": "'Since' se usa con puntos específicos en el tiempo."
+    },
+    {
+      "id": "B1-008",
+      "level": "B1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "The meeting was ___ until next week.",
+      "options": ["put off", "put on", "put up", "put down"],
+      "answer": "put off",
+      "explanation": "'Put off' significa posponer o aplazar."
+    },
+    {
+      "id": "B1-009",
+      "level": "B1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Regular exercise has numerous benefits including better cardiovascular health, improved mood, and increased energy levels. Experts recommend at least 30 minutes of moderate activity daily.'\n\nAccording to the text, experts recommend ___.",
+      "options": ["10 minutes daily", "30 minutes daily", "2 hours weekly", "No specific amount"],
+      "answer": "30 minutes daily",
+      "explanation": "El texto dice 'at least 30 minutes of moderate activity daily'."
+    },
+    {
+      "id": "B1-010",
+      "level": "B1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "By next year, I ___ in this city for ten years.",
+      "options": ["live", "will live", "will have lived", "am living"],
+      "answer": "will have lived",
+      "explanation": "Futuro perfecto para acciones que se completarán en un momento futuro."
+    },
+    {
+      "id": "B1-011",
+      "level": "B1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "She gave a very ___ speech that inspired everyone.",
+      "options": ["boring", "motivating", "confusing", "short"],
+      "answer": "motivating",
+      "explanation": "'Motivating' (motivador) tiene sentido con 'inspired everyone'."
+    },
+    {
+      "id": "B1-012",
+      "level": "B1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "The report needs ___ before tomorrow.",
+      "options": ["finish", "finishing", "to finish", "to be finished"],
+      "answer": "to be finished",
+      "explanation": "Voz pasiva con infinitivo: needs to be + participio."
+    },
+    {
+      "id": "B1-013",
+      "level": "B1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "___ attention to the instructions.",
+      "options": ["Give", "Pay", "Make", "Take"],
+      "answer": "Pay",
+      "explanation": "Colocación: 'pay attention to' (prestar atención a)."
+    },
+    {
+      "id": "B1-014",
+      "level": "B1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Online shopping has grown rapidly. While convenient, it raises concerns about data privacy and the environmental impact of increased packaging and delivery.'\n\nWhat concern is mentioned about online shopping?",
+      "options": ["Higher prices", "Data privacy", "Limited selection", "Slower delivery"],
+      "answer": "Data privacy",
+      "explanation": "El texto menciona 'concerns about data privacy'."
+    },
+    {
+      "id": "B1-015",
+      "level": "B1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "I wish I ___ speak French fluently.",
+      "options": ["can", "could", "will", "would"],
+      "answer": "could",
+      "explanation": "'I wish' + pasado simple para deseos sobre el presente."
+    },
+    {
+      "id": "B1-016",
+      "level": "B1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "The new policy will come into ___ next month.",
+      "options": ["effect", "affect", "effort", "offer"],
+      "answer": "effect",
+      "explanation": "'Come into effect' significa entrar en vigor."
+    },
+    {
+      "id": "B1-017",
+      "level": "B1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "The movie ___ by millions of people worldwide.",
+      "options": ["watched", "was watched", "has watched", "watches"],
+      "answer": "was watched",
+      "explanation": "Voz pasiva en pasado: was/were + participio."
+    },
+    {
+      "id": "B1-018",
+      "level": "B1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "Despite the difficulties, they managed to ___ their goal.",
+      "options": ["achieve", "avoid", "ignore", "forget"],
+      "answer": "achieve",
+      "explanation": "'Achieve' (lograr) es apropiado para alcanzar objetivos."
+    },
+    {
+      "id": "B1-019",
+      "level": "B1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'The conference will feature speakers from various industries discussing innovation and sustainability. Attendees can network during breaks and participate in workshops.'\n\nWhat can attendees do during breaks?",
+      "options": ["Give speeches", "Network", "Leave early", "Register"],
+      "answer": "Network",
+      "explanation": "El texto dice 'Attendees can network during breaks'."
+    },
+    {
+      "id": "B1-020",
+      "level": "B1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "Unless you ___ harder, you won't pass the exam.",
+      "options": ["study", "will study", "studied", "don't study"],
+      "answer": "study",
+      "explanation": "En oraciones con 'unless' (a menos que) usamos presente simple."
+    },
+    {
+      "id": "B1-021",
+      "level": "B1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "The teacher asked the students to ___ their homework on time.",
+      "options": ["hand in", "hand out", "hand over", "hand down"],
+      "answer": "hand in",
+      "explanation": "'Hand in' significa entregar (tareas, trabajos)."
+    },
+    {
+      "id": "B1-022",
+      "level": "B1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "She apologized ___ being late.",
+      "options": ["for", "about", "of", "to"],
+      "answer": "for",
+      "explanation": "'Apologize for' es la preposición correcta."
+    },
+    {
+      "id": "B1-023",
+      "level": "B1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "The government plans to ___ taxes next year.",
+      "options": ["raise", "rise", "arise", "raze"],
+      "answer": "raise",
+      "explanation": "'Raise' (transitivo) significa aumentar algo."
+    },
+    {
+      "id": "B1-024",
+      "level": "B1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Urban gardens are becoming popular in cities. They provide fresh produce, reduce urban heat, and create community spaces. However, they require regular maintenance and water.'\n\nWhat is a benefit of urban gardens?",
+      "options": ["They need no water", "They reduce urban heat", "They are easy to maintain", "They replace supermarkets"],
+      "answer": "They reduce urban heat",
+      "explanation": "El texto menciona que 'reduce urban heat' es un beneficio."
+    },
+    {
+      "id": "B1-025",
+      "level": "B1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "The children were excited ___ going to the zoo.",
+      "options": ["about", "for", "with", "to"],
+      "answer": "about",
+      "explanation": "'Excited about' es la preposición correcta."
+    },
+    {
+      "id": "B1-026",
+      "level": "B1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "It's important to ___ a balance between work and personal life.",
+      "options": ["keep", "make", "take", "maintain"],
+      "answer": "maintain",
+      "explanation": "'Maintain a balance' (mantener un equilibrio) es la colocación correcta."
+    },
+    {
+      "id": "B1-027",
+      "level": "B1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "He suggested ___ to the new restaurant.",
+      "options": ["go", "to go", "going", "went"],
+      "answer": "going",
+      "explanation": "'Suggest' va seguido de gerundio (-ing)."
+    },
+    {
+      "id": "B1-028",
+      "level": "B1",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "The project was completed ___ schedule.",
+      "options": ["ahead of", "behind", "on", "under"],
+      "answer": "ahead of",
+      "explanation": "'Ahead of schedule' significa antes de lo previsto."
+    },
+    {
+      "id": "B1-029",
+      "level": "B1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Climate change is affecting global weather patterns. Scientists warn that without action, we will see more extreme weather events including floods, droughts, and hurricanes.'\n\nWhat do scientists warn about?",
+      "options": ["Lower temperatures", "More extreme weather", "Less rainfall", "Stable conditions"],
+      "answer": "More extreme weather",
+      "explanation": "El texto dice 'we will see more extreme weather events'."
+    },
+    {
+      "id": "B1-030",
+      "level": "B1",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "The car ___ by my brother yesterday.",
+      "options": ["repairs", "repaired", "was repaired", "is repairing"],
+      "answer": "was repaired",
+      "explanation": "Voz pasiva en pasado: was/were + participio."
+    }
+  ],
+  "B2": [
+    {
+      "id": "B2-001",
+      "level": "B2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "If you ___ earlier, you wouldn't have missed the train.",
+      "options": ["leave", "left", "had left", "have left"],
+      "answer": "had left",
+      "explanation": "Tercer condicional (pasado irreal): If + past perfect, would have + participio."
+    },
+    {
+      "id": "B2-002",
+      "level": "B2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Word formation: Customer ___ (satisfy) is our priority.",
+      "options": ["satisfy", "satisfaction", "satisfactory", "satisfying"],
+      "answer": "satisfaction",
+      "explanation": "Se necesita el sustantivo 'satisfaction' (satisfacción)."
+    },
+    {
+      "id": "B2-003",
+      "level": "B2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "Hardly ___ we started when it began to rain.",
+      "options": ["had", "have", "did", "were"],
+      "answer": "had",
+      "explanation": "Inversión con 'hardly': Hardly + had + sujeto + participio."
+    },
+    {
+      "id": "B2-004",
+      "level": "B2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'A recent study on urban mobility suggests that cities should invest in integrated transport systems combining public transit, cycling infrastructure, and flexible work hours rather than focusing solely on expanding roads.'\n\nWhat is the main recommendation?",
+      "options": ["Invest only in roads", "Use integrated strategies", "Reduce cycling", "Ban flexible hours"],
+      "answer": "Use integrated strategies",
+      "explanation": "El texto recomienda 'integrated transport systems combining' varios elementos."
+    },
+    {
+      "id": "B2-005",
+      "level": "B2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "The company's financial situation has ___ significantly this year.",
+      "options": ["deteriorated", "improved", "maintained", "stabilized"],
+      "answer": "deteriorated",
+      "explanation": "Contexto negativo requiere 'deteriorated' (deteriorado)."
+    },
+    {
+      "id": "B2-006",
+      "level": "B2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "Not only ___ the project on time, but he also stayed within budget.",
+      "options": ["he completed", "did he complete", "he completes", "has he completed"],
+      "answer": "did he complete",
+      "explanation": "Inversión después de 'Not only': auxiliar + sujeto + verbo."
+    },
+    {
+      "id": "B2-007",
+      "level": "B2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "The government's new policy has been met with widespread ___ (criticize).",
+      "options": ["critic", "criticism", "critical", "criticize"],
+      "answer": "criticism",
+      "explanation": "Se necesita el sustantivo 'criticism' (crítica)."
+    },
+    {
+      "id": "B2-008",
+      "level": "B2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "The evidence was ___ and could not be disputed.",
+      "options": ["vague", "ambiguous", "compelling", "questionable"],
+      "answer": "compelling",
+      "explanation": "'Compelling' (convincente) significa que no puede disputarse."
+    },
+    {
+      "id": "B2-009",
+      "level": "B2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'While artificial intelligence offers tremendous potential for innovation, ethical concerns regarding privacy, bias in algorithms, and job displacement must be addressed proactively by policymakers and tech companies.'\n\nWhat must be addressed according to the text?",
+      "options": ["Innovation only", "Ethical concerns", "Higher salaries", "New technology"],
+      "answer": "Ethical concerns",
+      "explanation": "El texto menciona que 'ethical concerns... must be addressed'."
+    },
+    {
+      "id": "B2-010",
+      "level": "B2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "She would rather ___ at home than go to the party.",
+      "options": ["stay", "staying", "to stay", "stayed"],
+      "answer": "stay",
+      "explanation": "'Would rather' va seguido de infinitivo sin 'to'."
+    },
+    {
+      "id": "B2-011",
+      "level": "B2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "The politician's speech was designed to ___ public opinion.",
+      "options": ["sway", "ignore", "confuse", "dismiss"],
+      "answer": "sway",
+      "explanation": "'Sway' significa influir o persuadir (opinión pública)."
+    },
+    {
+      "id": "B2-012",
+      "level": "B2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Despite numerous ___ (object), the plan was approved.",
+      "options": ["object", "objection", "objections", "objective"],
+      "answer": "objections",
+      "explanation": "Se necesita el sustantivo plural 'objections' (objeciones)."
+    },
+    {
+      "id": "B2-013",
+      "level": "B2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "Should you need any assistance, ___ hesitate to contact us.",
+      "options": ["not", "don't", "won't", "wouldn't"],
+      "answer": "don't",
+      "explanation": "En estructuras formales con 'should': imperativo negativo simple."
+    },
+    {
+      "id": "B2-014",
+      "level": "B2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "The research findings were ___ with previous studies.",
+      "options": ["consistent", "conflicting", "irrelevant", "outdated"],
+      "answer": "consistent",
+      "explanation": "'Consistent with' significa coherente o acorde con."
+    },
+    {
+      "id": "B2-015",
+      "level": "B2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Renewable energy sources such as solar and wind are becoming increasingly cost-competitive with fossil fuels. However, challenges remain in storage technology and grid infrastructure to ensure reliable supply.'\n\nWhat challenge is mentioned?",
+      "options": ["High costs", "Storage technology", "Public opposition", "Limited sunlight"],
+      "answer": "Storage technology",
+      "explanation": "El texto menciona 'challenges remain in storage technology'."
+    },
+    {
+      "id": "B2-016",
+      "level": "B2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "It's high time we ___ this issue seriously.",
+      "options": ["take", "took", "have taken", "will take"],
+      "answer": "took",
+      "explanation": "'It's high time' va seguido de pasado simple con significado de presente."
+    },
+    {
+      "id": "B2-017",
+      "level": "B2",
+      "skill": "vocab",
+      "type": "multiple_choice",
+      "prompt": "The company aims to ___ its market share by 20% this year.",
+      "options": ["reduce", "expand", "maintain", "eliminate"],
+      "answer": "expand",
+      "explanation": "'Expand' (expandir) es apropiado para aumentar participación de mercado."
+    },
+    {
+      "id": "B2-018",
+      "level": "B2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "The proposal lacks ___ (clear) and needs revision.",
+      "options": ["clear", "clearly", "clarity", "clarify"],
+      "answer": "clarity",
+      "explanation": "Se necesita el sustantivo 'clarity' (claridad)."
+    },
+    {
+      "id": "B2-019",
+      "level": "B2",
+      "skill": "grammar",
+      "type": "multiple_choice",
+      "prompt": "By the time you arrive, I ___ the presentation.",
+      "options": ["finish", "will finish", "will have finished", "have finished"],
+      "answer": "will have finished",
+      "explanation": "Futuro perfecto para acción que se completará antes de otra futura."
+    },
+    {
+      "id": "B2-020",
+      "level": "B2",
+      "skill": "vocab
