@@ -13,11 +13,16 @@ robust psychometric scoring. This code is meant as a starting point for a
 full‑featured exam platform.
 """
 
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
 import streamlit as st
-from typing import Dict, List, Any, Optional
+
+from english_test_bank import load_item_bank
 
 
 LEVEL_SEQUENCE = ["A1", "A2", "B1", "B2", "C1", "C2"]
+ITEM_BANK_PATH = Path(__file__).with_name("english_test_items_v1.json")
 
 
 LEVEL_RULES = {
@@ -33,140 +38,32 @@ EARLY_STOP_ERRORS = 3
 MAX_QUESTIONS = 40
 
 
+@st.cache_data(show_spinner=False)
 def get_questions_by_level() -> Dict[str, List[Dict[str, Any]]]:
-    """Return a dictionary mapping CEFR levels to lists of questions.
+    """Load the item bank and map each level to question dictionaries."""
 
-    Each question is a dictionary with keys:
-      - text: the question prompt.
-      - options: a list of possible answers.
-      - answer: the index (0-based) of the correct option.
+    bank = load_item_bank(ITEM_BANK_PATH)
+    questions: Dict[str, List[Dict[str, Any]]] = {}
+    for level in LEVEL_SEQUENCE:
+        level_items = bank.get(level, [])
+        if len(level_items) < LEVEL_RULES[level]["block_size"]:
+            raise ValueError(
+                f"Item bank for level {level} must contain at least "
+                f"{LEVEL_RULES[level]['block_size']} items, found {len(level_items)}."
+            )
+        questions[level] = [
+            {
+                "id": item["id"],
+                "text": item["prompt"],
+                "options": item["options"],
+                "answer": item["options"].index(item["answer"]),
+                "skill": item["skill"],
+                "explanation": item.get("explanation"),
+            }
+            for item in level_items
+        ]
 
-    Questions are grouped by level to allow adaptive selection.
-    """
-    return {
-        "A1": [
-            {
-                "text": "Complete the sentence: She ___ to school every day.",
-                "options": ["go", "goes", "going", "went"],
-                "answer": 1,
-            },
-            {
-                "text": "They ___ playing in the park yesterday.",
-                "options": ["were", "was", "are", "is"],
-                "answer": 0,
-            },
-            {
-                "text": "I ___ a book now.",
-                "options": ["read", "am reading", "reads", "readed"],
-                "answer": 1,
-            },
-        ],
-        "A2": [
-            {
-                "text": "Which word correctly completes the sentence: They haven't seen ____ for a long time.",
-                "options": ["their", "theirs", "them", "they"],
-                "answer": 2,
-            },
-            {
-                "text": "My brother is taller ___ me.",
-                "options": ["then", "than", "that", "so"],
-                "answer": 1,
-            },
-            {
-                "text": "I enjoy ___ to music.",
-                "options": ["listen", "to listen", "listening", "listened"],
-                "answer": 2,
-            },
-        ],
-        "B1": [
-            {
-                "text": "Choose the correct option: If I ___ you, I would take that job.",
-                "options": ["am", "were", "was", "be"],
-                "answer": 1,
-            },
-            {
-                "text": "She said she ___ the news already.",
-                "options": ["has seen", "had seen", "saw", "see"],
-                "answer": 1,
-            },
-            {
-                "text": "You need to study hard to ___ the exam.",
-                "options": ["pass", "passing", "passed", "passes"],
-                "answer": 0,
-            },
-        ],
-        "B2": [
-            {
-                "text": "Identify the correctly punctuated sentence:",
-                "options": [
-                    "Although he was tired, but he finished the assignment.",
-                    "Although he was tired he finished the assignment.",
-                    "Although he was tired, he finished the assignment.",
-                    "Although he was tired; he finished the assignment.",
-                ],
-                "answer": 2,
-            },
-            {
-                "text": "Choose the correct expression: I regret ___ to university earlier.",
-                "options": ["not going", "not to go", "not go", "not went"],
-                "answer": 0,
-            },
-            {
-                "text": "The project will be finished by the time you ___ back.",
-                "options": ["come", "came", "have come", "will come"],
-                "answer": 0,
-            },
-        ],
-        "C1": [
-            {
-                "text": "Select the most appropriate word: Her speech was so ___ that everyone listened attentively.",
-                "options": ["boring", "engaging", "tedious", "monotonous"],
-                "answer": 1,
-            },
-            {
-                "text": "Choose the sentence with correct parallel structure:",
-                "options": [
-                    "He not only enjoys to read but also writing poetry.",
-                    "He not only enjoys reading but also to write poetry.",
-                    "He enjoys not only reading but also writing poetry.",
-                    "He enjoys reading not only but also writing poetry.",
-                ],
-                "answer": 2,
-            },
-            {
-                "text": "Choose the best word to complete the sentence: The findings were ___ to the theory.",
-                "options": ["incompatible", "impassive", "incoherent", "incompetent"],
-                "answer": 0,
-            },
-        ],
-        "C2": [
-            {
-                "text": "Which sentence demonstrates correct use of the subjunctive mood?",
-                "options": [
-                    "If I was you, I would travel more.",
-                    "It's essential that he be informed immediately.",
-                    "She suggested that he goes to the doctor.",
-                    "I wish I was invited to the party.",
-                ],
-                "answer": 1,
-            },
-            {
-                "text": "Select the correctly used idiom:",
-                "options": [
-                    "She decided to take the bull by its horns and confront her boss.",
-                    "He let the cat out from the bag by mistake.",
-                    "They hit the nail on the head with their solution.",
-                    "She burned the midnight light to finish the report.",
-                ],
-                "answer": 2,
-            },
-            {
-                "text": "Choose the option that best completes the sentence: Hardly had I arrived at the station ___ the train left.",
-                "options": ["when", "than", "after", "then"],
-                "answer": 0,
-            },
-        ],
-    }
+    return questions
 
 
 def determine_final_level(
@@ -221,7 +118,11 @@ def main() -> None:
         "required accuracy to move up. Three mistakes before hitting the threshold stop the block early."
     )
 
-    questions_by_level = get_questions_by_level()
+    try:
+        questions_by_level = get_questions_by_level()
+    except (FileNotFoundError, ValueError) as exc:
+        st.error(f"Unable to load the item bank: {exc}")
+        st.stop()
 
     if "level_index" not in st.session_state:
         reset_test_state()
