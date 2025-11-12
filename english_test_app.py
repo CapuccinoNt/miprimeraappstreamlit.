@@ -6,6 +6,9 @@ import random
 from pathlib import Path
 from typing import Any, Dict, List
 
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
 import streamlit as st
 
 from english_test_bank import load_item_bank
@@ -586,6 +589,93 @@ def render_practice_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) ->
             if practice_state["index"] >= len(practice_state["questions"]):
                 practice_state["completed"] = True
             st.experimental_rerun()
+            is_correct = question["options"].index(choice) == question["answer"]
+            block_state["answered"] += 1
+            st.session_state.question_count += 1
+            st.session_state.question_counters[current_level] = q_index + 1
+
+            if is_correct:
+                block_state["correct"] += 1
+            else:
+                block_state["errors"] += 1
+
+            threshold = level_rule["promotion_threshold"]
+            min_questions = level_rule["min_questions"]
+
+            block_finished = False
+            if block_state["answered"] >= block_size:
+                block_finished = True
+            elif (
+                block_state["errors"] >= EARLY_STOP_ERRORS
+                and block_state["correct"] < threshold
+            ):
+                block_finished = True
+
+            if block_finished:
+                passed = (
+                    block_state["correct"] >= threshold
+                    and block_state["answered"] >= min_questions
+                )
+                st.session_state.block_history.append(
+                    {
+                        "level": current_level,
+                        "correct": block_state["correct"],
+                        "total": block_state["answered"],
+                        "passed": passed,
+                    }
+                )
+
+                if passed:
+                    st.session_state.pending_confirmation_level = current_level_index
+                    if len(st.session_state.block_history) >= 2:
+                        previous = st.session_state.block_history[-2]
+                        if previous["level"] == current_level and previous["passed"]:
+                            st.session_state.confirmed_level_index = max(
+                                st.session_state.confirmed_level_index
+                                if st.session_state.confirmed_level_index is not None
+                                else -1,
+                                current_level_index,
+                            )
+                            st.session_state.pending_confirmation_level = None
+
+                    if current_level_index < len(LEVEL_SEQUENCE) - 1:
+                        st.session_state.level_index = current_level_index + 1
+                    else:
+                        st.session_state.level_index = current_level_index
+                else:
+                    if (
+                        st.session_state.pending_confirmation_level is not None
+                        and st.session_state.pending_confirmation_level
+                        == current_level_index - 1
+                    ):
+                        confirmed_index = st.session_state.pending_confirmation_level
+                        st.session_state.confirmed_level_index = max(
+                            st.session_state.confirmed_level_index
+                            if st.session_state.confirmed_level_index is not None
+                            else -1,
+                            confirmed_index,
+                        )
+                        st.session_state.pending_confirmation_level = None
+                    else:
+                        st.session_state.pending_confirmation_level = None
+
+                    if current_level_index > 0:
+                        st.session_state.level_index = current_level_index - 1
+                    else:
+                        st.session_state.level_index = 0
+
+                st.session_state.block_state = {"correct": 0, "answered": 0, "errors": 0}
+                st.session_state.current_block_level_index = st.session_state.level_index
+
+                if (
+                    st.session_state.confirmed_level_index is not None
+                    or st.session_state.question_count >= MAX_QUESTIONS
+                ):
+                    st.session_state.finished = True
+
+                st.experimental_rerun()
+            else:
+                st.experimental_rerun()
 
     feedback = practice_state.get("last_feedback")
     if feedback:
