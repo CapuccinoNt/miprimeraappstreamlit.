@@ -1,6 +1,4 @@
-# english_test_app.py
-# English Pro Test – Aplicación profesional de evaluación CEFR
-# Adaptativo A1→C2 con landing profesional y banco demostrativo (10 ítems por nivel)
+"""Streamlit entry point that delegates to :mod:`english_test_app`."""
 
 from __future__ import annotations
 
