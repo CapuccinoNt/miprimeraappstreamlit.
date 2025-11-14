@@ -5,8 +5,12 @@ import json
 from pathlib import Path
 from typing import Dict, List, Sequence
 
-ALLOWED_SKILLS = {"grammar", "vocab", "reading", "use_of_english"}
-REQUIRED_KEYS = {"id", "level", "skill", "type", "prompt", "options", "answer"}
+ALLOWED_SKILLS = {"grammar", "vocab", "reading", "use_of_english", "writing"}
+BASE_REQUIRED_KEYS = {"id", "level", "skill", "type", "prompt"}
+OPTION_BASED_TYPES = {"multiple_choice", "cloze_mc"}
+TEXT_RESPONSE_TYPES = {"cloze_open", "word_formation", "key_transform"}
+WRITING_TYPE = "open_text"
+SUPPORTED_TYPES = OPTION_BASED_TYPES | TEXT_RESPONSE_TYPES | {WRITING_TYPE}
 MIN_ITEMS_PER_LEVEL = 20
 
 
@@ -49,7 +53,7 @@ def load_item_bank(path: str | Path) -> Dict[str, List[Dict]]:
             if not isinstance(entry, dict):
                 raise ValueError(f"Item {level}[{index}] must be a JSON object.")
 
-            missing = REQUIRED_KEYS - entry.keys()
+            missing = BASE_REQUIRED_KEYS - entry.keys()
             if missing:
                 identifier = entry.get("id", f"{level}[{index}]")
                 raise ValueError(
@@ -70,21 +74,41 @@ def load_item_bank(path: str | Path) -> Dict[str, List[Dict]]:
             if skill not in ALLOWED_SKILLS:
                 raise ValueError(f"Item {item_id} has unsupported skill '{skill}'.")
 
-            if entry["type"] != "multiple_choice":
-                raise ValueError(f"Item {item_id} has unsupported type '{entry['type']}'.")
+            item_type = entry["type"]
+            if item_type not in SUPPORTED_TYPES:
+                raise ValueError(f"Item {item_id} has unsupported type '{item_type}'.")
+
+            if skill == "writing" and item_type != WRITING_TYPE:
+                raise ValueError(f"Writing item {item_id} must use type '{WRITING_TYPE}'.")
+            if item_type == WRITING_TYPE and skill != "writing":
+                raise ValueError(f"Open text item {item_id} must declare skill 'writing'.")
 
             prompt = entry["prompt"]
             if not isinstance(prompt, str):
                 raise ValueError(f"Item {item_id} prompt must be a string.")
 
-            options = entry["options"]
-            _validate_options(item_id, options)
+            options = entry.get("options")
+            answer = entry.get("answer")
 
-            answer = entry["answer"]
-            if not isinstance(answer, str):
-                raise ValueError(f"Item {item_id} answer must be a string.")
-            if answer not in options:
-                raise ValueError(f"Item {item_id} answer '{answer}' is not present in options.")
+            if item_type in OPTION_BASED_TYPES:
+                if "options" not in entry:
+                    raise ValueError(f"Item {item_id} must include an 'options' list.")
+                _validate_options(item_id, options)
+
+                if "answer" not in entry:
+                    raise ValueError(f"Item {item_id} must include an 'answer'.")
+                _validate_string_answer(item_id, answer)
+                if answer not in options:
+                    raise ValueError(
+                        f"Item {item_id} answer '{answer}' is not present in options."
+                    )
+            elif item_type in TEXT_RESPONSE_TYPES:
+                if "answer" not in entry:
+                    raise ValueError(f"Item {item_id} must include an 'answer'.")
+                _validate_string_answer(item_id, answer)
+            elif item_type == WRITING_TYPE:
+                _ensure_absent(item_id, entry, {"options", "answer"})
+                writing_fields = _validate_writing_fields(entry, item_id)
 
             explanation = entry.get("explanation")
             if explanation is not None and not isinstance(explanation, str):
@@ -94,13 +118,28 @@ def load_item_bank(path: str | Path) -> Dict[str, List[Dict]]:
                 "id": item_id,
                 "level": level,
                 "skill": skill,
-                "type": "multiple_choice",
+                "type": item_type,
                 "prompt": prompt,
-                "options": options,
-                "answer": answer,
             }
+
+            if options is not None:
+                cleaned["options"] = options
+            if answer is not None:
+                cleaned["answer"] = answer
             if explanation is not None:
                 cleaned["explanation"] = explanation
+
+            for optional_key in ("part", "group_id", "passage"):
+                optional_value = entry.get(optional_key)
+                if optional_value is not None:
+                    if not isinstance(optional_value, str):
+                        raise ValueError(
+                            f"Item {item_id} field '{optional_key}' must be a string if provided."
+                        )
+                    cleaned[optional_key] = optional_value
+
+            if item_type == WRITING_TYPE:
+                cleaned.update(writing_fields)
 
             validated_items.append(cleaned)
 
@@ -117,3 +156,47 @@ def _validate_options(item_id: str, options: Sequence) -> None:
     for option in options:
         if not isinstance(option, str):
             raise ValueError(f"All options for item {item_id} must be strings.")
+
+
+def _validate_string_answer(item_id: str, answer: object) -> None:
+    if not isinstance(answer, str):
+        raise ValueError(f"Item {item_id} answer must be a string.")
+    if not answer.strip():
+        raise ValueError(f"Item {item_id} answer cannot be empty.")
+
+
+def _ensure_absent(item_id: str, entry: Dict, disallowed_keys: set[str]) -> None:
+    for key in disallowed_keys:
+        if key in entry:
+            raise ValueError(f"Item {item_id} must not define '{key}'.")
+
+
+def _validate_writing_fields(entry: Dict, item_id: str) -> Dict:
+    task_type = entry.get("task_type")
+    if not isinstance(task_type, str) or not task_type.strip():
+        raise ValueError(f"Writing item {item_id} must provide a non-empty 'task_type'.")
+
+    min_words = entry.get("min_words")
+    max_words = entry.get("max_words")
+    if not isinstance(min_words, int) or min_words <= 0:
+        raise ValueError(f"Writing item {item_id} must define a positive integer 'min_words'.")
+    if not isinstance(max_words, int) or max_words < min_words:
+        raise ValueError(
+            f"Writing item {item_id} must define a 'max_words' integer >= min_words."
+        )
+
+    rubric = entry.get("rubric")
+    if not isinstance(rubric, list) or not rubric:
+        raise ValueError(f"Writing item {item_id} must include a non-empty rubric list.")
+    for idx, criterion in enumerate(rubric, start=1):
+        if not isinstance(criterion, str) or not criterion.strip():
+            raise ValueError(
+                f"Writing item {item_id} rubric entry #{idx} must be a non-empty string."
+            )
+
+    return {
+        "task_type": task_type,
+        "min_words": min_words,
+        "max_words": max_words,
+        "rubric": rubric,
+    }

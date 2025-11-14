@@ -87,18 +87,29 @@ def get_questions_by_level() -> Dict[str, List[Dict[str, Any]]]:
 
     for level in LEVEL_SEQUENCE:
         items = bank.get(level, [])
-        questions[level] = [
-            {
-                "id": item["id"],
-                "text": item["prompt"],
-                "options": item["options"],
-                "answer": item["options"].index(item["answer"]),
-                "skill": item["skill"],
-                "explanation": item.get("explanation"),
-                "level": level,
-            }
-            for item in items
-        ]
+        usable_items: List[Dict[str, Any]] = []
+        for item in items:
+            # The current UI only supports multiple-choice style items.  Skip
+            # richer task types (writing, cloze-open, etc.) when present in the
+            # bank to keep the adaptive flow stable.
+            options = item.get("options")
+            answer = item.get("answer")
+            if not options or answer is None:
+                continue
+
+            usable_items.append(
+                {
+                    "id": item["id"],
+                    "text": item["prompt"],
+                    "options": options,
+                    "answer": options.index(answer),
+                    "skill": item["skill"],
+                    "explanation": item.get("explanation"),
+                    "level": level,
+                }
+            )
+
+        questions[level] = usable_items
 
     return questions
 
