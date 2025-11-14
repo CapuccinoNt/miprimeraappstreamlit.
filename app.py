@@ -14,6 +14,15 @@ LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"]
 MIN_ITEMS_PER_LEVEL = 10
 MAX_TOTAL_ITEMS = 50
 EARLY_STOP_ERRORS = 3
+SKILL_TARGET = 8  # Ítems por habilidad para progreso visual
+
+SKILL_INFO = {
+    "grammar": {"label": "Grammar", "icon": "⚙️", "color": "#1B365D"},
+    "vocab": {"label": "Vocabulary", "icon": "📚", "color": "#00838F"},
+    "reading": {"label": "Reading", "icon": "📖👁️", "color": "#5A6C8D"},
+    "use_of_english": {"label": "Use of English", "icon": "🧩", "color": "#4C8C74"},
+    "writing": {"label": "Writing", "icon": "✍️", "color": "#7A5199"},
+}
 
 # -------------------------
 # Carga del banco de ítems
@@ -75,69 +84,110 @@ def render_landing_page() -> bool:
     """
     
     # Header principal
-    st.markdown("""
-        <div style='text-align: center; padding: 2rem 0;'>
-            <h1 style='color: #1f77b4; font-size: 3rem; margin-bottom: 0.5rem;'>
-                📘 English Pro Test
-            </h1>
-            <p style='font-size: 1.2rem; color: #666; margin-top: 0;'>
-                Evaluación adaptativa CEFR A1–C2 • Gratuita • Validada académicamente
-            </p>
+    st.markdown(
+        """
+        <div class='hero-card'>
+            <div class='hero-card__copy'>
+                <p class='eyebrow'>Cambridge style • CEFR</p>
+                <h1>English Pro Test</h1>
+                <p>
+                    Diagnóstico adaptativo A1–C2 con validación académica y resultados inmediatos.
+                    Descubre tu nivel real con una experiencia moderna y enfocada.
+                </p>
+                <div class='hero-tags'>
+                    <span>Sin registro</span>
+                    <span>15-30 min</span>
+                    <span>Feedback inmediato</span>
+                </div>
+            </div>
+            <div class='hero-card__image'>
+                <img src='https://images.unsplash.com/photo-1460518451285-97b6aa326961?auto=format&fit=crop&w=900&q=80' alt='Campus inglés' />
+            </div>
         </div>
-    """, unsafe_allow_html=True)
-    
-    st.divider()
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <div class='info-bar'>
+            <div>
+                <strong>CEFR completo</strong>
+                <span>A1 a C2</span>
+            </div>
+            <div>
+                <strong>Psicometría</strong>
+                <span>IRT + α Cronbach</span>
+            </div>
+            <div>
+                <strong>Resultados</strong>
+                <span>Inmediatos</span>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
     
     # Sección de Índices de Fiabilidad (PROMINENTE)
-    st.markdown("""
-        <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                    padding: 2rem; border-radius: 10px; color: white; margin-bottom: 2rem;'>
-            <h2 style='color: white; margin-top: 0;'>🔬 Índices de Fiabilidad y Validación</h2>
-            <p style='font-size: 1.1rem; line-height: 1.8;'>
-                Nuestro test se basa en <strong>estándares internacionales rigurosos</strong> 
-                para garantizar resultados precisos y confiables.
+    st.markdown(
+        """
+        <div class='validation-banner'>
+            <h2>🔬 Índices de Fiabilidad y Validación</h2>
+            <p>
+                Basado en estándares internacionales rigurosos para garantizar resultados precisos y confiables.
             </p>
         </div>
-    """, unsafe_allow_html=True)
+        """,
+        unsafe_allow_html=True,
+    )
     
     # Grid de métricas de calidad
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        st.markdown("""
-            <div style='background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #28a745;'>
-                <h3 style='color: #28a745; margin-top: 0;'>✓ Validez de Contenido</h3>
+        st.markdown(
+            """
+            <div class='metric-card'>
+                <h3>✓ Validez de Contenido</h3>
                 <p><strong>100% alineado con CEFR</strong></p>
-                <p style='font-size: 0.9rem; color: #666;'>
+                <p>
                     Cada ítem corresponde a descriptores específicos del Marco Común Europeo (A1-C2).
                     Diseñado por expertos en evaluación lingüística.
                 </p>
             </div>
-        """, unsafe_allow_html=True)
+            """,
+            unsafe_allow_html=True,
+        )
     
     with col2:
-        st.markdown("""
-            <div style='background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #007bff;'>
-                <h3 style='color: #007bff; margin-top: 0;'>📊 Consistencia Interna</h3>
+        st.markdown(
+            """
+            <div class='metric-card'>
+                <h3>📊 Consistencia Interna</h3>
                 <p><strong>α de Cronbach estimado: 0.85+</strong></p>
-                <p style='font-size: 0.9rem; color: #666;'>
-                    Alta fiabilidad por nivel y sección. Banco calibrado con análisis psicométrico 
+                <p>
+                    Alta fiabilidad por nivel y sección. Banco calibrado con análisis psicométrico
                     (Item Response Theory - IRT).
                 </p>
             </div>
-        """, unsafe_allow_html=True)
+            """,
+            unsafe_allow_html=True,
+        )
     
     with col3:
-        st.markdown("""
-            <div style='background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #ffc107;'>
-                <h3 style='color: #ffc107; margin-top: 0;'>🎯 Discriminación</h3>
+        st.markdown(
+            """
+            <div class='metric-card'>
+                <h3>🎯 Discriminación</h3>
                 <p><strong>Poder discriminante validado</strong></p>
-                <p style='font-size: 0.9rem; color: #666;'>
-                    Cada pregunta diferencia efectivamente entre niveles. 
+                <p>
+                    Cada pregunta diferencia efectivamente entre niveles.
                     Test-retest r > 0.80 en estudios piloto.
                 </p>
             </div>
-        """, unsafe_allow_html=True)
+            """,
+            unsafe_allow_html=True,
+        )
     
     st.divider()
     
@@ -247,15 +297,18 @@ def render_landing_page() -> bool:
     st.divider()
     
     # Call to action
-    st.markdown("""
-        <div style='background: #e3f2fd; padding: 2rem; border-radius: 10px; text-align: center; margin: 2rem 0;'>
-            <h3 style='color: #1976d2; margin-top: 0;'>¿Listo para descubrir tu nivel real de inglés?</h3>
-            <p style='font-size: 1.1rem; color: #555;'>
+    st.markdown(
+        """
+        <div class='cta-card'>
+            <h3>¿Listo para descubrir tu nivel real de inglés?</h3>
+            <p>
                 El test es 100% gratuito y te tomará aproximadamente 15-30 minutos.
                 Recibirás un resultado detallado con tu nivel CEFR estimado.
             </p>
         </div>
-    """, unsafe_allow_html=True)
+        """,
+        unsafe_allow_html=True,
+    )
     
     # Checkbox de consentimiento informado
     agree = st.checkbox(
@@ -300,6 +353,7 @@ def init_adaptive_state(bank: Dict[str, List[Dict[str, Any]]]):
         "last_successful_level": None,
         "used_questions": {lvl: [] for lvl in LEVELS},
         "last_announcement": 0,
+        "skill_stats": {k: {"answered": 0, "correct": 0} for k in SKILL_INFO},
     }
 
     start_new_block(LEVELS[0], bank)
@@ -356,42 +410,41 @@ def render_question(q: Dict[str, Any], block: Dict[str, Any]) -> Optional[bool]:
     None = esperando respuesta
     """
     # Información contextual (sin revelar nivel explícito durante el test)
-    col_info1, col_info2, col_info3 = st.columns(3)
-    with col_info1:
-        st.metric("Bloque", f"#{block['display_id']}")
-    with col_info2:
-        st.metric("Pregunta", f"{block['index'] + 1} de {block['block_size']}")
-    with col_info3:
-        skill_names = {
-            "grammar": "Gramática",
-            "vocab": "Vocabulario",
-            "reading": "Lectura",
-            "use_of_english": "Uso del Inglés"
-        }
-        st.metric("Habilidad", skill_names.get(q["skill"], q["skill"]))
-    
-    st.divider()
-    
-    # La pregunta
-    st.markdown(f"### {q['prompt']}")
-    
-    # Radio buttons para opciones
+    skill = q.get("skill", "")
+    skill_meta = SKILL_INFO.get(skill, {"label": skill.title(), "icon": "📘"})
+    display_level = q.get("level", block["level"])
+
+    st.markdown("<div class='question-card fade-in'>", unsafe_allow_html=True)
+    st.markdown(
+        f"""
+        <div class='question-card__header'>
+            <span class='pill'>Bloque #{block['display_id']}</span>
+            <span class='pill pill--ghost'>Pregunta {block['index'] + 1} / {block['block_size']}</span>
+        </div>
+        <div class='question-card__title'>
+            <small>{display_level} – {skill_meta['icon']} {skill_meta['label']}</small>
+            <h2>{q['prompt']}</h2>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
     choice = st.radio(
         "Selecciona tu respuesta:",
         q["options"],
         index=None,
-        key=f"adaptive_q_{block['display_id']}_{block['index']}"
+        key=f"adaptive_q_{block['display_id']}_{block['index']}",
+        label_visibility="collapsed",
     )
 
-    # Botón de envío
-    col_btn1, col_btn2, col_btn3 = st.columns([1, 1, 1])
-    with col_btn2:
-        submitted = st.button(
-            "✓ Responder",
-            type="primary",
-            use_container_width=True,
-            key=f"adaptive_submit_{block['display_id']}_{block['index']}"
-        )
+    submitted = st.button(
+        "Responder y continuar",
+        type="primary",
+        use_container_width=True,
+        key=f"adaptive_submit_{block['display_id']}_{block['index']}",
+    )
+
+    st.markdown("</div>", unsafe_allow_html=True)
 
     if submitted:
         if choice is None:
@@ -402,9 +455,17 @@ def render_question(q: Dict[str, Any], block: Dict[str, Any]) -> Optional[bool]:
 
         # Mostrar feedback inmediato
         if is_correct:
-            st.success("✅ ¡Correcto!")
+            positive_msgs = {
+                "C1": "Nice! That structure is typical of C1.",
+                "C2": "Brilliant control. This is a C2-grade collocation.",
+            }
+            st.success(positive_msgs.get(display_level, "Great job!"))
         else:
-            st.error(f"❌ Incorrecto. La respuesta correcta es: **{q['answer']}**")
+            warning_msgs = {
+                "C1": "Careful: this collocation is advanced C1 usage.",
+                "C2": "Careful: this collocation is advanced C2 usage.",
+            }
+            st.error(warning_msgs.get(display_level, "Revisa la estructura antes de continuar."))
 
         # Mostrar explicación
         with st.expander("📖 Ver explicación"):
@@ -415,6 +476,36 @@ def render_question(q: Dict[str, Any], block: Dict[str, Any]) -> Optional[bool]:
         return is_correct
 
     return None
+
+
+def render_skill_overview(state: Dict[str, Any]):
+    st.markdown("#### Progreso por habilidad")
+    stats = state.get("skill_stats") or {k: {"answered": 0, "correct": 0} for k in SKILL_INFO}
+    cols = st.columns(2)
+    for idx, (skill, meta) in enumerate(SKILL_INFO.items()):
+        col = cols[idx % 2]
+        with col:
+            answered = stats.get(skill, {}).get("answered", 0)
+            correct = stats.get(skill, {}).get("correct", 0)
+            coverage = min(1.0, answered / SKILL_TARGET) if SKILL_TARGET else 0
+            accuracy = (correct / answered * 100) if answered else 0
+            st.markdown(
+                f"""
+                <div class='skill-progress-card'>
+                    <strong>{meta['icon']} {meta['label']}</strong>
+                    <span>{answered} ítems respondidos • {accuracy:.0f}% precisión</span>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+            st.progress(
+                coverage,
+                text=(
+                    f"{min(answered, SKILL_TARGET)} / {SKILL_TARGET}"
+                    if SKILL_TARGET
+                    else f"{answered} ítems"
+                ),
+            )
 
 
 def finalize_block(success: bool, bank: Dict[str, List[Dict[str, Any]]], reason: str):
@@ -553,6 +644,8 @@ def render_adaptive_test(bank: Dict[str, List[Dict[str, Any]]]):
     total_ratio = min(1.0, state["total_questions"] / MAX_TOTAL_ITEMS)
     st.progress(total_ratio, text=f"Progreso global del test ({state['total_questions']} / {MAX_TOTAL_ITEMS} ítems)")
 
+    render_skill_overview(state)
+
     question = block["questions"][block["index"]]
     result = render_question(question, block)
 
@@ -560,6 +653,11 @@ def render_adaptive_test(bank: Dict[str, List[Dict[str, Any]]]):
         return
 
     state["history"].append((block["level"], result, question["id"], question["skill"]))
+    skill_stats = state.setdefault("skill_stats", {k: {"answered": 0, "correct": 0} for k in SKILL_INFO})
+    skill_entry = skill_stats.setdefault(question["skill"], {"answered": 0, "correct": 0})
+    skill_entry["answered"] += 1
+    if result:
+        skill_entry["correct"] += 1
     state["total_questions"] += 1
     block["answered"] += 1
     block["index"] += 1
@@ -608,15 +706,18 @@ def init_practice_state(level: str):
 def render_practice_mode(bank: Dict[str, List[Dict[str, Any]]]):
     """Modo de práctica: hasta 20 preguntas del nivel seleccionado"""
     
-    st.markdown("""
-        <div style='background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%); 
-                    padding: 1.5rem; border-radius: 8px; color: white; margin-bottom: 2rem;'>
-            <h2 style='margin: 0; color: white;'>🎯 Modo Práctica por Nivel</h2>
-            <p style='margin: 0.5rem 0 0 0; opacity: 0.9;'>
-                Elige un nivel específico y practica con hasta 20 preguntas aleatorias.
-            </p>
+    st.markdown(
+        """
+        <div class='practice-banner'>
+            <div>
+                <h2>🎯 Modo Práctica por Nivel</h2>
+                <p>Elige un nivel específico y practica con hasta 20 preguntas aleatorias.</p>
+            </div>
+            <img src='https://images.unsplash.com/photo-1487528278747-ba99ed528ebc?auto=format&fit=crop&w=800&q=80' alt='Study desk' />
         </div>
-    """, unsafe_allow_html=True)
+        """,
+        unsafe_allow_html=True,
+    )
     
     # Selector de nivel
     level = st.selectbox(
@@ -677,25 +778,34 @@ def render_practice_mode(bank: Dict[str, List[Dict[str, Any]]]):
     q = st.session_state.practice_current
     
     # Mostrar pregunta
-    st.markdown(f"**Habilidad:** {q['skill']} | **Nivel:** {q['level']}")
-    st.divider()
-    st.markdown(f"### {q['prompt']}")
-    
+    skill_meta = SKILL_INFO.get(q["skill"], {"label": q["skill"], "icon": "📘"})
+    st.markdown("<div class='question-card fade-in'>", unsafe_allow_html=True)
+    st.markdown(
+        f"""
+        <div class='question-card__title'>
+            <small>{q['level']} – {skill_meta['icon']} {skill_meta['label']}</small>
+            <h2>{q['prompt']}</h2>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
     choice = st.radio(
         "Selecciona tu respuesta:",
         q["options"],
         index=None,
-        key=f"practice_q_{st.session_state.practice_idx}"
+        key=f"practice_q_{st.session_state.practice_idx}",
+        label_visibility="collapsed",
     )
-    
-    col_pb1, col_pb2, col_pb3 = st.columns([1, 1, 1])
-    with col_pb2:
-        submitted = st.button(
-            "✓ Responder",
-            type="primary",
-            use_container_width=True,
-            key=f"practice_submit_{st.session_state.practice_idx}"
-        )
+
+    submitted = st.button(
+        "Responder y continuar",
+        type="primary",
+        use_container_width=True,
+        key=f"practice_submit_{st.session_state.practice_idx}",
+    )
+
+    st.markdown("</div>", unsafe_allow_html=True)
     
     if submitted:
         if choice is None:
@@ -731,18 +841,207 @@ def main():
         layout="wide",
         initial_sidebar_state="collapsed"
     )
-    
+
     # CSS personalizado
-    st.markdown("""
+    st.markdown(
+        """
         <style>
+        :root {
+            --bg-color: #F5F7FA;
+            --primary: #1B365D;
+            --accent: #00838F;
+            --card-bg: #FFFFFF;
+            --text-muted: #5A6C8D;
+        }
+        body, .stApp {
+            background-color: var(--bg-color);
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            color: #1B365D;
+        }
+        h1, h2, h3, h4 {
+            font-weight: 600;
+            color: var(--primary);
+        }
         .stButton>button {
             font-weight: 600;
+            border-radius: 999px;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(120deg, var(--primary), var(--accent));
+            border: none;
+            box-shadow: 0 10px 20px rgba(27, 54, 93, 0.2);
         }
-        h1, h2, h3 {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        .stButton>button:hover {
+            filter: brightness(1.05);
+        }
+        .hero-card {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(15, 52, 67, 0.1);
+            align-items: center;
+        }
+        .hero-card__copy h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+        .hero-card__copy p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+        .hero-card__image img {
+            width: 100%;
+            border-radius: 20px;
+            object-fit: cover;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.15);
+        }
+        .hero-tags span {
+            background: rgba(0, 131, 143, 0.1);
+            color: var(--accent);
+            padding: 0.3rem 0.9rem;
+            border-radius: 999px;
+            margin-right: 0.5rem;
+            font-weight: 600;
+        }
+        .eyebrow {
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .info-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .info-bar div {
+            background: #E5EEF5;
+            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            text-align: center;
+        }
+        .info-bar span {
+            color: var(--text-muted);
+            display: block;
+        }
+        .validation-banner {
+            background: linear-gradient(120deg, #1B365D, #00838F);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 18px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+        .metric-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+        .cta-card {
+            background: #E1F2F3;
+            border-radius: 18px;
+            padding: 2rem;
+            text-align: center;
+            color: var(--primary);
+            margin: 2rem 0;
+        }
+        .question-card {
+            background: var(--card-bg);
+            border-radius: 28px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 20px 40px rgba(15, 52, 67, 0.12);
+            animation: fadeInUp 0.6s ease;
+        }
+        .question-card__header {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.75rem;
+        }
+        .question-card__title small {
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 0.08em;
+        }
+        .question-card__title h2 {
+            margin-top: 0.5rem;
+        }
+        .pill {
+            background: rgba(27, 54, 93, 0.08);
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .pill--ghost {
+            background: rgba(0, 131, 143, 0.08);
+            color: #00838F;
+        }
+        div[data-testid="stRadio"] > div[role="radiogroup"] > label {
+            border: 1px solid #E0E6ED;
+            border-radius: 16px;
+            padding: 0.9rem 1.2rem;
+            margin-bottom: 0.7rem;
+            background: #F8FAFE;
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+        div[data-testid="stRadio"] > div[role="radiogroup"] > label:hover {
+            border-color: var(--accent);
+            background: rgba(0, 131, 143, 0.08);
+        }
+        div[data-testid="stRadio"] > div[role="radiogroup"] > label[aria-checked="true"] {
+            border-color: var(--primary);
+            background: rgba(27, 54, 93, 0.1);
+            color: var(--primary);
+        }
+        @keyframes fadeInUp {
+            from {opacity: 0; transform: translateY(12px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        .practice-banner {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            align-items: center;
+        }
+        .practice-banner img {
+            width: 100%;
+            border-radius: 18px;
+            object-fit: cover;
+        }
+        .skill-progress-card {
+            background: var(--card-bg);
+            border-radius: 18px;
+            padding: 1.2rem;
+            box-shadow: 0 15px 30px rgba(15, 52, 67, 0.08);
+            margin-bottom: 1rem;
+        }
+        .skill-progress-card span {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .cta-card p {
+            color: var(--text-muted);
         }
         </style>
-    """, unsafe_allow_html=True)
+        """,
+        unsafe_allow_html=True,
+    )
     
     # Cargar banco de ítems
     bank = load_item_bank()
