@@ -13,6 +13,11 @@ from typing import Any, Dict, List, Optional
 from urllib import error as urlerror
 from urllib import request as urlrequest
 
+try:  # Optional dependency for IA-based writing scoring.
+    import textstat  # type: ignore
+except Exception:  # pragma: no cover - degradable dependency
+    textstat = None
+
 import streamlit as st
 
 from english_test_bank import WRITING_TYPE, load_item_bank
@@ -331,6 +336,105 @@ def count_words(value: Optional[str]) -> int:
     return len(tokens)
 
 
+def clamp_score(value: float, *, lower: float = 0.0, upper: float = 5.0) -> float:
+    """Clamp ``value`` to the inclusive ``lower``/``upper`` range."""
+
+    return max(lower, min(upper, value))
+
+
+def estimate_cefr_from_score(score: float) -> str:
+    """Map the IA rubric score (0–5) to an approximate CEFR descriptor."""
+
+    if score >= 4.3:
+        return "C1/C2"
+    if score >= 3.6:
+        return "B2"
+    if score >= 2.8:
+        return "B1"
+    if score >= 2.0:
+        return "A2"
+    return "A1"
+
+
+def evaluate_writing_with_ai(
+    text: str, *, min_words: int, max_words: int
+) -> Optional[Dict[str, Any]]:
+    """Return an IA-generated rubric using ``textstat`` heuristics when available."""
+
+    if not textstat:
+        return None
+
+    cleaned = text.strip()
+    if not cleaned:
+        return None
+
+    readability = textstat.flesch_reading_ease(cleaned)
+    grade_level = max(0.0, textstat.coleman_liau_index(cleaned))
+    sentence_len = max(1.0, textstat.avg_sentence_length(cleaned))
+    total_words = count_words(cleaned)
+    tokens = [token.lower().strip(".,;:!?") for token in re.findall(r"[\w'-]+", cleaned)]
+    unique_ratio = len(set(tokens)) / max(1, len(tokens))
+
+    # Sub-scores in a 0–5 scale inspired by CEFR rubrics.
+    task_coverage = clamp_score(total_words / max(min_words or 1, 1) * 3.5)
+    if max_words and total_words > max_words:
+        overflow_ratio = (total_words - max_words) / max(max_words, 1)
+        task_coverage = clamp_score(task_coverage - overflow_ratio * 2.0)
+    lexical_score = clamp_score(unique_ratio * 7.0)
+    complexity_score = clamp_score((grade_level / 12.0) * 5.0)
+    cohesion_score = clamp_score(5.0 - min(abs(sentence_len - 18) / 6.0, 5.0))
+
+    overall = round((task_coverage + lexical_score + complexity_score + cohesion_score) / 4, 2)
+    level = estimate_cefr_from_score(overall)
+    passing = overall >= 3.0
+
+    scores = {
+        "task": round(task_coverage, 2),
+        "lexical": round(lexical_score, 2),
+        "complexity": round(complexity_score, 2),
+        "cohesion": round(cohesion_score, 2),
+    }
+
+    breakdown_entries = [
+        {
+            "label": "IA – Nivel estimado",
+            "expected": "Mapa CEFR",
+            "response": level,
+            "correct": True,
+        },
+        {
+            "label": "IA – Puntaje global (0-5)",
+            "expected": "≥3 recomendado",
+            "response": f"{overall}",
+            "correct": passing,
+        },
+    ]
+    for label, value in scores.items():
+        breakdown_entries.append(
+            {
+                "label": f"IA – {label.capitalize()}",
+                "expected": "0-5",
+                "response": value,
+                "correct": value >= 3.0,
+            }
+        )
+
+    return {
+        "level": level,
+        "overall": overall,
+        "scores": scores,
+        "metrics": {
+            "readability": round(readability, 2),
+            "grade_level": round(grade_level, 2),
+            "avg_sentence_length": round(sentence_len, 2),
+            "unique_ratio": round(unique_ratio, 2),
+        },
+        "breakdown_entries": breakdown_entries,
+        "word_count": total_words,
+        "passing": passing,
+    }
+
+
 def render_writing_inputs(
     question: Dict[str, Any], key_prefix: str, *, advanced: bool = False
 ) -> str:
@@ -458,6 +562,8 @@ def render_writing_submission_summary(mode_filter: Optional[str] = None) -> None
                 "Tarea": (entry.get("task_type") or "writing").title(),
                 "Palabras": entry.get("word_count"),
                 "Modo": entry.get("mode"),
+                "IA nivel": (entry.get("ai_evaluation") or {}).get("level") or "—",
+                "IA puntaje": (entry.get("ai_evaluation") or {}).get("overall") or "—",
                 "Enviado": readable_time,
             }
         )
@@ -478,6 +584,7 @@ def build_writing_review_payload(submission: Dict[str, Any]) -> Dict[str, Any]:
         "mode": submission.get("mode"),
         "response": submission.get("response"),
         "submitted_at": submission.get("submitted_at"),
+        "ai_evaluation": submission.get("ai_evaluation"),
     }
 
 
@@ -857,6 +964,15 @@ def score_question(question: Dict[str, Any], response: Any) -> Dict[str, Any]:
                 "correct": min_words <= word_count <= max_words,
             }
         )
+        ai_result = evaluate_writing_with_ai(text, min_words=min_words, max_words=max_words)
+        if ai_result:
+            breakdown.extend(ai_result.get("breakdown_entries", []))
+            return {
+                "is_correct": True,
+                "breakdown": breakdown,
+                "word_count": word_count,
+                "ai_evaluation": ai_result,
+            }
         breakdown.append(
             {
                 "label": "Estado",
@@ -918,7 +1034,10 @@ def build_feedback_payload(question: Dict[str, Any], score_result: Dict[str, Any
         "answer": format_correct_answer(question),
         "breakdown": score_result.get("breakdown", []),
     }
-    if score_result.get("pending_manual_review"):
+    if score_result.get("ai_evaluation"):
+        payload["ai_evaluation"] = score_result["ai_evaluation"]
+        payload["word_count"] = score_result.get("word_count")
+    elif score_result.get("pending_manual_review"):
         payload["pending_review"] = True
         payload["word_count"] = score_result.get("word_count")
     return payload
@@ -928,12 +1047,38 @@ def render_feedback_panel(feedback: Dict[str, Any], expander_label: str) -> None
     """Render the expandable explanation block shared by both modes."""
 
     with st.expander(expander_label):
-        if feedback.get("pending_review"):
+        ai_evaluation = feedback.get("ai_evaluation")
+        if ai_evaluation:
+            st.success(
+                "✳️ Evaluación automática activa: se estimó un nivel CEFR y puntajes 0–5 por criterio."
+            )
+            st.write(
+                f"Nivel estimado: **{ai_evaluation['level']}** · Puntaje global: **{ai_evaluation['overall']} / 5**"
+            )
+            st.progress(min(ai_evaluation["overall"] / 5, 1.0))
+            scores = ai_evaluation.get("scores", {})
+            if scores:
+                st.table(
+                    [
+                        {
+                            "Criterio": label.title(),
+                            "Puntaje": value,
+                            "Referente": "0–5",
+                        }
+                        for label, value in scores.items()
+                    ]
+                )
+            st.caption(
+                "Modelo heurístico local usando textstat: analiza vocabulario, cohesión y legibilidad para aproximar CEFR."
+            )
+        elif feedback.get("pending_review"):
             st.info(
                 "✉️ Redacción guardada para revisión manual/IA. Recibirás una calificación 0–5 por criterio cuando esté lista."
             )
             if feedback.get("word_count") is not None:
                 st.caption(f"Palabras enviadas: {feedback['word_count']}")
+        elif feedback.get("word_count") is not None:
+            st.caption(f"Palabras enviadas: {feedback['word_count']}")
         explanation = feedback.get("explanation")
         if explanation:
             st.write(explanation)
@@ -967,6 +1112,13 @@ def render_feedback_alert(feedback: Dict[str, Any]) -> None:
         return
 
     skill_name = feedback["skill"].replace("_", " ").title()
+    if feedback.get("ai_evaluation"):
+        ai_level = feedback["ai_evaluation"].get("level")
+        detail = (
+            f"Ítem {feedback['id']} ({skill_name}): ✳️ IA estimó nivel {ai_level} y puntajes por criterio."
+        )
+        st.info(detail)
+        return
     if feedback.get("pending_review"):
         detail = (
             f"Ítem {feedback['id']} ({skill_name}): ✉️ Redacción enviada para revisión."
@@ -1401,9 +1553,12 @@ def process_adaptive_answer(question: Dict[str, Any], response: Any) -> None:
     """Update the adaptive state after an answer submission."""
 
     block = st.session_state.block
+    writing_submission = None
     if question.get("type") == WRITING_TYPE:
-        record_writing_submission(question, response, mode="adaptive")
+        writing_submission = record_writing_submission(question, response, mode="adaptive")
     score = score_question(question, response)
+    if writing_submission and score.get("ai_evaluation"):
+        writing_submission["ai_evaluation"] = score["ai_evaluation"]
     is_correct = score["is_correct"]
 
     block["presented"] += 1
@@ -1714,6 +1869,7 @@ def reset_practice_state(level: str, questions_by_level: Dict[str, List[Dict[str
 
     selection = random.sample(available, count) if len(available) >= count else list(available)
     prepared_selection = [prepare_question_instance(question) for question in selection]
+    random.shuffle(prepared_selection)
     st.session_state.practice_state = {
         "level": level,
         "questions": prepared_selection,
@@ -1799,9 +1955,12 @@ def render_practice_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) ->
         if warning_text:
             st.warning(warning_text)
         else:
+            submission = None
             if question.get("type") == WRITING_TYPE:
-                record_writing_submission(question, response, mode="practice")
+                submission = record_writing_submission(question, response, mode="practice")
             score = score_question(question, response)
+            if submission and score.get("ai_evaluation"):
+                submission["ai_evaluation"] = score["ai_evaluation"]
             practice_state["answered"] += 1
             if score["is_correct"]:
                 practice_state["correct"] += 1
