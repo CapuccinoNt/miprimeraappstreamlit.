@@ -138,6 +138,14 @@ def load_item_bank(path: str | Path) -> Dict[str, List[Dict]]:
                         )
                     cleaned[optional_key] = optional_value
 
+            estimated_time = entry.get("estimatedTime")
+            if estimated_time is not None:
+                if not isinstance(estimated_time, (int, float)) or estimated_time <= 0:
+                    raise ValueError(
+                        f"Item {item_id} field 'estimatedTime' must be a positive number when provided."
+                    )
+                cleaned["estimated_time"] = int(estimated_time)
+
             if item_type == WRITING_TYPE:
                 cleaned.update(writing_fields)
 

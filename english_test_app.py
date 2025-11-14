@@ -3,11 +3,10 @@
 from __future__ import annotations
 
 import random
+import time
+from contextlib import contextmanager, nullcontext
 from pathlib import Path
 from typing import Any, Dict, List
-
-from pathlib import Path
-from typing import Any, Dict, List, Optional
 
 import streamlit as st
 
@@ -16,6 +15,7 @@ from english_test_bank import load_item_bank
 LEVEL_SEQUENCE = ["A1", "A2", "B1", "B2", "C1", "C2"]
 SKILL_SEQUENCE = ["grammar", "vocab", "reading", "use_of_english"]
 ITEM_BANK_PATH = Path(__file__).with_name("english_test_items_v1.json")
+ADVANCED_LEVELS = {"C1", "C2"}
 
 CEFR_DESCRIPTIONS = {
     "A1": "Puede comprender y usar expresiones cotidianas muy básicas para satisfacer necesidades concretas.",
@@ -41,6 +41,41 @@ PRACTICE_QUESTIONS = 20
 CHOICE_PLACEHOLDER_BASE = "Selecciona una opción"
 PLACEHOLDER_VALUE_BASE = "__option_placeholder__"
 
+ADVANCED_LAYOUT_STYLE = """
+<style>
+.advanced-exam-shell {
+    background: #fdfdfc;
+    border: 1px solid #d7dce4;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 25px rgba(15, 35, 95, 0.08);
+}
+
+.advanced-exam-shell h3,
+.advanced-exam-shell h4 {
+    margin-top: 0;
+}
+
+.advanced-status-strip {
+    font-size: 0.9rem;
+    color: #4a4e69;
+    background: #eef1f8;
+    border-radius: 999px;
+    padding: 0.35rem 0.9rem;
+    display: inline-flex;
+    gap: 0.35rem;
+    align-items: center;
+}
+
+.advanced-passage {
+    background: #fff;
+    border-left: 4px solid #2e4a8f;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+</style>
+"""
+
 
 def new_block(level: str) -> Dict[str, Any]:
     """Create a fresh block state for the requested level."""
@@ -51,6 +86,7 @@ def new_block(level: str) -> Dict[str, Any]:
         "correct": 0,
         "wrong": 0,
         "used_ids": set(),
+        "used_group_ids": set(),
     }
 
 
@@ -78,6 +114,141 @@ def render_choice_radio(label: str, options: List[str], key: str) -> str | None:
     return None if selection == placeholder_value else selection
 
 
+def is_advanced_level(level: str) -> bool:
+    """Return True when the CEFR *level* should use the advanced exam layout."""
+
+    return level in ADVANCED_LEVELS
+
+
+@contextmanager
+def advanced_exam_layout():
+    """Provide a lightweight Cambridge-style wrapper for advanced sections."""
+
+    st.markdown(ADVANCED_LAYOUT_STYLE, unsafe_allow_html=True)
+    container = st.container()
+    with container:
+        st.markdown('<div class="advanced-exam-shell">', unsafe_allow_html=True)
+        yield
+        st.markdown("</div>", unsafe_allow_html=True)
+
+
+def build_groups_for_level(items: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Return the list of grouped passages available for the provided *items*."""
+
+    grouped: Dict[str, Dict[str, Any]] = {}
+    for question in items:
+        group_id = question.get("group_id")
+        if not group_id:
+            continue
+
+        group = grouped.setdefault(
+            group_id,
+            {
+                "group_id": group_id,
+                "passage": question.get("passage"),
+                "part": question.get("part"),
+                "estimated_time": question.get("estimated_time"),
+                "questions": [],
+            },
+        )
+
+        if not group.get("passage") and question.get("passage"):
+            group["passage"] = question["passage"]
+        if not group.get("part") and question.get("part"):
+            group["part"] = question["part"]
+        if not group.get("estimated_time") and question.get("estimated_time"):
+            group["estimated_time"] = question["estimated_time"]
+
+        group["questions"].append(question)
+
+    return [group for group in grouped.values() if group["questions"]]
+
+
+def clear_current_group_state() -> None:
+    """Remove the active advanced group (and related widgets) from the session."""
+
+    group_state = st.session_state.get("current_group_state")
+    if not group_state:
+        return
+
+    for question in group_state.get("questions", []):
+        key = f"group_{group_state['group_id']}_{question['id']}"
+        if key in st.session_state:
+            del st.session_state[key]
+
+    st.session_state.current_group_state = None
+    st.session_state.group_timer_started_at = None
+    st.session_state.group_timer_group_id = None
+    st.session_state.group_timer_duration = None
+
+
+def start_group_for_block(
+    level: str, questions_by_level: Dict[str, List[Dict[str, Any]]], block: Dict[str, Any]
+) -> Dict[str, Any] | None:
+    """Pick and initialise the next advanced group for the *level*, when any."""
+
+    groups = build_groups_for_level(questions_by_level[level])
+    if not groups:
+        return None
+
+    available = [g for g in groups if g["group_id"] not in block["used_group_ids"]]
+    chosen = random.choice(available or groups)
+    block["used_group_ids"].add(chosen["group_id"])
+    for question in chosen["questions"]:
+        block["used_ids"].add(question["id"])
+
+    group_state = {
+        "level": level,
+        "group_id": chosen["group_id"],
+        "passage": chosen.get("passage"),
+        "part": chosen.get("part"),
+        "questions": chosen["questions"],
+        "current_index": 0,
+        "responses": {},
+        "estimated_time": chosen.get("estimated_time"),
+    }
+
+    timer_duration = chosen.get("estimated_time")
+    if timer_duration:
+        st.session_state.group_timer_started_at = time.time()
+        st.session_state.group_timer_group_id = chosen["group_id"]
+        st.session_state.group_timer_duration = int(timer_duration) * 60
+    else:
+        st.session_state.group_timer_started_at = None
+        st.session_state.group_timer_group_id = None
+        st.session_state.group_timer_duration = None
+
+    st.session_state.current_question = None
+    st.session_state.current_question_key = None
+    st.session_state.current_group_state = group_state
+    return group_state
+
+
+def format_remaining_time(seconds: int) -> str:
+    minutes, secs = divmod(seconds, 60)
+    if minutes and secs:
+        return f"{minutes} min {secs:02d} s"
+    if minutes:
+        return f"{minutes} min"
+    return f"{secs:02d} s"
+
+
+def render_group_timer(group_state: Dict[str, Any]) -> None:
+    """Display the countdown indicator for an advanced group if configured."""
+
+    duration = st.session_state.get("group_timer_duration")
+    if not duration or not group_state:
+        return
+
+    if st.session_state.get("group_timer_group_id") != group_state["group_id"]:
+        st.session_state.group_timer_started_at = time.time()
+        st.session_state.group_timer_group_id = group_state["group_id"]
+
+    started_at = st.session_state.get("group_timer_started_at") or time.time()
+    elapsed = time.time() - started_at
+    remaining = max(int(duration - elapsed), 0)
+    st.progress(remaining / duration)
+    st.caption(f"Tiempo sugerido restante: {format_remaining_time(remaining)}")
 @st.cache_data(show_spinner=False)
 def get_questions_by_level() -> Dict[str, List[Dict[str, Any]]]:
     """Load and normalize the item bank grouped by CEFR level."""
@@ -106,6 +277,10 @@ def get_questions_by_level() -> Dict[str, List[Dict[str, Any]]]:
                     "skill": item["skill"],
                     "explanation": item.get("explanation"),
                     "level": level,
+                    "group_id": item.get("group_id"),
+                    "part": item.get("part"),
+                    "passage": item.get("passage"),
+                    "estimated_time": item.get("estimated_time"),
                 }
             )
 
@@ -123,6 +298,8 @@ def ensure_adaptive_state() -> None:
         st.session_state.level_idx = 0
     if "block" not in st.session_state:
         st.session_state.block = new_block(LEVEL_SEQUENCE[0])
+    if "used_group_ids" not in st.session_state.block:
+        st.session_state.block["used_group_ids"] = set()
     if "passed_blocks" not in st.session_state:
         st.session_state.passed_blocks = {lvl: 0 for lvl in LEVEL_SEQUENCE}
     if "history" not in st.session_state:
@@ -147,11 +324,20 @@ def ensure_adaptive_state() -> None:
         st.session_state.onboarding_complete = False
     if "consent_checked" not in st.session_state:
         st.session_state.consent_checked = False
+    if "current_group_state" not in st.session_state:
+        st.session_state.current_group_state = None
+    if "group_timer_started_at" not in st.session_state:
+        st.session_state.group_timer_started_at = None
+    if "group_timer_group_id" not in st.session_state:
+        st.session_state.group_timer_group_id = None
+    if "group_timer_duration" not in st.session_state:
+        st.session_state.group_timer_duration = None
 
 
 def reset_adaptive_state() -> None:
     """Start the adaptive engine from the beginning."""
 
+    clear_current_group_state()
     st.session_state.level_idx = 0
     st.session_state.block = new_block(LEVEL_SEQUENCE[0])
     st.session_state.passed_blocks = {lvl: 0 for lvl in LEVEL_SEQUENCE}
@@ -164,6 +350,9 @@ def reset_adaptive_state() -> None:
     st.session_state.current_question_key = None
     st.session_state.last_adaptive_feedback = None
     st.session_state.pending_level_message = None
+    st.session_state.group_timer_started_at = None
+    st.session_state.group_timer_group_id = None
+    st.session_state.group_timer_duration = None
 
 
 def pick_question_for_block(
@@ -195,6 +384,7 @@ def pick_question_for_block(
 def finish_adaptive(level: str, confirmed: bool) -> None:
     """Mark the adaptive flow as finished with the supplied outcome."""
 
+    clear_current_group_state()
     st.session_state.finished = True
     st.session_state.final_level = level
     st.session_state.confirmed = confirmed
@@ -322,6 +512,109 @@ def process_adaptive_answer(question: Dict[str, Any], selected_option: str) -> N
         finish_adaptive(best_level_guess(), False)
 
 
+def render_advanced_group_flow(
+    level: str, questions_by_level: Dict[str, List[Dict[str, Any]]], block: Dict[str, Any]
+) -> bool:
+    """Render the Cambridge-style grouped passage flow when available."""
+
+    group_state = st.session_state.get("current_group_state")
+    if group_state and group_state.get("level") != level:
+        clear_current_group_state()
+        group_state = None
+
+    if group_state is None:
+        group_state = start_group_for_block(level, questions_by_level, block)
+
+    if not group_state:
+        return False
+
+    part_label = group_state.get("part") or "Reading comprehension"
+    st.markdown(f"#### {part_label}")
+    render_group_timer(group_state)
+
+    if group_state.get("passage"):
+        st.markdown(
+            f"<div class='advanced-passage'>{group_state['passage']}</div>",
+            unsafe_allow_html=True,
+        )
+
+    questions = group_state["questions"]
+    responses = group_state["responses"]
+    total_questions = len(questions)
+    summary_tokens = [
+        ("✓" if q["id"] in responses else "—", f"Q{idx + 1}")
+        for idx, q in enumerate(questions)
+    ]
+    summary = " · ".join(f"{status} {label}" for status, label in summary_tokens)
+    st.markdown(
+        f"<div class='advanced-status-strip'>Parte cronometrada · {summary}</div>",
+        unsafe_allow_html=True,
+    )
+
+    current_index = group_state["current_index"]
+    question = questions[current_index]
+    st.markdown(f"**Pregunta {current_index + 1} / {total_questions}**")
+    st.write(question["text"])
+    st.caption(
+        "Responde con precisión. Puedes revisar tus elecciones antes de cerrar la parte."
+    )
+
+    widget_key = f"group_{group_state['group_id']}_{question['id']}"
+    stored_value = responses.get(question["id"])
+    if stored_value is not None:
+        st.session_state[widget_key] = stored_value
+    choice = render_choice_radio(
+        "Selecciona la alternativa correcta", question["options"], widget_key
+    )
+
+    if choice is None:
+        responses.pop(question["id"], None)
+    else:
+        responses[question["id"]] = choice
+
+    prev_col, next_col, submit_col = st.columns([1, 1, 1.2])
+    with prev_col:
+        if st.button(
+            "Previous question",
+            disabled=current_index == 0,
+            use_container_width=True,
+        ):
+            group_state["current_index"] = max(0, current_index - 1)
+            st.session_state.current_group_state = group_state
+            st.experimental_rerun()
+
+    with next_col:
+        if st.button(
+            "Next question",
+            disabled=current_index >= total_questions - 1,
+            use_container_width=True,
+        ):
+            group_state["current_index"] = min(total_questions - 1, current_index + 1)
+            st.session_state.current_group_state = group_state
+            st.experimental_rerun()
+
+    with submit_col:
+        if st.button("Submit part", use_container_width=True):
+            unanswered = [
+                idx + 1
+                for idx, q in enumerate(questions)
+                if responses.get(q["id"]) is None
+            ]
+            if unanswered:
+                st.warning(
+                    "Responde todas las preguntas antes de enviar esta sección (pendientes: "
+                    + ", ".join(map(str, unanswered))
+                    + ")."
+                )
+            else:
+                for question in questions:
+                    process_adaptive_answer(question, responses[question["id"]])
+                clear_current_group_state()
+                st.experimental_rerun()
+
+    return True
+
+
 def render_adaptive_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) -> None:
     """Render the adaptive test flow with consent-driven messaging."""
 
@@ -389,79 +682,127 @@ def render_adaptive_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) ->
     level = block["level"]
     rule = LEVEL_RULES[level]
     questions = questions_by_level[level]
+    advanced = is_advanced_level(level)
 
-    st.markdown(
-        f"### Nivel actual: **{level}** · Pregunta {block['presented'] + 1} de {rule['block_size']}"
-    )
-    st.caption(
-        "Apunta al umbral de promoción del bloque. Tres errores antes de lograrlo frenan la subida."
-    )
+    layout_ctx = advanced_exam_layout() if advanced else nullcontext()
+    with layout_ctx:
+        if not questions:
+            st.error(
+                "No hay preguntas disponibles para este nivel. Revisa la configuración del banco de ítems."
+            )
+            return
 
-    total_answered = len(st.session_state.history)
-    st.write(
-        f"Bloque: {block['correct']} aciertos, {block['wrong']} errores, "
-        f"{block['presented']} respondidas de {rule['block_size']}."
-    )
-    st.progress(min(block["presented"], rule["block_size"]) / rule["block_size"])
-    st.write(
-        f"Preguntas totales contestadas: {total_answered} de {MAX_QUESTIONS} permitidas."
-    )
-
-    if not questions:
-        st.error(
-            "No hay preguntas disponibles para este nivel. Revisa la configuración del banco de ítems."
+        heading = (
+            f"### Section {level} · Ítem {block['presented'] + 1} de {rule['block_size']}"
+            if advanced
+            else f"### Nivel actual: **{level}** · Pregunta {block['presented'] + 1} de {rule['block_size']}"
         )
-        return
-
-    if st.session_state.current_question is None:
-        st.session_state.current_question = pick_question_for_block(level, questions_by_level, block)
-        key = f"adaptive_choice_{len(st.session_state.history)}_{st.session_state.current_question['id']}"
-        st.session_state.current_question_key = key
-        if key in st.session_state:
-            del st.session_state[key]
-
-    question = st.session_state.current_question
-    key = st.session_state.current_question_key
-
-    st.write(question["text"])
-    st.caption(f"Habilidad enfocada: {question['skill'].replace('_', ' ').title()}")
-
-    if st.session_state.last_adaptive_feedback:
-        feedback = st.session_state.last_adaptive_feedback
-        message = (
-            "✅ Respuesta correcta." if feedback["correct"] else "❌ Respuesta incorrecta."
+        st.markdown(heading)
+        caption = (
+            "Formato oficial: mantén el ritmo y evita tres respuestas erróneas antes del umbral."
+            if advanced
+            else "Apunta al umbral de promoción del bloque. Tres errores antes de lograrlo frenan la subida."
         )
-        skill_name = feedback["skill"].replace("_", " ").title()
-        detail = f"Ítem {feedback['id']} ({skill_name}): {message}"
-        if feedback["correct"]:
-            st.success(detail)
-        else:
-            st.error(detail)
-        with st.expander("Ver explicación"):
-            if feedback["explanation"]:
-                st.write(feedback["explanation"])
-            else:
-                st.write("No hay explicación adicional para este ítem.")
-            st.write(f"Respuesta correcta: **{feedback['answer']}**")
+        st.caption(caption)
 
-    choice = render_choice_radio(
-        "Elige la respuesta correcta:", question["options"], key
-    )
+        total_answered = len(st.session_state.history)
+        block_status = (
+            "Estado del bloque — aciertos: {correct}, errores: {wrong}, ítems respondidos: {presented} / {size}."
+            if advanced
+            else "Bloque: {correct} aciertos, {wrong} errores, {presented} respondidas de {size}."
+        )
+        st.write(
+            block_status.format(
+                correct=block["correct"],
+                wrong=block["wrong"],
+                presented=block["presented"],
+                size=rule["block_size"],
+            )
+        )
+        st.progress(min(block["presented"], rule["block_size"]) / rule["block_size"])
+        total_label = (
+            "Ítems administrados en el adaptativo: {answered} de {maximum} permitidos."
+            if advanced
+            else "Preguntas totales contestadas: {answered} de {maximum} permitidas."
+        )
+        st.write(total_label.format(answered=total_answered, maximum=MAX_QUESTIONS))
 
-    if st.button(
-        "Responder",
-        key=f"submit_{question['id']}_{block['presented']}",
-        help="Envía tu respuesta para recibir retroalimentación inmediata.",
-    ):
-        if choice is None:
-            st.warning("Selecciona una opción antes de enviar tu respuesta.")
-        else:
-            process_adaptive_answer(question, choice)
+        if advanced and render_advanced_group_flow(level, questions_by_level, block):
+            return
+
+        if st.session_state.current_question is None:
+            st.session_state.current_question = pick_question_for_block(
+                level, questions_by_level, block
+            )
+            key = (
+                f"adaptive_choice_{len(st.session_state.history)}_"
+                f"{st.session_state.current_question['id']}"
+            )
+            st.session_state.current_question_key = key
             if key in st.session_state:
                 del st.session_state[key]
-            st.session_state.current_question = None
-            st.session_state.current_question_key = None
-            st.experimental_rerun()
+
+        question = st.session_state.current_question
+        key = st.session_state.current_question_key
+
+        st.write(question["text"])
+        skill_label = (
+            "Habilidad evaluada: "
+            if advanced
+            else "Habilidad enfocada: "
+        )
+        st.caption(skill_label + question["skill"].replace("_", " ").title())
+
+        if st.session_state.last_adaptive_feedback:
+            feedback = st.session_state.last_adaptive_feedback
+            message = (
+                "✅ Respuesta registrada como correcta." if feedback["correct"] else "❌ Respuesta registrada como incorrecta."
+            )
+            skill_name = feedback["skill"].replace("_", " ").title()
+            detail = f"Ítem {feedback['id']} ({skill_name}): {message}"
+            if feedback["correct"]:
+                st.success(detail)
+            else:
+                st.error(detail)
+            with st.expander("Ver explicación"):
+                if feedback["explanation"]:
+                    st.write(feedback["explanation"])
+                else:
+                    st.write("No hay explicación adicional para este ítem.")
+                st.write(f"Respuesta correcta: **{feedback['answer']}**")
+
+        choice_label = (
+            "Seleccione la alternativa correcta"
+            if advanced
+            else "Elige la respuesta correcta:"
+        )
+        choice = render_choice_radio(choice_label, question["options"], key)
+
+        button_label = "Registrar respuesta" if advanced else "Responder"
+        button_help = (
+            "Envía tu selección para registrar el ítem de esta sección."
+            if advanced
+            else "Envía tu respuesta para recibir retroalimentación inmediata."
+        )
+        if st.button(
+            button_label,
+            key=f"submit_{question['id']}_{block['presented']}",
+            help=button_help,
+        ):
+            if choice is None:
+                warning_text = (
+                    "Selecciona una alternativa antes de continuar."
+                    if advanced
+                    else "Selecciona una opción antes de enviar tu respuesta."
+                )
+                st.warning(warning_text)
+            else:
+                process_adaptive_answer(question, choice)
+                if key in st.session_state:
+                    del st.session_state[key]
+                st.session_state.current_question = None
+                st.session_state.current_question_key = None
+                st.experimental_rerun()
 
 
 def reset_practice_state(level: str, questions_by_level: Dict[str, List[Dict[str, Any]]]) -> None:
