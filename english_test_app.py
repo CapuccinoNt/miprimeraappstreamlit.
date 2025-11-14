@@ -6,6 +6,7 @@ import json
 import random
 import re
 import time
+from copy import deepcopy
 from contextlib import contextmanager, nullcontext
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -445,6 +446,30 @@ def render_question_inputs(question: Dict[str, Any], key_prefix: str, *, advance
     return None
 
 
+def prepare_question_instance(question: Dict[str, Any]) -> Dict[str, Any]:
+    """Return a detached copy of *question* with randomized options when needed."""
+
+    instance = deepcopy(question)
+    qtype = instance.get("type")
+
+    if qtype == "multiple_choice":
+        options = instance.get("options") or []
+        random.shuffle(options)
+        instance["options"] = options
+        return instance
+
+    if qtype == "cloze_mc":
+        cloze_items = instance.get("cloze_items") or []
+        for item in cloze_items:
+            options = item.get("options") or []
+            random.shuffle(options)
+            item["options"] = options
+        instance["cloze_items"] = cloze_items
+        return instance
+
+    return instance
+
+
 def normalize_free_text(value: Optional[str]) -> str:
     """Return a stripped version of ``value`` for validation purposes."""
 
@@ -856,6 +881,8 @@ def start_group_for_block(
     available = [g for g in groups if g["group_id"] not in block["used_group_ids"]]
     chosen = random.choice(available or groups)
     block["used_group_ids"].add(chosen["group_id"])
+    randomized_questions = [prepare_question_instance(question) for question in chosen["questions"]]
+
     for question in chosen["questions"]:
         block["used_ids"].add(question["id"])
 
@@ -864,7 +891,7 @@ def start_group_for_block(
         "group_id": chosen["group_id"],
         "passage": chosen.get("passage"),
         "part": chosen.get("part"),
-        "questions": chosen["questions"],
+        "questions": randomized_questions,
         "current_index": 0,
         "responses": {},
         "estimated_time": chosen.get("estimated_time"),
@@ -1092,7 +1119,7 @@ def pick_question_for_block(
         block["used_ids"].clear()
 
     block["used_ids"].add(chosen["id"])
-    return chosen
+    return prepare_question_instance(chosen)
 
 
 def finish_adaptive(level: str, confirmed: bool) -> None:
@@ -1511,10 +1538,11 @@ def reset_practice_state(level: str, questions_by_level: Dict[str, List[Dict[str
         }
         return
 
-    selection = random.sample(available, count) if len(available) >= count else available
+    selection = random.sample(available, count) if len(available) >= count else list(available)
+    prepared_selection = [prepare_question_instance(question) for question in selection]
     st.session_state.practice_state = {
         "level": level,
-        "questions": selection,
+        "questions": prepared_selection,
         "index": 0,
         "correct": 0,
         "answered": 0,
