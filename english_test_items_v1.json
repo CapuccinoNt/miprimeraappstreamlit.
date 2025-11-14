@@ -1797,6 +1797,23 @@
         "little"
       ],
       "answer": "fewer"
+    },
+    {
+      "id": "B2-WR-001",
+      "level": "B2",
+      "skill": "writing",
+      "type": "open_text",
+      "prompt": "You recently completed a bilingual internship abroad. Write an email to your program coordinator describing the experience, highlighting two key skills you developed and requesting a recommendation letter.",
+      "task_type": "email",
+      "min_words": 120,
+      "max_words": 160,
+      "rubric": [
+        "Responde a los tres puntos del encargo (experiencia, habilidades, solicitud).",
+        "Incluye saludo, cierre y conectores adecuados para un registro semiformal.",
+        "Demuestra control gramatical y vocabulario B2 con opiniones personales."
+      ],
+      "part": "writing_task",
+      "estimatedTime": 18
     }
   ],
   "C1": [
@@ -2529,6 +2546,23 @@
           "answer": "Neighbourhood leaders demanded to see the prototype before endorsing it."
         }
       ]
+    },
+    {
+      "id": "C1-WR-001",
+      "level": "C1",
+      "skill": "writing",
+      "type": "open_text",
+      "prompt": "Your innovation hub wants to host a regional summit on climate resilience. Write a formal proposal outlining the event's objectives, the target audience, and two interactive sessions that would deliver measurable impact.",
+      "task_type": "proposal",
+      "min_words": 180,
+      "max_words": 220,
+      "rubric": [
+        "Presenta objetivo, público meta y sesiones solicitadas con claridad.",
+        "Organiza el texto en secciones lógicas (introducción, desarrollo, recomendaciones).",
+        "Mantiene registro formal, precisión gramatical y argumentos persuasivos."
+      ],
+      "part": "writing_task",
+      "estimatedTime": 22
     }
   ],
   "C2": [
@@ -3275,6 +3309,23 @@
           "answer": "Officials must never erase dissenting annotations ever."
         }
       ]
+    },
+    {
+      "id": "C2-WR-001",
+      "level": "C2",
+      "skill": "writing",
+      "type": "open_text",
+      "prompt": "Write a discursive essay for an academic review comparing two approaches to digital transparency in government. Evaluate their impact on civic trust and propose the conditions under which each approach should be adopted.",
+      "task_type": "discursive_essay",
+      "min_words": 220,
+      "max_words": 280,
+      "rubric": [
+        "Plantea una tesis clara y analiza ambos enfoques con ejemplos específicos.",
+        "Contrasta perspectivas y propone condiciones o salvaguardas concretas.",
+        "Mantiene tono crítico, cohesión avanzada y precisión léxica propia de C2."
+      ],
+      "part": "writing_task",
+      "estimatedTime": 28
     }
   ]
 }

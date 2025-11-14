@@ -2,26 +2,33 @@
 
 from __future__ import annotations
 
+import json
 import random
+import re
 import time
+from copy import deepcopy
 from contextlib import contextmanager, nullcontext
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+from urllib import error as urlerror
+from urllib import request as urlrequest
 
 import streamlit as st
 
-from english_test_bank import load_item_bank
+from english_test_bank import WRITING_TYPE, load_item_bank
 
 LEVEL_SEQUENCE = ["A1", "A2", "B1", "B2", "C1", "C2"]
-SKILL_SEQUENCE = ["grammar", "vocab", "reading", "use_of_english"]
+BASE_SKILL_SEQUENCE = ["grammar", "vocab", "reading", "use_of_english"]
 ITEM_BANK_PATH = Path(__file__).with_name("english_test_items_v1.json")
 ADVANCED_LEVELS = {"C1", "C2"}
+WRITING_LEVELS = {"B2", "C1", "C2"}
 SUPPORTED_UI_TYPES = {
     "multiple_choice",
     "cloze_mc",
     "cloze_open",
     "word_formation",
     "key_transform",
+    WRITING_TYPE,
 }
 
 CEFR_DESCRIPTIONS = {
@@ -83,6 +90,232 @@ ADVANCED_LAYOUT_STYLE = """
 </style>
 """
 
+WRITING_LAYOUT_STYLE = """
+<style>
+.writing-shell {
+    border: 1px solid #e0e7ff;
+    border-radius: 1rem;
+    padding: 1.25rem;
+    background: #fdfdff;
+    margin-top: 0.75rem;
+}
+
+.writing-shell.serious {
+    background: #f9fafc;
+    border-color: #c7cddc;
+    box-shadow: 0 6px 24px rgba(12, 25, 61, 0.08);
+}
+
+.writing-rubric-box {
+    background: #f1f5f9;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d9e2ec;
+}
+
+.writing-word-counter {
+    font-weight: 600;
+    margin-top: 0.35rem;
+}
+
+.writing-word-counter.ok {
+    color: #1b5e20;
+}
+
+.writing-word-counter.warning {
+    color: #a15c00;
+}
+
+.writing-word-counter.error {
+    color: #c62828;
+}
+</style>
+"""
+
+
+def skill_rotation_for_level(level: str) -> List[str]:
+    """Return the skill rotation including writing when the level requires it."""
+
+    sequence = list(BASE_SKILL_SEQUENCE)
+    if level in WRITING_LEVELS and "writing" not in sequence:
+        sequence.append("writing")
+    return sequence
+
+
+def count_words(value: Optional[str]) -> int:
+    """Return an approximate word count for ``value`` suitable for writing tasks."""
+
+    if not value:
+        return 0
+    tokens = re.findall(r"[\w'-]+", value.strip(), flags=re.UNICODE)
+    return len(tokens)
+
+
+def render_writing_inputs(
+    question: Dict[str, Any], key_prefix: str, *, advanced: bool = False
+) -> str:
+    """Display the open-text UI with rubric and live word counter."""
+
+    st.markdown(WRITING_LAYOUT_STYLE, unsafe_allow_html=True)
+    level = question.get("level", "")
+    min_words = question.get("min_words", 0)
+    max_words = question.get("max_words", min_words)
+    rubric = question.get("rubric") or []
+    task_type = (question.get("task_type") or "Writing task").replace("_", " ").title()
+    key = f"{key_prefix}_writing"
+    shell_class = "writing-shell serious" if level in ADVANCED_LEVELS else "writing-shell"
+    tone = (
+        "Formato oficial: cuida el registro, evidencia planificación y respeta la estructura solicitada."
+        if level in ADVANCED_LEVELS
+        else "Comparte tus ideas con claridad. Usa conectores y respeta el rango de palabras indicado."
+    )
+    st.markdown(
+        f"<div class='{shell_class}'>"
+        f"<strong>Encargo {level or ''}</strong>: {tone}<br />"
+        f"<small>Extensión sugerida: {min_words}–{max_words} palabras · Tarea: {task_type}</small>"
+        "</div>",
+        unsafe_allow_html=True,
+    )
+
+    answer_col, rubric_col = st.columns((2.6, 1.4))
+    with answer_col:
+        placeholder = "Redacta tu respuesta completa aquí."
+        height = 320 if level in ADVANCED_LEVELS else 260
+        response = st.text_area(
+            "✍️ Tu respuesta",
+            key=key,
+            height=height,
+            placeholder=placeholder,
+        )
+        word_count = count_words(response)
+        if word_count == 0:
+            status_class = "warning"
+            status_text = f"{word_count} palabras (mínimo {min_words})."
+        elif word_count > max_words:
+            status_class = "error"
+            status_text = (
+                f"{word_count} palabras · reduce a máximo {max_words} para cumplir con la rúbrica."
+            )
+        elif word_count < min_words:
+            status_class = "warning"
+            status_text = (
+                f"{word_count} palabras · alcanza al menos {min_words} para enviar."
+            )
+        else:
+            status_class = "ok"
+            status_text = f"{word_count} palabras dentro del rango ({min_words}–{max_words})."
+        st.markdown(
+            f"<div class='writing-word-counter {status_class}'>{status_text}</div>",
+            unsafe_allow_html=True,
+        )
+
+    with rubric_col:
+        bullets = "".join(f"<li>{criterion}</li>" for criterion in rubric)
+        rubric_html = (
+            "<div class='writing-rubric-box'>"
+            "<strong>Rúbrica</strong>"
+            f"<ul>{bullets}</ul>"
+            "</div>"
+        )
+        st.markdown(rubric_html, unsafe_allow_html=True)
+
+    return response
+
+
+def ensure_writing_storage() -> None:
+    """Initialise the writing submission list in session state when missing."""
+
+    if "writing_submissions" not in st.session_state:
+        st.session_state.writing_submissions = []
+
+
+def record_writing_submission(
+    question: Dict[str, Any], response_text: Optional[str], *, mode: str
+) -> Optional[Dict[str, Any]]:
+    """Persist the writing response along with rubric metadata for later review."""
+
+    if question.get("type") != WRITING_TYPE:
+        return None
+
+    ensure_writing_storage()
+    cleaned_text = response_text or ""
+    submission = {
+        "question_id": question.get("id"),
+        "level": question.get("level"),
+        "task_type": question.get("task_type"),
+        "min_words": question.get("min_words"),
+        "max_words": question.get("max_words"),
+        "rubric": list(question.get("rubric") or []),
+        "mode": mode,
+        "word_count": count_words(cleaned_text),
+        "response": cleaned_text,
+        "submitted_at": time.time(),
+    }
+    st.session_state.writing_submissions.append(submission)
+    st.session_state.last_writing_submission = submission
+    return submission
+
+
+def render_writing_submission_summary(mode_filter: Optional[str] = None) -> None:
+    """Display a compact table with stored writing submissions."""
+
+    ensure_writing_storage()
+    submissions = st.session_state.get("writing_submissions", [])
+    if mode_filter:
+        submissions = [entry for entry in submissions if entry.get("mode") == mode_filter]
+    if not submissions:
+        return
+
+    st.subheader("Redacciones enviadas")
+    rows = []
+    for entry in submissions:
+        timestamp = entry.get("submitted_at")
+        readable_time = time.strftime("%Y-%m-%d %H:%M", time.localtime(timestamp)) if timestamp else "—"
+        rows.append(
+            {
+                "Ítem": entry.get("question_id"),
+                "Nivel": entry.get("level"),
+                "Tarea": (entry.get("task_type") or "writing").title(),
+                "Palabras": entry.get("word_count"),
+                "Modo": entry.get("mode"),
+                "Enviado": readable_time,
+            }
+        )
+    st.dataframe(rows, use_container_width=True)
+
+
+def build_writing_review_payload(submission: Dict[str, Any]) -> Dict[str, Any]:
+    """Return a JSON-ready payload for manual grading or AI review services."""
+
+    return {
+        "item_id": submission.get("question_id"),
+        "level": submission.get("level"),
+        "task_type": submission.get("task_type"),
+        "rubric": submission.get("rubric", []),
+        "min_words": submission.get("min_words"),
+        "max_words": submission.get("max_words"),
+        "word_count": submission.get("word_count"),
+        "mode": submission.get("mode"),
+        "response": submission.get("response"),
+        "submitted_at": submission.get("submitted_at"),
+    }
+
+
+def submit_writing_review_request(
+    payload: Dict[str, Any], endpoint_url: str, *, timeout: int = 15
+) -> Dict[str, Any]:
+    """POST *payload* to ``endpoint_url`` expecting rubric scores and feedback."""
+
+    request_body = json.dumps(payload).encode("utf-8")
+    headers = {"Content-Type": "application/json"}
+    req = urlrequest.Request(endpoint_url, data=request_body, headers=headers, method="POST")
+    try:
+        with urlrequest.urlopen(req, timeout=timeout) as response:
+            raw = response.read().decode("utf-8")
+            return json.loads(raw)
+    except urlerror.URLError as exc:
+        return {"status": "error", "message": str(exc)}
+
 
 def new_block(level: str) -> Dict[str, Any]:
     """Create a fresh block state for the requested level."""
@@ -94,6 +327,7 @@ def new_block(level: str) -> Dict[str, Any]:
         "wrong": 0,
         "used_ids": set(),
         "used_group_ids": set(),
+        "skill_sequence": skill_rotation_for_level(level),
     }
 
 
@@ -206,7 +440,34 @@ def render_question_inputs(question: Dict[str, Any], key_prefix: str, *, advance
             )
         return responses
 
+    if qtype == WRITING_TYPE:
+        return render_writing_inputs(question, key_prefix, advanced=advanced)
+
     return None
+
+
+def prepare_question_instance(question: Dict[str, Any]) -> Dict[str, Any]:
+    """Return a detached copy of *question* with randomized options when needed."""
+
+    instance = deepcopy(question)
+    qtype = instance.get("type")
+
+    if qtype == "multiple_choice":
+        options = instance.get("options") or []
+        random.shuffle(options)
+        instance["options"] = options
+        return instance
+
+    if qtype == "cloze_mc":
+        cloze_items = instance.get("cloze_items") or []
+        for item in cloze_items:
+            options = item.get("options") or []
+            random.shuffle(options)
+            item["options"] = options
+        instance["cloze_items"] = cloze_items
+        return instance
+
+    return instance
 
 
 def normalize_free_text(value: Optional[str]) -> str:
@@ -252,6 +513,14 @@ def response_is_complete(question: Dict[str, Any], response: Any) -> bool:
                 return False
         return True
 
+    if qtype == WRITING_TYPE:
+        if not isinstance(response, str):
+            return False
+        word_count = count_words(response)
+        min_words = question.get("min_words", 0)
+        max_words = question.get("max_words", min_words)
+        return min_words <= word_count <= max_words
+
     return False
 
 
@@ -290,6 +559,21 @@ def validate_response(question: Dict[str, Any], response: Any) -> Optional[str]:
             if not normalize_free_text((response or {}).get(item["number"]))
         ]
         return "Completa todas las reescrituras (pendientes: " + ", ".join(missing) + ")."
+
+    if qtype == WRITING_TYPE:
+        text = response or ""
+        word_count = count_words(text)
+        min_words = question.get("min_words", 0)
+        max_words = question.get("max_words", min_words)
+        if word_count < min_words:
+            return (
+                f"Tu respuesta debe tener al menos {min_words} palabras (actual: {word_count})."
+            )
+        if word_count > max_words:
+            return (
+                f"Reduce tu respuesta a máximo {max_words} palabras (actual: {word_count})."
+            )
+        return "Completa la redacción dentro del rango indicado."
 
     return "Completa la respuesta antes de continuar."
 
@@ -380,6 +664,34 @@ def score_question(question: Dict[str, Any], response: Any) -> Dict[str, Any]:
             )
         return {"is_correct": all(entry["correct"] for entry in breakdown), "breakdown": breakdown}
 
+    if qtype == WRITING_TYPE:
+        text = response or ""
+        word_count = count_words(text)
+        min_words = question.get("min_words", 0)
+        max_words = question.get("max_words", min_words)
+        breakdown.append(
+            {
+                "label": "Conteo de palabras",
+                "expected": f"{min_words}–{max_words}",
+                "response": f"{word_count}",
+                "correct": min_words <= word_count <= max_words,
+            }
+        )
+        breakdown.append(
+            {
+                "label": "Estado",
+                "expected": "Revisión docente/IA",
+                "response": "Pendiente",
+                "correct": True,
+            }
+        )
+        return {
+            "is_correct": True,
+            "breakdown": breakdown,
+            "pending_manual_review": True,
+            "word_count": word_count,
+        }
+
     return {"is_correct": False, "breakdown": breakdown}
 
 
@@ -417,7 +729,7 @@ def format_correct_answer(question: Dict[str, Any]) -> Optional[str]:
 def build_feedback_payload(question: Dict[str, Any], score_result: Dict[str, Any]) -> Dict[str, Any]:
     """Create a reusable feedback structure for adaptive or practice modes."""
 
-    return {
+    payload = {
         "correct": score_result.get("is_correct", False),
         "question": question["text"],
         "skill": question["skill"],
@@ -426,12 +738,22 @@ def build_feedback_payload(question: Dict[str, Any], score_result: Dict[str, Any
         "answer": format_correct_answer(question),
         "breakdown": score_result.get("breakdown", []),
     }
+    if score_result.get("pending_manual_review"):
+        payload["pending_review"] = True
+        payload["word_count"] = score_result.get("word_count")
+    return payload
 
 
 def render_feedback_panel(feedback: Dict[str, Any], expander_label: str) -> None:
     """Render the expandable explanation block shared by both modes."""
 
     with st.expander(expander_label):
+        if feedback.get("pending_review"):
+            st.info(
+                "✉️ Redacción guardada para revisión manual/IA. Recibirás una calificación 0–5 por criterio cuando esté lista."
+            )
+            if feedback.get("word_count") is not None:
+                st.caption(f"Palabras enviadas: {feedback['word_count']}")
         explanation = feedback.get("explanation")
         if explanation:
             st.write(explanation)
@@ -456,6 +778,28 @@ def render_feedback_panel(feedback: Dict[str, Any], expander_label: str) -> None
         answer = feedback.get("answer")
         if answer:
             st.write(f"Respuestas modelo: {answer}")
+
+
+def render_feedback_alert(feedback: Dict[str, Any]) -> None:
+    """Show a contextual alert summarising the latest response outcome."""
+
+    if not feedback:
+        return
+
+    skill_name = feedback["skill"].replace("_", " ").title()
+    if feedback.get("pending_review"):
+        detail = (
+            f"Ítem {feedback['id']} ({skill_name}): ✉️ Redacción enviada para revisión."
+        )
+        st.info(detail)
+        return
+
+    message = "✅ Respuesta correcta." if feedback.get("correct") else "❌ Respuesta incorrecta."
+    detail = f"Ítem {feedback['id']} ({skill_name}): {message}"
+    if feedback.get("correct"):
+        st.success(detail)
+    else:
+        st.error(detail)
 
 
 def is_advanced_level(level: str) -> bool:
@@ -537,6 +881,8 @@ def start_group_for_block(
     available = [g for g in groups if g["group_id"] not in block["used_group_ids"]]
     chosen = random.choice(available or groups)
     block["used_group_ids"].add(chosen["group_id"])
+    randomized_questions = [prepare_question_instance(question) for question in chosen["questions"]]
+
     for question in chosen["questions"]:
         block["used_ids"].add(question["id"])
 
@@ -545,7 +891,7 @@ def start_group_for_block(
         "group_id": chosen["group_id"],
         "passage": chosen.get("passage"),
         "part": chosen.get("part"),
-        "questions": chosen["questions"],
+        "questions": randomized_questions,
         "current_index": 0,
         "responses": {},
         "estimated_time": chosen.get("estimated_time"),
@@ -651,6 +997,13 @@ def normalize_item_for_ui(item: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         question["transform_items"] = tf_items
         return question
 
+    if item_type == WRITING_TYPE:
+        question["task_type"] = item.get("task_type")
+        question["min_words"] = item.get("min_words")
+        question["max_words"] = item.get("max_words")
+        question["rubric"] = item.get("rubric", [])
+        return question
+
     return None
 
 
@@ -747,7 +1100,10 @@ def pick_question_for_block(
 ) -> Dict[str, Any]:
     """Choose the next question prioritising skill rotation and avoiding repeats."""
 
-    desired_skill = SKILL_SEQUENCE[block["presented"] % len(SKILL_SEQUENCE)]
+    sequence = block.get("skill_sequence") or skill_rotation_for_level(level)
+    if not block.get("skill_sequence"):
+        block["skill_sequence"] = sequence
+    desired_skill = sequence[block["presented"] % len(sequence)]
     pool = [
         q for q in questions_by_level[level] if q["id"] not in block["used_ids"]
     ]
@@ -763,7 +1119,7 @@ def pick_question_for_block(
         block["used_ids"].clear()
 
     block["used_ids"].add(chosen["id"])
-    return chosen
+    return prepare_question_instance(chosen)
 
 
 def finish_adaptive(level: str, confirmed: bool) -> None:
@@ -865,6 +1221,8 @@ def process_adaptive_answer(question: Dict[str, Any], response: Any) -> None:
     """Update the adaptive state after an answer submission."""
 
     block = st.session_state.block
+    if question.get("type") == WRITING_TYPE:
+        record_writing_submission(question, response, mode="adaptive")
     score = score_question(question, response)
     is_correct = score["is_correct"]
 
@@ -880,6 +1238,7 @@ def process_adaptive_answer(question: Dict[str, Any], response: Any) -> None:
             "id": question["id"],
             "correct": is_correct,
             "skill": question["skill"],
+            "pending_review": score.get("pending_manual_review", False),
         }
     )
 
@@ -1041,12 +1400,17 @@ def render_adaptive_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) ->
                         "Nivel": entry["level"],
                         "Habilidad": entry["skill"],
                         "Ítem": entry["id"],
-                        "Resultado": "Correcto" if entry["correct"] else "Incorrecto",
+                        "Resultado": (
+                            "Pendiente de revisión"
+                            if entry.get("pending_review")
+                            else ("Correcto" if entry["correct"] else "Incorrecto")
+                        ),
                     }
                     for idx, entry in enumerate(st.session_state.history)
                 ],
                 use_container_width=True,
             )
+        render_writing_submission_summary(mode_filter="adaptive")
 
         if st.button("Reiniciar test adaptativo"):
             reset_adaptive_state()
@@ -1130,15 +1494,7 @@ def render_adaptive_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) ->
 
         if st.session_state.last_adaptive_feedback:
             feedback = st.session_state.last_adaptive_feedback
-            message = (
-                "✅ Respuesta registrada como correcta." if feedback["correct"] else "❌ Respuesta registrada como incorrecta."
-            )
-            skill_name = feedback["skill"].replace("_", " ").title()
-            detail = f"Ítem {feedback['id']} ({skill_name}): {message}"
-            if feedback["correct"]:
-                st.success(detail)
-            else:
-                st.error(detail)
+            render_feedback_alert(feedback)
             render_feedback_panel(feedback, "Ver explicación")
 
         response = render_question_inputs(question, key, advanced=advanced)
@@ -1182,10 +1538,11 @@ def reset_practice_state(level: str, questions_by_level: Dict[str, List[Dict[str
         }
         return
 
-    selection = random.sample(available, count) if len(available) >= count else available
+    selection = random.sample(available, count) if len(available) >= count else list(available)
+    prepared_selection = [prepare_question_instance(question) for question in selection]
     st.session_state.practice_state = {
         "level": level,
-        "questions": selection,
+        "questions": prepared_selection,
         "index": 0,
         "correct": 0,
         "answered": 0,
@@ -1236,16 +1593,9 @@ def render_practice_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) ->
 
         feedback = practice_state.get("last_feedback")
         if feedback:
-            message = (
-                "✅ Respuesta correcta." if feedback["correct"] else "❌ Respuesta incorrecta."
-            )
-            skill_name = feedback["skill"].replace("_", " ").title()
-            detail = f"Último ítem {feedback['id']} ({skill_name}): {message}"
-            if feedback["correct"]:
-                st.success(detail)
-            else:
-                st.error(detail)
+            render_feedback_alert(feedback)
             render_feedback_panel(feedback, "Ver explicación final de la práctica")
+        render_writing_submission_summary(mode_filter="practice")
         if st.button("Reiniciar práctica"):
             reset_practice_state(level, questions_by_level)
             rerun_app()
@@ -1275,6 +1625,8 @@ def render_practice_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) ->
         if warning_text:
             st.warning(warning_text)
         else:
+            if question.get("type") == WRITING_TYPE:
+                record_writing_submission(question, response, mode="practice")
             score = score_question(question, response)
             practice_state["answered"] += 1
             if score["is_correct"]:
@@ -1291,15 +1643,7 @@ def render_practice_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) ->
 
     feedback = practice_state.get("last_feedback")
     if feedback:
-        message = (
-            "✅ Respuesta correcta." if feedback["correct"] else "❌ Respuesta incorrecta."
-        )
-        skill_name = feedback["skill"].replace("_", " ").title()
-        detail = f"Ítem {feedback['id']} ({skill_name}): {message}"
-        if feedback["correct"]:
-            st.success(detail)
-        else:
-            st.error(detail)
+        render_feedback_alert(feedback)
         render_feedback_panel(feedback, "Ver explicación de la práctica")
 
 
@@ -1316,6 +1660,7 @@ def main() -> None:
         st.session_state.onboarding_complete = False
     if "consent_checked" not in st.session_state:
         st.session_state.consent_checked = False
+    ensure_writing_storage()
 
     try:
         questions_by_level = get_questions_by_level()
