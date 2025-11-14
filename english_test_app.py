@@ -6,7 +6,7 @@ import random
 import time
 from contextlib import contextmanager, nullcontext
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import streamlit as st
 
@@ -16,6 +16,13 @@ LEVEL_SEQUENCE = ["A1", "A2", "B1", "B2", "C1", "C2"]
 SKILL_SEQUENCE = ["grammar", "vocab", "reading", "use_of_english"]
 ITEM_BANK_PATH = Path(__file__).with_name("english_test_items_v1.json")
 ADVANCED_LEVELS = {"C1", "C2"}
+SUPPORTED_UI_TYPES = {
+    "multiple_choice",
+    "cloze_mc",
+    "cloze_open",
+    "word_formation",
+    "key_transform",
+}
 
 CEFR_DESCRIPTIONS = {
     "A1": "Puede comprender y usar expresiones cotidianas muy básicas para satisfacer necesidades concretas.",
@@ -114,6 +121,343 @@ def render_choice_radio(label: str, options: List[str], key: str) -> str | None:
     return None if selection == placeholder_value else selection
 
 
+def clear_widget_family(prefix: str) -> None:
+    """Remove a widget key and any derived children from ``st.session_state``."""
+
+    for state_key in list(st.session_state.keys()):
+        if state_key == prefix or state_key.startswith(f"{prefix}_"):
+            del st.session_state[state_key]
+
+
+def rerun_app() -> None:
+    """Trigger a Streamlit rerun using the available API."""
+
+    rerun = getattr(st, "experimental_rerun", None) or getattr(st, "rerun", None)
+    if rerun:
+        rerun()
+
+
+def render_question_prompt(question: Dict[str, Any], *, show_passage: bool = True) -> None:
+    """Display the main prompt and optional supporting text for a question."""
+
+    st.write(question["text"])
+
+    if show_passage and question.get("passage"):
+        st.markdown(
+            f"<div class='advanced-passage'>{question['passage']}</div>",
+            unsafe_allow_html=True,
+        )
+
+    cloze_text = question.get("cloze_text")
+    if cloze_text:
+        formatted = cloze_text.replace("\n", "<br />")
+        st.markdown(
+            f"<div class='advanced-passage'>{formatted}</div>",
+            unsafe_allow_html=True,
+        )
+
+
+def render_question_inputs(question: Dict[str, Any], key_prefix: str, *, advanced: bool = False) -> Any:
+    """Render the appropriate widget(s) for the question type and return the response."""
+
+    qtype = question["type"]
+    if qtype == "multiple_choice":
+        label = (
+            "Seleccione la alternativa correcta"
+            if advanced
+            else "Elige la respuesta correcta"
+        )
+        return render_choice_radio(label, question["options"], key_prefix)
+
+    if qtype == "cloze_mc":
+        responses: Dict[int, Optional[str]] = {}
+        for item in question.get("cloze_items", []):
+            gap_key = f"{key_prefix}_gap_{item['number']}"
+            responses[item["number"]] = render_choice_radio(
+                f"Hueco {item['number']}", item["options"], gap_key
+            )
+        return responses
+
+    if qtype == "cloze_open":
+        responses = {}
+        for item in question.get("cloze_items", []):
+            gap_key = f"{key_prefix}_gap_{item['number']}"
+            responses[item["number"]] = st.text_input(
+                f"Hueco {item['number']}", key=gap_key
+            )
+        return responses
+
+    if qtype == "word_formation":
+        responses = {}
+        for item in question.get("word_formation_items", []):
+            gap_key = f"{key_prefix}_wf_{item['number']}"
+            label = f"{item['number']}. {item['sentence']} ({item['base']})"
+            responses[item["number"]] = st.text_input(label, key=gap_key)
+        return responses
+
+    if qtype == "key_transform":
+        responses = {}
+        for item in question.get("transform_items", []):
+            st.write(f"{item['number']}. {item['original']}")
+            st.caption(f"Palabra clave: {item['keyword']}")
+            gap_key = f"{key_prefix}_kt_{item['number']}"
+            responses[item["number"]] = st.text_input(
+                "Reescribe la oración", key=gap_key
+            )
+        return responses
+
+    return None
+
+
+def normalize_free_text(value: Optional[str]) -> str:
+    """Return a stripped version of ``value`` for validation purposes."""
+
+    return (value or "").strip()
+
+
+def normalize_for_comparison(value: Optional[str]) -> str:
+    """Lowercase ``value`` and collapse spaces to ease comparisons."""
+
+    return " ".join(normalize_free_text(value).lower().split())
+
+
+def response_is_complete(question: Dict[str, Any], response: Any) -> bool:
+    """Return True when *response* satisfies the requirements of *question*."""
+
+    qtype = question["type"]
+    if qtype == "multiple_choice":
+        return response is not None
+
+    if qtype in {"cloze_mc", "cloze_open"}:
+        if not isinstance(response, dict):
+            return False
+        for item in question.get("cloze_items", []):
+            if not normalize_free_text(response.get(item["number"])):
+                return False
+        return True
+
+    if qtype == "word_formation":
+        if not isinstance(response, dict):
+            return False
+        for item in question.get("word_formation_items", []):
+            if not normalize_free_text(response.get(item["number"])):
+                return False
+        return True
+
+    if qtype == "key_transform":
+        if not isinstance(response, dict):
+            return False
+        for item in question.get("transform_items", []):
+            if not normalize_free_text(response.get(item["number"])):
+                return False
+        return True
+
+    return False
+
+
+def validate_response(question: Dict[str, Any], response: Any) -> Optional[str]:
+    """Return a warning message when *response* is incomplete."""
+
+    if response_is_complete(question, response):
+        return None
+
+    qtype = question["type"]
+    if qtype == "multiple_choice":
+        return "Selecciona una alternativa antes de continuar."
+
+    if qtype in {"cloze_mc", "cloze_open"}:
+        missing = [
+            str(item["number"])
+            for item in question.get("cloze_items", [])
+            if not normalize_free_text((response or {}).get(item["number"]))
+        ]
+        if missing:
+            return "Completa todos los huecos (pendientes: " + ", ".join(missing) + ")."
+        return "Completa todos los huecos antes de enviar."
+
+    if qtype == "word_formation":
+        missing = [
+            str(item["number"])
+            for item in question.get("word_formation_items", [])
+            if not normalize_free_text((response or {}).get(item["number"]))
+        ]
+        return "Responde todas las transformaciones (pendientes: " + ", ".join(missing) + ")."
+
+    if qtype == "key_transform":
+        missing = [
+            str(item["number"])
+            for item in question.get("transform_items", [])
+            if not normalize_free_text((response or {}).get(item["number"]))
+        ]
+        return "Completa todas las reescrituras (pendientes: " + ", ".join(missing) + ")."
+
+    return "Completa la respuesta antes de continuar."
+
+
+def score_question(question: Dict[str, Any], response: Any) -> Dict[str, Any]:
+    """Return a boolean score and a per-element breakdown for the question."""
+
+    breakdown: List[Dict[str, Any]] = []
+    qtype = question["type"]
+
+    if qtype == "multiple_choice":
+        expected = question["answer"]
+        is_correct = response == expected
+        breakdown.append(
+            {
+                "label": "Respuesta",
+                "expected": expected,
+                "response": response or "—",
+                "correct": is_correct,
+            }
+        )
+        return {"is_correct": is_correct, "breakdown": breakdown}
+
+    if qtype == "cloze_mc":
+        answers = response if isinstance(response, dict) else {}
+        for item in question.get("cloze_items", []):
+            user_value = answers.get(item["number"])
+            correct = user_value == item["answer"]
+            breakdown.append(
+                {
+                    "label": f"Hueco {item['number']}",
+                    "expected": item["answer"],
+                    "response": user_value or "—",
+                    "correct": correct,
+                }
+            )
+        return {"is_correct": all(entry["correct"] for entry in breakdown), "breakdown": breakdown}
+
+    if qtype == "cloze_open":
+        answers = response if isinstance(response, dict) else {}
+        for item in question.get("cloze_items", []):
+            user_value = answers.get(item["number"])
+            correct = normalize_for_comparison(user_value) == normalize_for_comparison(
+                item["answer"]
+            )
+            breakdown.append(
+                {
+                    "label": f"Hueco {item['number']}",
+                    "expected": item["answer"],
+                    "response": user_value or "—",
+                    "correct": correct,
+                }
+            )
+        return {"is_correct": all(entry["correct"] for entry in breakdown), "breakdown": breakdown}
+
+    if qtype == "word_formation":
+        answers = response if isinstance(response, dict) else {}
+        for item in question.get("word_formation_items", []):
+            user_value = answers.get(item["number"])
+            correct = normalize_for_comparison(user_value) == normalize_for_comparison(
+                item["answer"]
+            )
+            breakdown.append(
+                {
+                    "label": f"Ítem {item['number']}",
+                    "expected": item["answer"],
+                    "response": user_value or "—",
+                    "correct": correct,
+                }
+            )
+        return {"is_correct": all(entry["correct"] for entry in breakdown), "breakdown": breakdown}
+
+    if qtype == "key_transform":
+        answers = response if isinstance(response, dict) else {}
+        for item in question.get("transform_items", []):
+            user_value = answers.get(item["number"])
+            candidates = [item["answer"]] + item.get("alternatives", [])
+            correct = normalize_for_comparison(user_value) in {
+                normalize_for_comparison(candidate) for candidate in candidates
+            }
+            breakdown.append(
+                {
+                    "label": f"Transformación {item['number']}",
+                    "expected": item["answer"],
+                    "response": user_value or "—",
+                    "correct": correct,
+                }
+            )
+        return {"is_correct": all(entry["correct"] for entry in breakdown), "breakdown": breakdown}
+
+    return {"is_correct": False, "breakdown": breakdown}
+
+
+def format_correct_answer(question: Dict[str, Any]) -> Optional[str]:
+    """Return a concise textual summary of the expected answer(s)."""
+
+    qtype = question["type"]
+    if qtype == "multiple_choice":
+        return question.get("answer")
+
+    if qtype in {"cloze_mc", "cloze_open"}:
+        parts = [
+            f"{item['number']}→{item['answer']}"
+            for item in question.get("cloze_items", [])
+        ]
+        return " · ".join(parts)
+
+    if qtype == "word_formation":
+        parts = [
+            f"{item['number']}: {item['answer']}"
+            for item in question.get("word_formation_items", [])
+        ]
+        return " | ".join(parts)
+
+    if qtype == "key_transform":
+        parts = [
+            f"{item['number']}: {item['answer']}"
+            for item in question.get("transform_items", [])
+        ]
+        return "\n".join(parts)
+
+    return None
+
+
+def build_feedback_payload(question: Dict[str, Any], score_result: Dict[str, Any]) -> Dict[str, Any]:
+    """Create a reusable feedback structure for adaptive or practice modes."""
+
+    return {
+        "correct": score_result.get("is_correct", False),
+        "question": question["text"],
+        "skill": question["skill"],
+        "id": question["id"],
+        "explanation": question.get("explanation"),
+        "answer": format_correct_answer(question),
+        "breakdown": score_result.get("breakdown", []),
+    }
+
+
+def render_feedback_panel(feedback: Dict[str, Any], expander_label: str) -> None:
+    """Render the expandable explanation block shared by both modes."""
+
+    with st.expander(expander_label):
+        explanation = feedback.get("explanation")
+        if explanation:
+            st.write(explanation)
+        else:
+            st.write("No hay explicación adicional para este ítem.")
+
+        breakdown = feedback.get("breakdown") or []
+        if breakdown:
+            st.write("Detalle de respuestas:")
+            st.table(
+                [
+                    {
+                        "Elemento": entry.get("label"),
+                        "Tu respuesta": entry.get("response") or "—",
+                        "Correcta": entry.get("expected"),
+                        "Estado": "✅" if entry.get("correct") else "❌",
+                    }
+                    for entry in breakdown
+                ]
+            )
+
+        answer = feedback.get("answer")
+        if answer:
+            st.write(f"Respuestas modelo: {answer}")
+
+
 def is_advanced_level(level: str) -> bool:
     """Return True when the CEFR *level* should use the advanced exam layout."""
 
@@ -173,8 +517,7 @@ def clear_current_group_state() -> None:
 
     for question in group_state.get("questions", []):
         key = f"group_{group_state['group_id']}_{question['id']}"
-        if key in st.session_state:
-            del st.session_state[key]
+        clear_widget_family(key)
 
     st.session_state.current_group_state = None
     st.session_state.group_timer_started_at = None
@@ -249,6 +592,68 @@ def render_group_timer(group_state: Dict[str, Any]) -> None:
     remaining = max(int(duration - elapsed), 0)
     st.progress(remaining / duration)
     st.caption(f"Tiempo sugerido restante: {format_remaining_time(remaining)}")
+def normalize_item_for_ui(item: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    """Return a UI-ready copy of *item* when supported, otherwise ``None``."""
+
+    item_type = item.get("type")
+    if item_type not in SUPPORTED_UI_TYPES:
+        return None
+
+    question: Dict[str, Any] = {
+        "id": item["id"],
+        "text": item["prompt"],
+        "skill": item["skill"],
+        "level": item["level"],
+        "type": item_type,
+        "explanation": item.get("explanation"),
+        "group_id": item.get("group_id"),
+        "part": item.get("part"),
+        "passage": item.get("passage"),
+        "estimated_time": item.get("estimated_time"),
+    }
+
+    if item_type == "multiple_choice":
+        options = item.get("options")
+        answer = item.get("answer")
+        if not options or answer not in options:
+            return None
+        question["options"] = options
+        question["answer"] = answer
+        return question
+
+    if item_type == "cloze_mc":
+        cloze_items = item.get("cloze_items")
+        if not cloze_items:
+            return None
+        question["cloze_text"] = item.get("cloze_text") or item.get("passage") or ""
+        question["cloze_items"] = cloze_items
+        return question
+
+    if item_type == "cloze_open":
+        cloze_items = item.get("cloze_items")
+        if not cloze_items:
+            return None
+        question["cloze_text"] = item.get("cloze_text") or item.get("passage") or ""
+        question["cloze_items"] = cloze_items
+        return question
+
+    if item_type == "word_formation":
+        wf_items = item.get("word_formation_items")
+        if not wf_items:
+            return None
+        question["word_formation_items"] = wf_items
+        return question
+
+    if item_type == "key_transform":
+        tf_items = item.get("transform_items")
+        if not tf_items:
+            return None
+        question["transform_items"] = tf_items
+        return question
+
+    return None
+
+
 @st.cache_data(show_spinner=False)
 def get_questions_by_level() -> Dict[str, List[Dict[str, Any]]]:
     """Load and normalize the item bank grouped by CEFR level."""
@@ -260,29 +665,9 @@ def get_questions_by_level() -> Dict[str, List[Dict[str, Any]]]:
         items = bank.get(level, [])
         usable_items: List[Dict[str, Any]] = []
         for item in items:
-            # The current UI only supports multiple-choice style items.  Skip
-            # richer task types (writing, cloze-open, etc.) when present in the
-            # bank to keep the adaptive flow stable.
-            options = item.get("options")
-            answer = item.get("answer")
-            if not options or answer is None:
-                continue
-
-            usable_items.append(
-                {
-                    "id": item["id"],
-                    "text": item["prompt"],
-                    "options": options,
-                    "answer": options.index(answer),
-                    "skill": item["skill"],
-                    "explanation": item.get("explanation"),
-                    "level": level,
-                    "group_id": item.get("group_id"),
-                    "part": item.get("part"),
-                    "passage": item.get("passage"),
-                    "estimated_time": item.get("estimated_time"),
-                }
-            )
+            normalized = normalize_item_for_ui(item)
+            if normalized:
+                usable_items.append(normalized)
 
         questions[level] = usable_items
 
@@ -476,11 +861,12 @@ def evaluate_block_completion(block: Dict[str, Any]) -> None:
     st.session_state.current_question_key = None
 
 
-def process_adaptive_answer(question: Dict[str, Any], selected_option: str) -> None:
+def process_adaptive_answer(question: Dict[str, Any], response: Any) -> None:
     """Update the adaptive state after an answer submission."""
 
     block = st.session_state.block
-    is_correct = question["options"].index(selected_option) == question["answer"]
+    score = score_question(question, response)
+    is_correct = score["is_correct"]
 
     block["presented"] += 1
     if is_correct:
@@ -497,14 +883,7 @@ def process_adaptive_answer(question: Dict[str, Any], selected_option: str) -> N
         }
     )
 
-    st.session_state.last_adaptive_feedback = {
-        "correct": is_correct,
-        "question": question["text"],
-        "skill": question["skill"],
-        "id": question["id"],
-        "explanation": question.get("explanation"),
-        "answer": question["options"][question["answer"]],
-    }
+    st.session_state.last_adaptive_feedback = build_feedback_payload(question, score)
 
     evaluate_block_completion(block)
 
@@ -542,7 +921,12 @@ def render_advanced_group_flow(
     responses = group_state["responses"]
     total_questions = len(questions)
     summary_tokens = [
-        ("✓" if q["id"] in responses else "—", f"Q{idx + 1}")
+        (
+            "✓"
+            if response_is_complete(q, responses.get(q["id"]))
+            else "—",
+            f"Q{idx + 1}",
+        )
         for idx, q in enumerate(questions)
     ]
     summary = " · ".join(f"{status} {label}" for status, label in summary_tokens)
@@ -554,23 +938,14 @@ def render_advanced_group_flow(
     current_index = group_state["current_index"]
     question = questions[current_index]
     st.markdown(f"**Pregunta {current_index + 1} / {total_questions}**")
-    st.write(question["text"])
+    render_question_prompt(question, show_passage=False)
     st.caption(
         "Responde con precisión. Puedes revisar tus elecciones antes de cerrar la parte."
     )
 
     widget_key = f"group_{group_state['group_id']}_{question['id']}"
-    stored_value = responses.get(question["id"])
-    if stored_value is not None:
-        st.session_state[widget_key] = stored_value
-    choice = render_choice_radio(
-        "Selecciona la alternativa correcta", question["options"], widget_key
-    )
-
-    if choice is None:
-        responses.pop(question["id"], None)
-    else:
-        responses[question["id"]] = choice
+    response = render_question_inputs(question, widget_key, advanced=True)
+    responses[question["id"]] = response
 
     prev_col, next_col, submit_col = st.columns([1, 1, 1.2])
     with prev_col:
@@ -581,7 +956,7 @@ def render_advanced_group_flow(
         ):
             group_state["current_index"] = max(0, current_index - 1)
             st.session_state.current_group_state = group_state
-            st.experimental_rerun()
+            rerun_app()
 
     with next_col:
         if st.button(
@@ -591,14 +966,14 @@ def render_advanced_group_flow(
         ):
             group_state["current_index"] = min(total_questions - 1, current_index + 1)
             st.session_state.current_group_state = group_state
-            st.experimental_rerun()
+            rerun_app()
 
     with submit_col:
         if st.button("Submit part", use_container_width=True):
             unanswered = [
                 idx + 1
                 for idx, q in enumerate(questions)
-                if responses.get(q["id"]) is None
+                if not response_is_complete(q, responses.get(q["id"]))
             ]
             if unanswered:
                 st.warning(
@@ -610,7 +985,7 @@ def render_advanced_group_flow(
                 for question in questions:
                     process_adaptive_answer(question, responses[question["id"]])
                 clear_current_group_state()
-                st.experimental_rerun()
+                rerun_app()
 
     return True
 
@@ -675,7 +1050,7 @@ def render_adaptive_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) ->
 
         if st.button("Reiniciar test adaptativo"):
             reset_adaptive_state()
-            st.experimental_rerun()
+            rerun_app()
         return
 
     block = st.session_state.block
@@ -745,7 +1120,7 @@ def render_adaptive_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) ->
         question = st.session_state.current_question
         key = st.session_state.current_question_key
 
-        st.write(question["text"])
+        render_question_prompt(question)
         skill_label = (
             "Habilidad evaluada: "
             if advanced
@@ -764,19 +1139,9 @@ def render_adaptive_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) ->
                 st.success(detail)
             else:
                 st.error(detail)
-            with st.expander("Ver explicación"):
-                if feedback["explanation"]:
-                    st.write(feedback["explanation"])
-                else:
-                    st.write("No hay explicación adicional para este ítem.")
-                st.write(f"Respuesta correcta: **{feedback['answer']}**")
+            render_feedback_panel(feedback, "Ver explicación")
 
-        choice_label = (
-            "Seleccione la alternativa correcta"
-            if advanced
-            else "Elige la respuesta correcta:"
-        )
-        choice = render_choice_radio(choice_label, question["options"], key)
+        response = render_question_inputs(question, key, advanced=advanced)
 
         button_label = "Registrar respuesta" if advanced else "Responder"
         button_help = (
@@ -789,20 +1154,15 @@ def render_adaptive_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) ->
             key=f"submit_{question['id']}_{block['presented']}",
             help=button_help,
         ):
-            if choice is None:
-                warning_text = (
-                    "Selecciona una alternativa antes de continuar."
-                    if advanced
-                    else "Selecciona una opción antes de enviar tu respuesta."
-                )
+            warning_text = validate_response(question, response)
+            if warning_text:
                 st.warning(warning_text)
             else:
-                process_adaptive_answer(question, choice)
-                if key in st.session_state:
-                    del st.session_state[key]
+                process_adaptive_answer(question, response)
+                clear_widget_family(key)
                 st.session_state.current_question = None
                 st.session_state.current_question_key = None
-                st.experimental_rerun()
+                rerun_app()
 
 
 def reset_practice_state(level: str, questions_by_level: Dict[str, List[Dict[str, Any]]]) -> None:
@@ -885,19 +1245,14 @@ def render_practice_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) ->
                 st.success(detail)
             else:
                 st.error(detail)
-            with st.expander("Ver explicación final de la práctica"):
-                if feedback["explanation"]:
-                    st.write(feedback["explanation"])
-                else:
-                    st.write("No hay explicación adicional para este ítem.")
-                st.write(f"Respuesta correcta: **{feedback['answer']}**")
+            render_feedback_panel(feedback, "Ver explicación final de la práctica")
         if st.button("Reiniciar práctica"):
             reset_practice_state(level, questions_by_level)
-            st.experimental_rerun()
+            rerun_app()
         return
 
     question = practice_state["questions"][practice_state["index"]]
-    key = f"practice_choice_{practice_state['index']}_{question['id']}"
+    key = f"practice_item_{practice_state['index']}_{question['id']}"
     st.subheader(f"Práctica guiada – Nivel {level}")
     st.write(
         f"Pregunta {practice_state['index'] + 1} de {total_questions}."
@@ -906,128 +1261,33 @@ def render_practice_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) ->
     st.write(
         f"Aciertos acumulados: {practice_state['correct']} de {practice_state['answered']} respondidas."
     )
-    st.write(question["text"])
+    render_question_prompt(question)
     st.caption(f"Habilidad enfocada: {question['skill'].replace('_', ' ').title()}")
 
-    choice = render_choice_radio(
-        "Elige la respuesta correcta", question["options"], key
-    )
+    response = render_question_inputs(question, key, advanced=False)
 
     if st.button(
         "Responder práctica",
         key=f"practice_submit_{question['id']}",
         help="Comprueba tu respuesta y recibe retroalimentación inmediata.",
     ):
-        if choice is None:
-            st.warning("Selecciona una opción antes de enviar tu respuesta.")
+        warning_text = validate_response(question, response)
+        if warning_text:
+            st.warning(warning_text)
         else:
-            is_correct = question["options"].index(choice) == question["answer"]
+            score = score_question(question, response)
             practice_state["answered"] += 1
-            if is_correct:
+            if score["is_correct"]:
                 practice_state["correct"] += 1
-            practice_state["last_feedback"] = {
-                "correct": is_correct,
-                "explanation": question.get("explanation"),
-                "id": question["id"],
-                "skill": question["skill"],
-                "answer": question["options"][question["answer"]],
-            }
+            practice_state["last_feedback"] = build_feedback_payload(question, score)
             practice_state["last_question"] = question
 
-            if key in st.session_state:
-                del st.session_state[key]
+            clear_widget_family(key)
 
             practice_state["index"] += 1
             if practice_state["index"] >= len(practice_state["questions"]):
                 practice_state["completed"] = True
-            st.experimental_rerun()
-            is_correct = question["options"].index(choice) == question["answer"]
-            block_state["answered"] += 1
-            st.session_state.question_count += 1
-            st.session_state.question_counters[current_level] = q_index + 1
-
-            if is_correct:
-                block_state["correct"] += 1
-            else:
-                block_state["errors"] += 1
-
-            threshold = level_rule["promotion_threshold"]
-            min_questions = level_rule["min_questions"]
-
-            block_finished = False
-            if block_state["answered"] >= block_size:
-                block_finished = True
-            elif (
-                block_state["errors"] >= EARLY_STOP_ERRORS
-                and block_state["correct"] < threshold
-            ):
-                block_finished = True
-
-            if block_finished:
-                passed = (
-                    block_state["correct"] >= threshold
-                    and block_state["answered"] >= min_questions
-                )
-                st.session_state.block_history.append(
-                    {
-                        "level": current_level,
-                        "correct": block_state["correct"],
-                        "total": block_state["answered"],
-                        "passed": passed,
-                    }
-                )
-
-                if passed:
-                    st.session_state.pending_confirmation_level = current_level_index
-                    if len(st.session_state.block_history) >= 2:
-                        previous = st.session_state.block_history[-2]
-                        if previous["level"] == current_level and previous["passed"]:
-                            st.session_state.confirmed_level_index = max(
-                                st.session_state.confirmed_level_index
-                                if st.session_state.confirmed_level_index is not None
-                                else -1,
-                                current_level_index,
-                            )
-                            st.session_state.pending_confirmation_level = None
-
-                    if current_level_index < len(LEVEL_SEQUENCE) - 1:
-                        st.session_state.level_index = current_level_index + 1
-                    else:
-                        st.session_state.level_index = current_level_index
-                else:
-                    if (
-                        st.session_state.pending_confirmation_level is not None
-                        and st.session_state.pending_confirmation_level
-                        == current_level_index - 1
-                    ):
-                        confirmed_index = st.session_state.pending_confirmation_level
-                        st.session_state.confirmed_level_index = max(
-                            st.session_state.confirmed_level_index
-                            if st.session_state.confirmed_level_index is not None
-                            else -1,
-                            confirmed_index,
-                        )
-                        st.session_state.pending_confirmation_level = None
-                    else:
-                        st.session_state.pending_confirmation_level = None
-
-                    if current_level_index > 0:
-                        st.session_state.level_index = current_level_index - 1
-                    else:
-                        st.session_state.level_index = 0
-
-                st.session_state.block_state = {"correct": 0, "answered": 0, "errors": 0}
-                st.session_state.current_block_level_index = st.session_state.level_index
-
-                if (
-                    st.session_state.confirmed_level_index is not None
-                    or st.session_state.question_count >= MAX_QUESTIONS
-                ):
-                    st.session_state.finished = True
-
-                st.experimental_rerun()
-            else:
-                st.experimental_rerun()
+            rerun_app()
 
     feedback = practice_state.get("last_feedback")
     if feedback:
@@ -1040,12 +1300,7 @@ def render_practice_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) ->
             st.success(detail)
         else:
             st.error(detail)
-        with st.expander("Ver explicación de la práctica"):
-            if feedback["explanation"]:
-                st.write(feedback["explanation"])
-            else:
-                st.write("No hay explicación adicional para este ítem.")
-            st.write(f"Respuesta correcta: **{feedback['answer']}**")
+        render_feedback_panel(feedback, "Ver explicación de la práctica")
 
 
 def main() -> None:
@@ -1106,7 +1361,7 @@ def main() -> None:
     if start_clicked:
         st.session_state.onboarding_complete = True
         st.session_state.mode = "adaptive"
-        st.experimental_rerun()
+        rerun_app()
 
     if not st.session_state.onboarding_complete:
         st.info(

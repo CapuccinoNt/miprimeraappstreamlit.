@@ -7,10 +7,11 @@ from typing import Dict, List, Sequence
 
 ALLOWED_SKILLS = {"grammar", "vocab", "reading", "use_of_english", "writing"}
 BASE_REQUIRED_KEYS = {"id", "level", "skill", "type", "prompt"}
-OPTION_BASED_TYPES = {"multiple_choice", "cloze_mc"}
+OPTION_BASED_TYPES = {"multiple_choice"}
 TEXT_RESPONSE_TYPES = {"cloze_open", "word_formation", "key_transform"}
 WRITING_TYPE = "open_text"
-SUPPORTED_TYPES = OPTION_BASED_TYPES | TEXT_RESPONSE_TYPES | {WRITING_TYPE}
+CLOZE_CHOICE_TYPE = "cloze_mc"
+SUPPORTED_TYPES = OPTION_BASED_TYPES | TEXT_RESPONSE_TYPES | {WRITING_TYPE, CLOZE_CHOICE_TYPE}
 MIN_ITEMS_PER_LEVEL = 20
 
 
@@ -102,10 +103,18 @@ def load_item_bank(path: str | Path) -> Dict[str, List[Dict]]:
                     raise ValueError(
                         f"Item {item_id} answer '{answer}' is not present in options."
                     )
-            elif item_type in TEXT_RESPONSE_TYPES:
-                if "answer" not in entry:
-                    raise ValueError(f"Item {item_id} must include an 'answer'.")
-                _validate_string_answer(item_id, answer)
+            elif item_type == CLOZE_CHOICE_TYPE:
+                cloze_items = entry.get("cloze_items")
+                _validate_cloze_items(item_id, cloze_items, require_options=True)
+            elif item_type == "cloze_open":
+                cloze_items = entry.get("cloze_items")
+                _validate_cloze_items(item_id, cloze_items, require_options=False)
+            elif item_type == "word_formation":
+                wf_items = entry.get("word_formation_items")
+                _validate_word_formation_items(item_id, wf_items)
+            elif item_type == "key_transform":
+                tf_items = entry.get("transform_items")
+                _validate_transform_items(item_id, tf_items)
             elif item_type == WRITING_TYPE:
                 _ensure_absent(item_id, entry, {"options", "answer"})
                 writing_fields = _validate_writing_fields(entry, item_id)
@@ -148,12 +157,101 @@ def load_item_bank(path: str | Path) -> Dict[str, List[Dict]]:
 
             if item_type == WRITING_TYPE:
                 cleaned.update(writing_fields)
+            elif item_type in {CLOZE_CHOICE_TYPE, "cloze_open"}:
+                cleaned["cloze_items"] = entry.get("cloze_items", [])
+                cloze_text = entry.get("cloze_text")
+                if cloze_text:
+                    cleaned["cloze_text"] = cloze_text
+            elif item_type == "word_formation":
+                cleaned["word_formation_items"] = entry.get("word_formation_items", [])
+            elif item_type == "key_transform":
+                cleaned["transform_items"] = entry.get("transform_items", [])
 
             validated_items.append(cleaned)
 
         normalized[level] = validated_items
 
     return normalized
+
+
+def _validate_cloze_items(item_id: str, items: object, require_options: bool) -> None:
+    if not isinstance(items, list) or not items:
+        raise ValueError(f"Item {item_id} must define a non-empty 'cloze_items' list.")
+
+    seen_numbers: set[int] = set()
+    for gap in items:
+        if not isinstance(gap, dict):
+            raise ValueError(f"Item {item_id} cloze entries must be objects.")
+
+        number = gap.get("number")
+        if not isinstance(number, int):
+            raise ValueError(f"Item {item_id} cloze entries require an integer 'number'.")
+        if number in seen_numbers:
+            raise ValueError(f"Item {item_id} repeats cloze number {number}.")
+        seen_numbers.add(number)
+
+        answer = gap.get("answer")
+        _validate_string_answer(f"{item_id} gap {number}", answer)
+
+        options = gap.get("options")
+        if require_options:
+            _validate_options(f"{item_id} gap {number}", options)
+            if answer not in options:
+                raise ValueError(
+                    f"Item {item_id} gap {number} answer '{answer}' missing from options."
+                )
+        elif options is not None:
+            _validate_options(f"{item_id} gap {number}", options)
+
+
+def _validate_word_formation_items(item_id: str, items: object) -> None:
+    if not isinstance(items, list) or not items:
+        raise ValueError(f"Item {item_id} must define 'word_formation_items'.")
+
+    for entry in items:
+        if not isinstance(entry, dict):
+            raise ValueError(f"Item {item_id} word formation entries must be objects.")
+
+        number = entry.get("number")
+        if not isinstance(number, int):
+            raise ValueError(
+                f"Item {item_id} word formation entries require an integer 'number'."
+            )
+
+        sentence = entry.get("sentence")
+        base = entry.get("base")
+        if not isinstance(sentence, str) or not isinstance(base, str):
+            raise ValueError(
+                f"Item {item_id} word formation entries need 'sentence' and 'base' strings."
+            )
+
+        answer = entry.get("answer")
+        _validate_string_answer(f"{item_id} word {number}", answer)
+
+
+def _validate_transform_items(item_id: str, items: object) -> None:
+    if not isinstance(items, list) or not items:
+        raise ValueError(f"Item {item_id} must define 'transform_items'.")
+
+    for entry in items:
+        if not isinstance(entry, dict):
+            raise ValueError(f"Item {item_id} transformations must be objects.")
+
+        number = entry.get("number")
+        if not isinstance(number, int):
+            raise ValueError(
+                f"Item {item_id} transformations require an integer 'number'."
+            )
+
+        original = entry.get("original")
+        keyword = entry.get("keyword")
+        if not isinstance(original, str) or not isinstance(keyword, str):
+            raise ValueError(
+                f"Item {item_id} transformations need 'original' and 'keyword' strings."
+            )
+
+        answer = entry.get("answer")
+        _validate_string_answer(f"{item_id} transform {number}", answer)
 
 
 def _validate_options(item_id: str, options: Sequence) -> None:
