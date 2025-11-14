@@ -65,6 +65,72 @@ ADVANCED_LAYOUT_STYLE = """
     box-shadow: 0 4px 25px rgba(15, 35, 95, 0.08);
 }
 
+.exam-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid #e2e6f0;
+    padding-bottom: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.exam-part-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.exam-part-label {
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #4a4e69;
+}
+
+.exam-part-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a1b2d;
+}
+
+.exam-level-badge {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #14213d;
+    background: #eef1f8;
+    border-radius: 999px;
+    padding: 0.4rem 1rem;
+}
+
+.exam-breadcrumbs {
+    display: inline-flex;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin-bottom: 0.4rem;
+}
+
+.exam-breadcrumbs span {
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+}
+
+.exam-breadcrumbs span.active {
+    border-color: #c7d2fe;
+    color: #1e3a8a;
+    background: #eef2ff;
+}
+
+.exam-instructions {
+    font-size: 0.95rem;
+    color: #1f2937;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
 .advanced-exam-shell h3,
 .advanced-exam-shell h4 {
     margin-top: 0;
@@ -131,6 +197,120 @@ WRITING_LAYOUT_STYLE = """
 }
 </style>
 """
+
+ADVANCED_LEVEL_TITLES = {
+    "C1": "C1 Advanced Mode",
+    "C2": "C2 Proficiency Mode",
+}
+
+EXAM_PARTS = {
+    "reading_long": {
+        "order": 1,
+        "label": "Part 1",
+        "title": "Reading – Part 1",
+        "instructions": (
+            "You are going to read a text. For questions 1–6, choose the answer (A, B, C or D) "
+            "which you think fits best according to the text."
+        ),
+    },
+    "use_of_english": {
+        "order": 2,
+        "label": "Part 2",
+        "title": "Use of English – Part 2",
+        "instructions": (
+            "Read the text below and think of the word which best fits each gap. Use only one word in each gap."
+        ),
+    },
+    "writing_task": {
+        "order": 3,
+        "label": "Part 3",
+        "title": "Writing – Part 3",
+        "instructions": (
+            "You must answer this question. Write your response within the word range and keep a formal, well-organised tone."
+        ),
+    },
+}
+
+EXAM_PART_ALIASES = {
+    "reading": "reading_long",
+    "reading_long": "reading_long",
+    "cloze_mc": "use_of_english",
+    "cloze_open": "use_of_english",
+    "word_formation": "use_of_english",
+    "key_transform": "use_of_english",
+    "use_of_english": "use_of_english",
+    "grammar": "use_of_english",
+    "vocab": "use_of_english",
+    "writing": "writing_task",
+    "writing_task": "writing_task",
+}
+
+
+def resolve_exam_part_id(part: Optional[str], skill: Optional[str]) -> str:
+    """Return the canonical exam part identifier based on *part* or *skill*."""
+
+    if part:
+        canonical = EXAM_PART_ALIASES.get(part)
+        if canonical:
+            return canonical
+    if skill:
+        canonical = EXAM_PART_ALIASES.get(skill)
+        if canonical:
+            return canonical
+    return "use_of_english"
+
+
+def get_exam_part_descriptor(part: Optional[str], skill: Optional[str]) -> Dict[str, Any]:
+    """Return metadata describing the exam part for the provided identifiers."""
+
+    part_id = resolve_exam_part_id(part, skill)
+    descriptor = EXAM_PARTS.get(part_id, {})
+    if not descriptor:
+        descriptor = {
+            "order": None,
+            "label": part_id.replace("_", " ").title(),
+            "title": part_id.replace("_", " ").title(),
+            "instructions": "",
+        }
+    descriptor = dict(descriptor)
+    descriptor["id"] = part_id
+    return descriptor
+
+
+def render_exam_breadcrumbs(active_part_id: str) -> None:
+    """Render the Part 1 / Part 2 / Part 3 navigation strip."""
+
+    ordered_keys = sorted(EXAM_PARTS, key=lambda key: EXAM_PARTS[key]["order"])
+    crumbs = []
+    for key in ordered_keys:
+        part = EXAM_PARTS[key]
+        css_class = "active" if key == active_part_id else ""
+        crumbs.append(f"<span class='{css_class}'>{part['label']}</span>")
+    crumb_html = " ".join(crumbs)
+    st.markdown(f"<div class='exam-breadcrumbs'>{crumb_html}</div>", unsafe_allow_html=True)
+
+
+def render_exam_part_header(level: str, part: Optional[str], *, skill: Optional[str] = None) -> Dict[str, Any]:
+    """Render the clean Cambridge-style header for advanced sections."""
+
+    descriptor = get_exam_part_descriptor(part, skill)
+    level_label = ADVANCED_LEVEL_TITLES.get(level, f"{level} Advanced Mode")
+    st.markdown(
+        """
+        <div class="exam-header">
+            <div class="exam-part-meta">
+                <div class="exam-part-label">{label}</div>
+                <div class="exam-part-title">{title}</div>
+            </div>
+            <div class="exam-level-badge">{level_label}</div>
+        </div>
+        """.format(label=descriptor["label"], title=descriptor["title"], level_label=level_label),
+        unsafe_allow_html=True,
+    )
+    render_exam_breadcrumbs(descriptor["id"])
+    if descriptor.get("instructions"):
+        st.markdown(f"<p class='exam-instructions'>{descriptor['instructions']}</p>", unsafe_allow_html=True)
+    return descriptor
 
 
 def skill_rotation_for_level(level: str) -> List[str]:
@@ -1266,8 +1446,9 @@ def render_advanced_group_flow(
     if not group_state:
         return False
 
-    part_label = group_state.get("part") or "Reading comprehension"
-    st.markdown(f"#### {part_label}")
+    questions = group_state["questions"]
+    first_skill = questions[0].get("skill") if questions else None
+    render_exam_part_header(level, group_state.get("part"), skill=first_skill)
     render_group_timer(group_state)
 
     if group_state.get("passage"):
@@ -1276,7 +1457,6 @@ def render_advanced_group_flow(
             unsafe_allow_html=True,
         )
 
-    questions = group_state["questions"]
     responses = group_state["responses"]
     total_questions = len(questions)
     summary_tokens = [
@@ -1290,7 +1470,7 @@ def render_advanced_group_flow(
     ]
     summary = " · ".join(f"{status} {label}" for status, label in summary_tokens)
     st.markdown(
-        f"<div class='advanced-status-strip'>Parte cronometrada · {summary}</div>",
+        f"<div class='advanced-status-strip'>Timed section · {summary}</div>",
         unsafe_allow_html=True,
     )
 
@@ -1298,10 +1478,6 @@ def render_advanced_group_flow(
     question = questions[current_index]
     st.markdown(f"**Pregunta {current_index + 1} / {total_questions}**")
     render_question_prompt(question, show_passage=False)
-    st.caption(
-        "Responde con precisión. Puedes revisar tus elecciones antes de cerrar la parte."
-    )
-
     widget_key = f"group_{group_state['group_id']}_{question['id']}"
     response = render_question_inputs(question, widget_key, advanced=True)
     responses[question["id"]] = response
@@ -1432,13 +1608,13 @@ def render_adaptive_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) ->
             return
 
         heading = (
-            f"### Section {level} · Ítem {block['presented'] + 1} de {rule['block_size']}"
+            f"### {ADVANCED_LEVEL_TITLES.get(level, f'{level} Advanced Mode')}"
             if advanced
             else f"### Nivel actual: **{level}** · Pregunta {block['presented'] + 1} de {rule['block_size']}"
         )
         st.markdown(heading)
         caption = (
-            "Formato oficial: mantén el ritmo y evita tres respuestas erróneas antes del umbral."
+            "Official exam conditions. Complete each part methodically before moving on."
             if advanced
             else "Apunta al umbral de promoción del bloque. Tres errores antes de lograrlo frenan la subida."
         )
@@ -1446,7 +1622,7 @@ def render_adaptive_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) ->
 
         total_answered = len(st.session_state.history)
         block_status = (
-            "Estado del bloque — aciertos: {correct}, errores: {wrong}, ítems respondidos: {presented} / {size}."
+            "Block progress — answered: {presented}/{size}, correct: {correct}, wrong: {wrong}."
             if advanced
             else "Bloque: {correct} aciertos, {wrong} errores, {presented} respondidas de {size}."
         )
@@ -1460,7 +1636,7 @@ def render_adaptive_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) ->
         )
         st.progress(min(block["presented"], rule["block_size"]) / rule["block_size"])
         total_label = (
-            "Ítems administrados en el adaptativo: {answered} de {maximum} permitidos."
+            "Adaptive session items administered: {answered} of {maximum} allowed."
             if advanced
             else "Preguntas totales contestadas: {answered} de {maximum} permitidas."
         )
@@ -1484,13 +1660,11 @@ def render_adaptive_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) ->
         question = st.session_state.current_question
         key = st.session_state.current_question_key
 
+        if advanced:
+            render_exam_part_header(level, question.get("part"), skill=question.get("skill"))
         render_question_prompt(question)
-        skill_label = (
-            "Habilidad evaluada: "
-            if advanced
-            else "Habilidad enfocada: "
-        )
-        st.caption(skill_label + question["skill"].replace("_", " ").title())
+        if not advanced:
+            st.caption("Habilidad enfocada: " + question["skill"].replace("_", " ").title())
 
         if st.session_state.last_adaptive_feedback:
             feedback = st.session_state.last_adaptive_feedback
@@ -1499,9 +1673,9 @@ def render_adaptive_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) ->
 
         response = render_question_inputs(question, key, advanced=advanced)
 
-        button_label = "Registrar respuesta" if advanced else "Responder"
+        button_label = "Submit answer" if advanced else "Responder"
         button_help = (
-            "Envía tu selección para registrar el ítem de esta sección."
+            "Send your choice to record this item under exam conditions."
             if advanced
             else "Envía tu respuesta para recibir retroalimentación inmediata."
         )
