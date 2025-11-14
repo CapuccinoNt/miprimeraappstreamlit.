@@ -2247,6 +2247,288 @@
         "much"
       ],
       "answer": "more"
+    },
+    {
+      "id": "C1-RD-RL-001",
+      "level": "C1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "part": "reading_long",
+      "group_id": "C1-RL-01",
+      "estimated_time": 12,
+      "passage": "During the municipality's participatory budgeting weekend, dozens of citizens settled into the converted train depot, laptops open next to thermoses of coffee. They had volunteered to redesign a neglected riverside lot that had become synonymous with graffiti and broken benches. Urban planners facilitated the session, but the most compelling ideas came from neighbours comparing memories: an elderly rower described when the dock hosted regattas, while a teen climate activist insisted the future must include rain gardens and native reeds. To keep the discussion grounded, facilitators wheeled out a large cardboard model of the neighbourhood, inviting teams to slot miniature modules into place. By dusk, the whiteboard held three competing proposals. One favoured an outdoor cinema with modular seating; another suggested a low-cost co-working pavilion; the final plan paired a kayak launch with a small makerspace for repairing fishing equipment. When the panel tallied votes, the hybrid proposal won because it treated leisure, entrepreneurship, and ecology as intertwined needs rather than isolated amenities. The pilot phase will open in spring with temporary timber decks and a pop-up café to test how residents navigate the renewed waterfront.",
+      "prompt": "¿Cuál era el objetivo principal del fin de semana de presupuestos participativos?",
+      "options": [
+        "Recaudar fondos para reparar el depósito ferroviario",
+        "Decidir un nuevo uso para un lote ribereño en mal estado",
+        "Organizar una competencia regional de remo",
+        "Seleccionar a los facilitadores urbanos del barrio"
+      ],
+      "answer": "Decidir un nuevo uso para un lote ribereño en mal estado"
+    },
+    {
+      "id": "C1-RD-RL-002",
+      "level": "C1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "part": "reading_long",
+      "group_id": "C1-RL-01",
+      "estimated_time": 12,
+      "passage": "During the municipality's participatory budgeting weekend, dozens of citizens settled into the converted train depot, laptops open next to thermoses of coffee. They had volunteered to redesign a neglected riverside lot that had become synonymous with graffiti and broken benches. Urban planners facilitated the session, but the most compelling ideas came from neighbours comparing memories: an elderly rower described when the dock hosted regattas, while a teen climate activist insisted the future must include rain gardens and native reeds. To keep the discussion grounded, facilitators wheeled out a large cardboard model of the neighbourhood, inviting teams to slot miniature modules into place. By dusk, the whiteboard held three competing proposals. One favoured an outdoor cinema with modular seating; another suggested a low-cost co-working pavilion; the final plan paired a kayak launch with a small makerspace for repairing fishing equipment. When the panel tallied votes, the hybrid proposal won because it treated leisure, entrepreneurship, and ecology as intertwined needs rather than isolated amenities. The pilot phase will open in spring with temporary timber decks and a pop-up café to test how residents navigate the renewed waterfront.",
+      "prompt": "¿Qué rol cumplía la maqueta de cartón durante la sesión?",
+      "options": [
+        "Servía como registro oficial de los votos",
+        "Permitía comparar el barrio con otras ciudades",
+        "Ayudaba a los equipos a visualizar sus ideas en el espacio",
+        "Sustituía las notas que tomaban los facilitadores"
+      ],
+      "answer": "Ayudaba a los equipos a visualizar sus ideas en el espacio"
+    },
+    {
+      "id": "C1-RD-RL-003",
+      "level": "C1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "part": "reading_long",
+      "group_id": "C1-RL-01",
+      "estimated_time": 12,
+      "passage": "During the municipality's participatory budgeting weekend, dozens of citizens settled into the converted train depot, laptops open next to thermoses of coffee. They had volunteered to redesign a neglected riverside lot that had become synonymous with graffiti and broken benches. Urban planners facilitated the session, but the most compelling ideas came from neighbours comparing memories: an elderly rower described when the dock hosted regattas, while a teen climate activist insisted the future must include rain gardens and native reeds. To keep the discussion grounded, facilitators wheeled out a large cardboard model of the neighbourhood, inviting teams to slot miniature modules into place. By dusk, the whiteboard held three competing proposals. One favoured an outdoor cinema with modular seating; another suggested a low-cost co-working pavilion; the final plan paired a kayak launch with a small makerspace for repairing fishing equipment. When the panel tallied votes, the hybrid proposal won because it treated leisure, entrepreneurship, and ecology as intertwined needs rather than isolated amenities. The pilot phase will open in spring with temporary timber decks and a pop-up café to test how residents navigate the renewed waterfront.",
+      "prompt": "¿Por qué destacó la propuesta híbrida?",
+      "options": [
+        "Porque era la única que incluía un cine al aire libre",
+        "Porque integraba ocio, emprendimiento y ecología como necesidades relacionadas",
+        "Porque requería la menor inversión inicial",
+        "Porque preservaba intacto el pasado industrial del muelle"
+      ],
+      "answer": "Porque integraba ocio, emprendimiento y ecología como necesidades relacionadas"
+    },
+    {
+      "id": "C1-RD-RL-004",
+      "level": "C1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "part": "reading_long",
+      "group_id": "C1-RL-01",
+      "estimated_time": 12,
+      "passage": "During the municipality's participatory budgeting weekend, dozens of citizens settled into the converted train depot, laptops open next to thermoses of coffee. They had volunteered to redesign a neglected riverside lot that had become synonymous with graffiti and broken benches. Urban planners facilitated the session, but the most compelling ideas came from neighbours comparing memories: an elderly rower described when the dock hosted regattas, while a teen climate activist insisted the future must include rain gardens and native reeds. To keep the discussion grounded, facilitators wheeled out a large cardboard model of the neighbourhood, inviting teams to slot miniature modules into place. By dusk, the whiteboard held three competing proposals. One favoured an outdoor cinema with modular seating; another suggested a low-cost co-working pavilion; the final plan paired a kayak launch with a small makerspace for repairing fishing equipment. When the panel tallied votes, the hybrid proposal won because it treated leisure, entrepreneurship, and ecology as intertwined needs rather than isolated amenities. The pilot phase will open in spring with temporary timber decks and a pop-up café to test how residents navigate the renewed waterfront.",
+      "prompt": "¿Qué sugiere la mención a la activista climática adolescente?",
+      "options": [
+        "Que los participantes jóvenes priorizaban la estética",
+        "Que había resistencia a introducir vegetación nativa",
+        "Que la visión ambiental influyó en los criterios del grupo",
+        "Que el plan final excluía la voz juvenil"
+      ],
+      "answer": "Que la visión ambiental influyó en los criterios del grupo"
+    },
+    {
+      "id": "C1-RD-RL-005",
+      "level": "C1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "part": "reading_long",
+      "group_id": "C1-RL-01",
+      "estimated_time": 12,
+      "passage": "During the municipality's participatory budgeting weekend, dozens of citizens settled into the converted train depot, laptops open next to thermoses of coffee. They had volunteered to redesign a neglected riverside lot that had become synonymous with graffiti and broken benches. Urban planners facilitated the session, but the most compelling ideas came from neighbours comparing memories: an elderly rower described when the dock hosted regattas, while a teen climate activist insisted the future must include rain gardens and native reeds. To keep the discussion grounded, facilitators wheeled out a large cardboard model of the neighbourhood, inviting teams to slot miniature modules into place. By dusk, the whiteboard held three competing proposals. One favoured an outdoor cinema with modular seating; another suggested a low-cost co-working pavilion; the final plan paired a kayak launch with a small makerspace for repairing fishing equipment. When the panel tallied votes, the hybrid proposal won because it treated leisure, entrepreneurship, and ecology as intertwined needs rather than isolated amenities. The pilot phase will open in spring with temporary timber decks and a pop-up café to test how residents navigate the renewed waterfront.",
+      "prompt": "Según el texto, ¿cómo probarán las ideas antes de construir de forma permanente?",
+      "options": [
+        "Mediante encuestas digitales trimestrales",
+        "Con una fase piloto de estructuras temporales",
+        "Contratando una consultora internacional",
+        "Organizando un festival de lanzamiento"
+      ],
+      "answer": "Con una fase piloto de estructuras temporales"
+    },
+    {
+      "id": "C1-RD-RL-006",
+      "level": "C1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "part": "reading_long",
+      "group_id": "C1-RL-01",
+      "estimated_time": 12,
+      "passage": "During the municipality's participatory budgeting weekend, dozens of citizens settled into the converted train depot, laptops open next to thermoses of coffee. They had volunteered to redesign a neglected riverside lot that had become synonymous with graffiti and broken benches. Urban planners facilitated the session, but the most compelling ideas came from neighbours comparing memories: an elderly rower described when the dock hosted regattas, while a teen climate activist insisted the future must include rain gardens and native reeds. To keep the discussion grounded, facilitators wheeled out a large cardboard model of the neighbourhood, inviting teams to slot miniature modules into place. By dusk, the whiteboard held three competing proposals. One favoured an outdoor cinema with modular seating; another suggested a low-cost co-working pavilion; the final plan paired a kayak launch with a small makerspace for repairing fishing equipment. When the panel tallied votes, the hybrid proposal won because it treated leisure, entrepreneurship, and ecology as intertwined needs rather than isolated amenities. The pilot phase will open in spring with temporary timber decks and a pop-up café to test how residents navigate the renewed waterfront.",
+      "prompt": "¿Qué detalle refuerza la idea de que el espacio era significativo para distintos grupos?",
+      "options": [
+        "El depósito se convirtió en museo",
+        "El recuerdo del remero veterano y la perspectiva del activista",
+        "La presencia de una cafetería emergente",
+        "El uso de paneles solares desde el inicio"
+      ],
+      "answer": "El recuerdo del remero veterano y la perspectiva del activista"
+    },
+    {
+      "id": "C1-UE-CLOZE-001",
+      "level": "C1",
+      "skill": "use_of_english",
+      "type": "cloze_mc",
+      "part": "cloze_mc",
+      "prompt": "Completa el artículo eligiendo la opción adecuada en cada hueco.",
+      "cloze_text": "The hybrid civic lab was conceived as a travelling residency that [1] between rural towns. Rather than parachuting in consultants, the initiative invites librarians, local radio hosts and student engineers to redesign public services together. The first season revealed that connectivity issues were not merely technical: farmers worried that data collected from their soil sensors would [2] used to justify new taxes. To address this, fellows held open mapping nights in school gyms, projecting anonymised layers onto the walls so neighbours could interrogate the assumptions themselves. When the residency reached a mining town, organisers expected scepticism, yet union leaders [3] workshops on how to repurpose idle machinery for geothermal projects. The lab's portable studio allowed teenagers to document the experiments, ensuring the narratives [4] beyond specialist journals. Funding remains precarious; every quarter the team must [5] philanthropic backers and municipal councils that a roaming lab is worth the logistical headaches. Still, the waitlists grow because participants leave with templates for [6] procurement, public art and emergency communications that match their own cultural registers.",
+      "cloze_items": [
+        {
+          "number": 1,
+          "options": [
+            "drifts",
+            "anchors",
+            "disputes",
+            "splits"
+          ],
+          "answer": "drifts"
+        },
+        {
+          "number": 2,
+          "options": [
+            "be",
+            "being",
+            "have",
+            "having"
+          ],
+          "answer": "be"
+        },
+        {
+          "number": 3,
+          "options": [
+            "staged",
+            "muted",
+            "dodged",
+            "trimmed"
+          ],
+          "answer": "staged"
+        },
+        {
+          "number": 4,
+          "options": [
+            "faded",
+            "circulated",
+            "conceded",
+            "insulated"
+          ],
+          "answer": "circulated"
+        },
+        {
+          "number": 5,
+          "options": [
+            "assure",
+            "argue",
+            "appeal",
+            "assess"
+          ],
+          "answer": "assure"
+        },
+        {
+          "number": 6,
+          "options": [
+            "tailoring",
+            "tailored",
+            "tailors",
+            "tailor"
+          ],
+          "answer": "tailoring"
+        }
+      ]
+    },
+    {
+      "id": "C1-UE-OPEN-001",
+      "level": "C1",
+      "skill": "use_of_english",
+      "type": "cloze_open",
+      "part": "cloze_open",
+      "prompt": "Completa el texto con una sola palabra en cada espacio.",
+      "cloze_text": "The volunteer mediators arrived long before dawn so ___ to rearrange the town hall benches into a circle. ___ that layout, parents from opposing school boards were less inclined to sit in cliques. The ground rule was simple: respond to ideas rather than people, and pause whenever tempers ___. By mid-morning, both delegations acknowledged that test scores alone could not account ___ the drop in enrolment. They mapped feeder routes, discovering that bus stops had vanished without families even being warned. Only ___ comparing those timelines did they realise the closures coincided with a private contractor taking over maintenance. The final recommendation was not revolutionary, yet it was practical: reinstate a transparent calendar so transport changes can be contested ___ advance.",
+      "cloze_items": [
+        {
+          "number": 1,
+          "answer": "as"
+        },
+        {
+          "number": 2,
+          "answer": "with"
+        },
+        {
+          "number": 3,
+          "answer": "flared"
+        },
+        {
+          "number": 4,
+          "answer": "for"
+        },
+        {
+          "number": 5,
+          "answer": "after"
+        },
+        {
+          "number": 6,
+          "answer": "in"
+        }
+      ]
+    },
+    {
+      "id": "C1-UE-WF-001",
+      "level": "C1",
+      "skill": "use_of_english",
+      "type": "word_formation",
+      "part": "word_formation",
+      "prompt": "Transforma la palabra dada para que encaje en la oración.",
+      "word_formation_items": [
+        {
+          "number": 1,
+          "sentence": "The mayor promised that community labs would remain ___ funded despite budget pressure.",
+          "base": "PUBLIC",
+          "answer": "publicly"
+        },
+        {
+          "number": 2,
+          "sentence": "We need clearer ___ to evaluate which pilot deserves scaling.",
+          "base": "CRITERION",
+          "answer": "criteria"
+        },
+        {
+          "number": 3,
+          "sentence": "Her ___ to inclusive design convinced sceptical councillors.",
+          "base": "COMMIT",
+          "answer": "commitment"
+        },
+        {
+          "number": 4,
+          "sentence": "Volunteers took a more ___ approach once they saw the data gaps.",
+          "base": "STRATEGY",
+          "answer": "strategic"
+        }
+      ]
+    },
+    {
+      "id": "C1-UE-KT-001",
+      "level": "C1",
+      "skill": "use_of_english",
+      "type": "key_transform",
+      "part": "key_transform",
+      "prompt": "Reescribe cada oración usando la palabra dada sin cambiar el significado.",
+      "transform_items": [
+        {
+          "number": 1,
+          "original": "We last updated the flood plan three years ago.",
+          "keyword": "SINCE",
+          "answer": "We haven't updated the flood plan since three years ago."
+        },
+        {
+          "number": 2,
+          "original": "They postponed the launch because nobody tested the backup radios.",
+          "keyword": "DUE",
+          "answer": "They postponed the launch due to nobody testing the backup radios."
+        },
+        {
+          "number": 3,
+          "original": "It was unnecessary for the task force to rewrite the entire charter.",
+          "keyword": "HAVE",
+          "answer": "The task force needn't have rewritten the entire charter."
+        },
+        {
+          "number": 4,
+          "original": "Neighbourhood leaders insisted on seeing the prototype before endorsing it.",
+          "keyword": "DEMANDED",
+          "answer": "Neighbourhood leaders demanded to see the prototype before endorsing it."
+        }
+      ]
     }
   ],
   "C2": [
@@ -2697,6 +2979,302 @@
         "little"
       ],
       "answer": "fewer"
+    },
+    {
+      "id": "C2-RD-RL-001",
+      "level": "C2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "part": "reading_long",
+      "group_id": "C2-RL-01",
+      "estimated_time": 14,
+      "passage": "The independent ocean observatory moored eighty kilometres off the coast no longer resembles the temporary barge it was five years ago. Now it is a modular campus where climatologists, acoustic ecologists and policy fellows live alongside chefs and machinists who keep the station running. Each morning begins with a silent ritual: researchers gather on the upper deck to watch the shoals of anchovies that dictate the health of the regional food chain. After the briefing, half the cohort descends into the wet lab to calibrate sensors, while the rest connect via holographic link to classrooms on three continents. The observatory's charter insists on inviting indigenous stewards and artisanal fishers aboard every month so that granular measurements can be paired with oral histories about shifting currents. Tensions do arise: visiting fellows often push for sweeping moratoria on trawling, whereas resident technicians argue for phased quotas that coastal councils might actually enforce. To mediate, the director schedules \"listening dives\" where conflicting parties float together in the moon pool, surrounded by recordings of whale songs slowed to human tempo. The surreal practice has led to unexpected compromises, including microgrants for communities that trial sonar-friendly nets. As governments debate whether to fund a second platform closer to Antarctica, critics warn that the observatory risks becoming an elite enclave unless its data portals remain open-source and its apprenticeships reserved for candidates outside traditional academia.",
+      "prompt": "¿Qué idea principal transmite el primer párrafo sobre el observatorio?",
+      "options": [
+        "Se mantiene como una barcaza improvisada",
+        "Se transformó en un campus modular con vida comunitaria",
+        "Depende exclusivamente de personal militar",
+        "Opera solo durante expediciones estivales"
+      ],
+      "answer": "Se transformó en un campus modular con vida comunitaria"
+    },
+    {
+      "id": "C2-RD-RL-002",
+      "level": "C2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "part": "reading_long",
+      "group_id": "C2-RL-01",
+      "estimated_time": 14,
+      "passage": "The independent ocean observatory moored eighty kilometres off the coast no longer resembles the temporary barge it was five years ago. Now it is a modular campus where climatologists, acoustic ecologists and policy fellows live alongside chefs and machinists who keep the station running. Each morning begins with a silent ritual: researchers gather on the upper deck to watch the shoals of anchovies that dictate the health of the regional food chain. After the briefing, half the cohort descends into the wet lab to calibrate sensors, while the rest connect via holographic link to classrooms on three continents. The observatory's charter insists on inviting indigenous stewards and artisanal fishers aboard every month so that granular measurements can be paired with oral histories about shifting currents. Tensions do arise: visiting fellows often push for sweeping moratoria on trawling, whereas resident technicians argue for phased quotas that coastal councils might actually enforce. To mediate, the director schedules \"listening dives\" where conflicting parties float together in the moon pool, surrounded by recordings of whale songs slowed to human tempo. The surreal practice has led to unexpected compromises, including microgrants for communities that trial sonar-friendly nets. As governments debate whether to fund a second platform closer to Antarctica, critics warn that the observatory risks becoming an elite enclave unless its data portals remain open-source and its apprenticeships reserved for candidates outside traditional academia.",
+      "prompt": "¿Por qué invitan mensualmente a guardianes indígenas y pescadores artesanales?",
+      "options": [
+        "Para reemplazar a los técnicos residentes",
+        "Para combinar datos científicos con relatos locales",
+        "Para que funjan como mediadores en los conflictos",
+        "Para reducir los costos logísticos del observatorio"
+      ],
+      "answer": "Para combinar datos científicos con relatos locales"
+    },
+    {
+      "id": "C2-RD-RL-003",
+      "level": "C2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "part": "reading_long",
+      "group_id": "C2-RL-01",
+      "estimated_time": 14,
+      "passage": "The independent ocean observatory moored eighty kilometres off the coast no longer resembles the temporary barge it was five years ago. Now it is a modular campus where climatologists, acoustic ecologists and policy fellows live alongside chefs and machinists who keep the station running. Each morning begins with a silent ritual: researchers gather on the upper deck to watch the shoals of anchovies that dictate the health of the regional food chain. After the briefing, half the cohort descends into the wet lab to calibrate sensors, while the rest connect via holographic link to classrooms on three continents. The observatory's charter insists on inviting indigenous stewards and artisanal fishers aboard every month so that granular measurements can be paired with oral histories about shifting currents. Tensions do arise: visiting fellows often push for sweeping moratoria on trawling, whereas resident technicians argue for phased quotas that coastal councils might actually enforce. To mediate, the director schedules \"listening dives\" where conflicting parties float together in the moon pool, surrounded by recordings of whale songs slowed to human tempo. The surreal practice has led to unexpected compromises, including microgrants for communities that trial sonar-friendly nets. As governments debate whether to fund a second platform closer to Antarctica, critics warn that the observatory risks becoming an elite enclave unless its data portals remain open-source and its apprenticeships reserved for candidates outside traditional academia.",
+      "prompt": "¿Qué conflicto se describe entre los becarios visitantes y los técnicos residentes?",
+      "options": [
+        "Discrepan sobre la utilidad de las redes de deriva",
+        "Debaten entre prohibiciones tajantes y cuotas graduales",
+        "Discuten sobre quién debe dirigir los rituales matutinos",
+        "Se enfrentan por el acceso prioritario a los laboratorios"
+      ],
+      "answer": "Debaten entre prohibiciones tajantes y cuotas graduales"
+    },
+    {
+      "id": "C2-RD-RL-004",
+      "level": "C2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "part": "reading_long",
+      "group_id": "C2-RL-01",
+      "estimated_time": 14,
+      "passage": "The independent ocean observatory moored eighty kilometres off the coast no longer resembles the temporary barge it was five years ago. Now it is a modular campus where climatologists, acoustic ecologists and policy fellows live alongside chefs and machinists who keep the station running. Each morning begins with a silent ritual: researchers gather on the upper deck to watch the shoals of anchovies that dictate the health of the regional food chain. After the briefing, half the cohort descends into the wet lab to calibrate sensors, while the rest connect via holographic link to classrooms on three continents. The observatory's charter insists on inviting indigenous stewards and artisanal fishers aboard every month so that granular measurements can be paired with oral histories about shifting currents. Tensions do arise: visiting fellows often push for sweeping moratoria on trawling, whereas resident technicians argue for phased quotas that coastal councils might actually enforce. To mediate, the director schedules \"listening dives\" where conflicting parties float together in the moon pool, surrounded by recordings of whale songs slowed to human tempo. The surreal practice has led to unexpected compromises, including microgrants for communities that trial sonar-friendly nets. As governments debate whether to fund a second platform closer to Antarctica, critics warn that the observatory risks becoming an elite enclave unless its data portals remain open-source and its apprenticeships reserved for candidates outside traditional academia.",
+      "prompt": "¿Qué papel cumplen las 'inmersiones de escucha'?",
+      "options": [
+        "Son ejercicios de rescate en aguas heladas",
+        "Funcionan como espacios de mediación sensorial",
+        "Sustituyen las asambleas administrativas",
+        "Sirven para calibrar micrófonos submarinos"
+      ],
+      "answer": "Funcionan como espacios de mediación sensorial"
+    },
+    {
+      "id": "C2-RD-RL-005",
+      "level": "C2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "part": "reading_long",
+      "group_id": "C2-RL-01",
+      "estimated_time": 14,
+      "passage": "The independent ocean observatory moored eighty kilometres off the coast no longer resembles the temporary barge it was five years ago. Now it is a modular campus where climatologists, acoustic ecologists and policy fellows live alongside chefs and machinists who keep the station running. Each morning begins with a silent ritual: researchers gather on the upper deck to watch the shoals of anchovies that dictate the health of the regional food chain. After the briefing, half the cohort descends into the wet lab to calibrate sensors, while the rest connect via holographic link to classrooms on three continents. The observatory's charter insists on inviting indigenous stewards and artisanal fishers aboard every month so that granular measurements can be paired with oral histories about shifting currents. Tensions do arise: visiting fellows often push for sweeping moratoria on trawling, whereas resident technicians argue for phased quotas that coastal councils might actually enforce. To mediate, the director schedules \"listening dives\" where conflicting parties float together in the moon pool, surrounded by recordings of whale songs slowed to human tempo. The surreal practice has led to unexpected compromises, including microgrants for communities that trial sonar-friendly nets. As governments debate whether to fund a second platform closer to Antarctica, critics warn that the observatory risks becoming an elite enclave unless its data portals remain open-source and its apprenticeships reserved for candidates outside traditional academia.",
+      "prompt": "¿Qué resultado concreto generaron los acuerdos mencionados?",
+      "options": [
+        "Se prohibió el uso de sonar en toda la región",
+        "Se otorgaron microbecas para probar redes compatibles con sonar",
+        "Se expulsó a los becarios críticos",
+        "Se trasladó la estación más cerca de la costa"
+      ],
+      "answer": "Se otorgaron microbecas para probar redes compatibles con sonar"
+    },
+    {
+      "id": "C2-RD-RL-006",
+      "level": "C2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "part": "reading_long",
+      "group_id": "C2-RL-01",
+      "estimated_time": 14,
+      "passage": "The independent ocean observatory moored eighty kilometres off the coast no longer resembles the temporary barge it was five years ago. Now it is a modular campus where climatologists, acoustic ecologists and policy fellows live alongside chefs and machinists who keep the station running. Each morning begins with a silent ritual: researchers gather on the upper deck to watch the shoals of anchovies that dictate the health of the regional food chain. After the briefing, half the cohort descends into the wet lab to calibrate sensors, while the rest connect via holographic link to classrooms on three continents. The observatory's charter insists on inviting indigenous stewards and artisanal fishers aboard every month so that granular measurements can be paired with oral histories about shifting currents. Tensions do arise: visiting fellows often push for sweeping moratoria on trawling, whereas resident technicians argue for phased quotas that coastal councils might actually enforce. To mediate, the director schedules \"listening dives\" where conflicting parties float together in the moon pool, surrounded by recordings of whale songs slowed to human tempo. The surreal practice has led to unexpected compromises, including microgrants for communities that trial sonar-friendly nets. As governments debate whether to fund a second platform closer to Antarctica, critics warn that the observatory risks becoming an elite enclave unless its data portals remain open-source and its apprenticeships reserved for candidates outside traditional academia.",
+      "prompt": "¿Cuál es la principal preocupación de los críticos respecto a una segunda plataforma?",
+      "options": [
+        "Que duplicará los costos de mantenimiento",
+        "Que se convierta en un enclave elitista si no mantiene acceso abierto",
+        "Que atraiga a depredadores hacia las costas",
+        "Que reemplace los rituales de observación de peces"
+      ],
+      "answer": "Que se convierta en un enclave elitista si no mantiene acceso abierto"
+    },
+    {
+      "id": "C2-RD-RL-007",
+      "level": "C2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "part": "reading_long",
+      "group_id": "C2-RL-01",
+      "estimated_time": 14,
+      "passage": "The independent ocean observatory moored eighty kilometres off the coast no longer resembles the temporary barge it was five years ago. Now it is a modular campus where climatologists, acoustic ecologists and policy fellows live alongside chefs and machinists who keep the station running. Each morning begins with a silent ritual: researchers gather on the upper deck to watch the shoals of anchovies that dictate the health of the regional food chain. After the briefing, half the cohort descends into the wet lab to calibrate sensors, while the rest connect via holographic link to classrooms on three continents. The observatory's charter insists on inviting indigenous stewards and artisanal fishers aboard every month so that granular measurements can be paired with oral histories about shifting currents. Tensions do arise: visiting fellows often push for sweeping moratoria on trawling, whereas resident technicians argue for phased quotas that coastal councils might actually enforce. To mediate, the director schedules \"listening dives\" where conflicting parties float together in the moon pool, surrounded by recordings of whale songs slowed to human tempo. The surreal practice has led to unexpected compromises, including microgrants for communities that trial sonar-friendly nets. As governments debate whether to fund a second platform closer to Antarctica, critics warn that the observatory risks becoming an elite enclave unless its data portals remain open-source and its apprenticeships reserved for candidates outside traditional academia.",
+      "prompt": "¿Qué tono transmite el autor al describir la rutina inicial del día?",
+      "options": [
+        "Escéptico ante los rituales",
+        "Admirativo y casi contemplativo",
+        "Impaciente por la lentitud del proceso",
+        "Desapegado y burocrático"
+      ],
+      "answer": "Admirativo y casi contemplativo"
+    },
+    {
+      "id": "C2-UE-CLOZE-001",
+      "level": "C2",
+      "skill": "use_of_english",
+      "type": "cloze_mc",
+      "part": "cloze_mc",
+      "prompt": "Elige la opción correcta para cada hueco del editorial.",
+      "cloze_text": "When the meteorological archive released four decades of storm transcripts, historians realised how selectively earlier administrations had framed risk. The annotated tapes reveal ministers joking about evacuation drills even as meteorologists [1] data that made landfall damage inevitable. Today, emergency agencies insist that publishing raw forecasts could [2] panic, yet withholding them has repeatedly eroded trust. Citizens are not passive: volunteer coders have begun training models that [3] flood alerts directly to community radios in multiple languages. Their work exposes a thornier issue—accountability. Once predictive systems [4] into policy, who answers for false alarms or blind spots? Instead of doubling down on secrecy, agencies should design appeals processes that let residents challenge modelling assumptions. Only by [5] scrutiny into the workflow will authorities avoid the paternalistic reflex that derailed earlier reforms. Until then, mayors will keep improvising relief protocols while activists demand treaty-level guarantees that data used to justify curfews will also [6] reparations when negligence is proven.",
+      "cloze_items": [
+        {
+          "number": 1,
+          "options": [
+            "circulated",
+            "suppressed",
+            "relayed",
+            "audited"
+          ],
+          "answer": "relayed"
+        },
+        {
+          "number": 2,
+          "options": [
+            "spark",
+            "shrink",
+            "trace",
+            "temper"
+          ],
+          "answer": "spark"
+        },
+        {
+          "number": 3,
+          "options": [
+            "dispatch",
+            "gloss",
+            "interpret",
+            "divert"
+          ],
+          "answer": "dispatch"
+        },
+        {
+          "number": 4,
+          "options": [
+            "fold",
+            "bear",
+            "cement",
+            "spill"
+          ],
+          "answer": "fold"
+        },
+        {
+          "number": 5,
+          "options": [
+            "wiring",
+            "baking",
+            "weaving",
+            "paving"
+          ],
+          "answer": "weaving"
+        },
+        {
+          "number": 6,
+          "options": [
+            "trigger",
+            "offset",
+            "counter",
+            "draft"
+          ],
+          "answer": "trigger"
+        }
+      ]
+    },
+    {
+      "id": "C2-UE-OPEN-001",
+      "level": "C2",
+      "skill": "use_of_english",
+      "type": "cloze_open",
+      "part": "cloze_open",
+      "prompt": "Escribe una sola palabra en cada hueco.",
+      "cloze_text": "City archivists feared that the recordings would deteriorate ___ they digitised the reels, ___ they enlisted retired radio technicians to repair the decks. Not only ___ the volunteers salvage the fragile equipment, they also trained apprentices who now maintain the open-source repository. Hardly ___ municipality can boast such an intergenerational bridge between analog craft and civic tech. Rarely ___ a preservation effort feed so directly into new policy debates.",
+      "cloze_items": [
+        {
+          "number": 1,
+          "answer": "before"
+        },
+        {
+          "number": 2,
+          "answer": "so"
+        },
+        {
+          "number": 3,
+          "answer": "did"
+        },
+        {
+          "number": 4,
+          "answer": "any"
+        },
+        {
+          "number": 5,
+          "answer": "does"
+        }
+      ]
+    },
+    {
+      "id": "C2-UE-WF-001",
+      "level": "C2",
+      "skill": "use_of_english",
+      "type": "word_formation",
+      "part": "word_formation",
+      "prompt": "Forma la palabra adecuada a partir de la base proporcionada.",
+      "word_formation_items": [
+        {
+          "number": 1,
+          "sentence": "The citizens' jury issued an ___ report that balanced urgency with nuance.",
+          "base": "ELOQUENCE",
+          "answer": "eloquent"
+        },
+        {
+          "number": 2,
+          "sentence": "Analysts warned about the ___ effects of ignoring data sovereignty.",
+          "base": "CASCADE",
+          "answer": "cascading"
+        },
+        {
+          "number": 3,
+          "sentence": "Her piece highlighted the ___ between digital literacy and climate resilience.",
+          "base": "INTERLINK",
+          "answer": "interlink"
+        },
+        {
+          "number": 4,
+          "sentence": "Residents demanded ___ access to the raw recordings.",
+          "base": "FETTER",
+          "answer": "unfettered"
+        }
+      ]
+    },
+    {
+      "id": "C2-UE-KT-001",
+      "level": "C2",
+      "skill": "use_of_english",
+      "type": "key_transform",
+      "part": "key_transform",
+      "prompt": "Reescribe cada oración usando la palabra clave proporcionada.",
+      "transform_items": [
+        {
+          "number": 1,
+          "original": "It wasn't necessary for the council to seal the archives last winter.",
+          "keyword": "NEED",
+          "answer": "The council needn't have sealed the archives last winter."
+        },
+        {
+          "number": 2,
+          "original": "People say the ombudsperson approved the data leak settlement.",
+          "keyword": "THOUGHT",
+          "answer": "The ombudsperson is thought to have approved the data leak settlement."
+        },
+        {
+          "number": 3,
+          "original": "The lab will publish the toolkit provided that two universities co-sign it.",
+          "keyword": "LONG",
+          "answer": "The lab will publish the toolkit so long as two universities co-sign it."
+        },
+        {
+          "number": 4,
+          "original": "Under no circumstances should officials erase dissenting annotations.",
+          "keyword": "EVER",
+          "answer": "Officials must never erase dissenting annotations ever."
+        }
+      ]
     }
   ]
 }

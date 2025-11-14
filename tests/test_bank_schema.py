@@ -12,6 +12,7 @@ if str(REPO_ROOT) not in sys.path:
 
 from english_test_bank import (
     ALLOWED_SKILLS,
+    CLOZE_CHOICE_TYPE,
     OPTION_BASED_TYPES,
     SUPPORTED_TYPES,
     TEXT_RESPONSE_TYPES,
@@ -43,8 +44,24 @@ def test_item_bank_schema_and_counts() -> None:
                 assert "options" in item, f"Missing options in {item['id']}"
                 assert "answer" in item, f"Missing answer in {item['id']}"
                 assert item["answer"] in item["options"], f"Answer missing in options for {item['id']}"
+            elif item_type == CLOZE_CHOICE_TYPE:
+                cloze = item.get("cloze_items")
+                assert cloze, f"Missing cloze items in {item['id']}"
+                for gap in cloze:
+                    assert gap.get("options"), f"Missing options in gap of {item['id']}"
+                    assert gap.get("answer") in gap["options"], f"Gap answer missing in {item['id']}"
             elif item_type in TEXT_RESPONSE_TYPES:
-                assert "answer" in item, f"Missing answer in {item['id']}"
+                if item_type == "cloze_open":
+                    cloze = item.get("cloze_items")
+                    assert cloze, f"Missing cloze items in {item['id']}"
+                    for gap in cloze:
+                        assert gap.get("answer"), f"Missing gap answer in {item['id']}"
+                elif item_type == "word_formation":
+                    entries = item.get("word_formation_items")
+                    assert entries, f"Missing word formation items in {item['id']}"
+                elif item_type == "key_transform":
+                    entries = item.get("transform_items")
+                    assert entries, f"Missing transformation items in {item['id']}"
             elif item_type == WRITING_TYPE:
                 assert "task_type" in item, f"Missing task_type in {item['id']}"
                 assert "min_words" in item and "max_words" in item
@@ -111,7 +128,7 @@ def test_load_item_bank_extended_schema(tmp_path: Path) -> None:
             "skill": "use_of_english",
             "type": "cloze_open",
             "prompt": "Fill in the blank.",
-            "answer": "word",
+            "cloze_items": [{"number": 1, "answer": "word"}],
             "group_id": "A1-UE-CLZ",
         }
     )
