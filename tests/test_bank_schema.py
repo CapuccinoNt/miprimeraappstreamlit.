@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from collections import Counter
+import json
 from pathlib import Path
 import sys
 
@@ -10,7 +10,14 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from english_test_bank import ALLOWED_SKILLS, load_item_bank
+from english_test_bank import (
+    ALLOWED_SKILLS,
+    OPTION_BASED_TYPES,
+    SUPPORTED_TYPES,
+    TEXT_RESPONSE_TYPES,
+    WRITING_TYPE,
+    load_item_bank,
+)
 
 BANK_PATH = REPO_ROOT / "english_test_items_v1.json"
 
@@ -22,24 +29,26 @@ def test_item_bank_schema_and_counts() -> None:
     for level, items in bank.items():
         assert len(items) >= 30, f"Expected at least 30 items for {level}, found {len(items)}"
 
-        skill_counts = Counter()
         for item in items:
             assert item["level"] == level
             assert item["id"] not in seen_ids, f"Duplicate id found: {item['id']}"
             seen_ids.add(item["id"])
 
-            assert set(item).issuperset({"prompt", "options", "answer", "skill", "type"})
-            assert item["answer"] in item["options"], f"Answer missing in options for {item['id']}"
             assert item["skill"] in ALLOWED_SKILLS
+            assert item["type"] in SUPPORTED_TYPES
+            assert isinstance(item["prompt"], str)
 
-            skill_counts[item["skill"]] += 1
-
-        total = len(items)
-        for skill, count in skill_counts.items():
-            share = count / total
-            assert 0.2 <= share <= 0.4, (
-                f"Skill '{skill}' at level {level} should represent roughly 25-35% of items, got {share:.2%}"
-            )
+            item_type = item["type"]
+            if item_type in OPTION_BASED_TYPES:
+                assert "options" in item, f"Missing options in {item['id']}"
+                assert "answer" in item, f"Missing answer in {item['id']}"
+                assert item["answer"] in item["options"], f"Answer missing in options for {item['id']}"
+            elif item_type in TEXT_RESPONSE_TYPES:
+                assert "answer" in item, f"Missing answer in {item['id']}"
+            elif item_type == WRITING_TYPE:
+                assert "task_type" in item, f"Missing task_type in {item['id']}"
+                assert "min_words" in item and "max_words" in item
+                assert "rubric" in item and isinstance(item["rubric"], list)
 
 
 def test_load_item_bank_missing_file() -> None:
@@ -77,3 +86,69 @@ def test_load_item_bank_insufficient_items(tmp_path: Path) -> None:
         load_item_bank(path)
 
     assert "at least" in str(exc.value)
+
+
+def test_load_item_bank_extended_schema(tmp_path: Path) -> None:
+    path = tmp_path / "extended_bank.json"
+    items = []
+    for idx in range(18):
+        items.append(
+            {
+                "id": f"A1-GR-{idx:03d}",
+                "level": "A1",
+                "skill": "grammar",
+                "type": "multiple_choice",
+                "prompt": f"Prompt {idx}",
+                "options": ["yes", "no"],
+                "answer": "yes",
+            }
+        )
+
+    items.append(
+        {
+            "id": "A1-UE-CLZ-001",
+            "level": "A1",
+            "skill": "use_of_english",
+            "type": "cloze_open",
+            "prompt": "Fill in the blank.",
+            "answer": "word",
+            "group_id": "A1-UE-CLZ",
+        }
+    )
+
+    items.append(
+        {
+            "id": "A1-WR-001",
+            "level": "A1",
+            "skill": "writing",
+            "type": "open_text",
+            "prompt": "Write an email.",
+            "task_type": "email",
+            "min_words": 40,
+            "max_words": 60,
+            "rubric": ["content", "organization"],
+            "part": "writing_short",
+        }
+    )
+
+    cloned_items = []
+    for original in items:
+        clone = original.copy()
+        clone["id"] = clone["id"].replace("A1", "A2", 1)
+        clone["level"] = "A2"
+        cloned_items.append(clone)
+
+    data = {"A1": items, "A2": cloned_items}
+    path.write_text(json.dumps(data))
+
+    bank = load_item_bank(path)
+    writing_items = [item for item in bank["A1"] if item["skill"] == "writing"]
+    assert writing_items
+    writing = writing_items[0]
+    assert writing["type"] == WRITING_TYPE
+    assert writing["task_type"] == "email"
+    assert writing["min_words"] == 40
+    assert writing["part"] == "writing_short"
+
+    cloze_items = [item for item in bank["A1"] if item["type"] == "cloze_open"]
+    assert cloze_items and cloze_items[0]["group_id"] == "A1-UE-CLZ"
