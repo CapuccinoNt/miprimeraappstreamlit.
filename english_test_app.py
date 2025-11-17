@@ -1225,12 +1225,14 @@ def process_adaptive_answer(question: Dict[str, Any], response: Any) -> None:
         record_writing_submission(question, response, mode="adaptive")
     score = score_question(question, response)
     is_correct = score["is_correct"]
+    pending_review = score.get("pending_manual_review", False)
 
     block["presented"] += 1
-    if is_correct:
-        block["correct"] += 1
-    else:
-        block["wrong"] += 1
+    if not pending_review:
+        if is_correct:
+            block["correct"] += 1
+        else:
+            block["wrong"] += 1
 
     st.session_state.history.append(
         {
@@ -1238,7 +1240,7 @@ def process_adaptive_answer(question: Dict[str, Any], response: Any) -> None:
             "id": question["id"],
             "correct": is_correct,
             "skill": question["skill"],
-            "pending_review": score.get("pending_manual_review", False),
+            "pending_review": pending_review,
         }
     )
 
@@ -1629,7 +1631,7 @@ def render_practice_mode(questions_by_level: Dict[str, List[Dict[str, Any]]]) ->
                 record_writing_submission(question, response, mode="practice")
             score = score_question(question, response)
             practice_state["answered"] += 1
-            if score["is_correct"]:
+            if score["is_correct"] and not score.get("pending_manual_review"):
                 practice_state["correct"] += 1
             practice_state["last_feedback"] = build_feedback_payload(question, score)
             practice_state["last_question"] = question
