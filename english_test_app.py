@@ -192,7 +192,14 @@ def start_group_for_block(
         return None
 
     available = [g for g in groups if g["group_id"] not in block["used_group_ids"]]
-    chosen = random.choice(available or groups)
+    if not available:
+        # All grouped passages for the current level were already consumed in
+        # this block.  Returning ``None`` tells the caller to fall back to the
+        # single-question adaptive flow so grammar/vocab items can surface
+        # again, instead of repeating the last group indefinitely.
+        return None
+
+    chosen = random.choice(available)
     block["used_group_ids"].add(chosen["group_id"])
     for question in chosen["questions"]:
         block["used_ids"].add(question["id"])
