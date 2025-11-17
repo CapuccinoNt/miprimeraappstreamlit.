@@ -1505,20 +1505,6 @@
       "answer": "hiatus"
     },
     {
-      "id": "B2-VO-004",
-      "level": "B2",
-      "skill": "vocab",
-      "type": "multiple_choice",
-      "prompt": "Choose the best replacement for 'compelling' in the sentence 'She gave a compelling presentation'.",
-      "options": [
-        "persuasive",
-        "convenient",
-        "passive",
-        "provincial"
-      ],
-      "answer": "persuasive"
-    },
-    {
       "id": "B2-VO-005",
       "level": "B2",
       "skill": "vocab",
@@ -1575,18 +1561,18 @@
       "answer": "condemn"
     },
     {
-      "id": "B2-RD-001",
+      "id": "B2-VO-010",
       "level": "B2",
-      "skill": "reading",
+      "skill": "vocab",
       "type": "multiple_choice",
-      "prompt": "Read: 'The documentary highlights communities that adapted innovative farming techniques to combat drought.' What does the documentary highlight?",
+      "prompt": "Choose the word that best completes the sentence: 'The ombudsperson urged the lab to ___ its documentation trail so regulators could reconstruct every test without guesswork.'",
       "options": [
-        "Communities using innovative farming techniques",
-        "Cities investing in highways",
-        "Scientists debating climate data",
-        "Artists discussing sustainable design"
+        "fortify",
+        "obscure",
+        "truncate",
+        "diminish"
       ],
-      "answer": "Communities using innovative farming techniques"
+      "answer": "fortify"
     },
     {
       "id": "B2-RD-002",
@@ -1687,6 +1673,20 @@
       "answer": "They dropped significantly"
     },
     {
+      "id": "B2-RD-009",
+      "level": "B2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'During the renewable-energy summit, municipal delegates drafted incentives that unlock only when cities submit audited emissions reports every quarter. Any municipality skipping two consecutive filings is suspended from the fund.' What ensures that a city keeps its incentives?",
+      "options": [
+        "Regular delivery of audited quarterly emissions reports",
+        "Installing experimental turbines along every coastline",
+        "Winning private sponsorships from utilities",
+        "Replacing all diesel buses within six months"
+      ],
+      "answer": "Regular delivery of audited quarterly emissions reports"
+    },
+    {
       "id": "B2-UE-001",
       "level": "B2",
       "skill": "use_of_english",
@@ -1699,20 +1699,6 @@
         "into"
       ],
       "answer": "at"
-    },
-    {
-      "id": "B2-UE-002",
-      "level": "B2",
-      "skill": "use_of_english",
-      "type": "multiple_choice",
-      "prompt": "Select the correct word: Had it not been for her guidance, we ___ lost the client.",
-      "options": [
-        "would have",
-        "will have",
-        "would",
-        "had"
-      ],
-      "answer": "would have"
     },
     {
       "id": "B2-UE-003",
@@ -1797,6 +1783,20 @@
         "little"
       ],
       "answer": "fewer"
+    },
+    {
+      "id": "B2-UE-010",
+      "level": "B2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Choose the correct completion: 'Not until the pilot cohort ___ their peer-mentoring logs did leadership approve the program's national rollout.'",
+      "options": [
+        "had submitted",
+        "submits",
+        "was submitting",
+        "submit"
+      ],
+      "answer": "had submitted"
     },
     {
       "id": "B2-WR-001",
@@ -1972,20 +1972,6 @@
       "answer": "advocate"
     },
     {
-      "id": "C1-VO-004",
-      "level": "C1",
-      "skill": "vocab",
-      "type": "multiple_choice",
-      "prompt": "Choose the best replacement for 'ubiquitous' in the sentence 'Mobile payments are becoming ubiquitous'.",
-      "options": [
-        "commonplace",
-        "costly",
-        "coarse",
-        "convoluted"
-      ],
-      "answer": "commonplace"
-    },
-    {
       "id": "C1-VO-005",
       "level": "C1",
       "skill": "vocab",
@@ -2042,18 +2028,18 @@
       "answer": "champion"
     },
     {
-      "id": "C1-RD-001",
+      "id": "C1-VO-010",
       "level": "C1",
-      "skill": "reading",
+      "skill": "vocab",
       "type": "multiple_choice",
-      "prompt": "Read: 'The white paper argues that regulating artificial intelligence requires cross-border consensus and adaptive frameworks.' What does the white paper argue?",
+      "prompt": "Select the option closest in meaning to 'salutary' as used in: 'The auditor described the sanctions as salutary, forcing agencies to confront entrenched waste.'",
       "options": [
-        "AI regulation needs cross-border consensus",
-        "AI should be banned entirely",
-        "AI is cheaper than robotics",
-        "AI has no ethical issues"
+        "beneficial",
+        "punitive",
+        "illusory",
+        "extravagant"
       ],
-      "answer": "AI regulation needs cross-border consensus"
+      "answer": "beneficial"
     },
     {
       "id": "C1-RD-002",
@@ -2154,6 +2140,20 @@
       "answer": "They leverage open data"
     },
     {
+      "id": "C1-RD-009",
+      "level": "C1",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'The oversight board cross-referenced whistleblower memos with procurement ledgers, concluding that the bidding framework quietly favored a single vendor for three fiscal years.' What did the board determine?",
+      "options": [
+        "The framework covertly favored one vendor",
+        "The memos had been forged",
+        "Procurement stopped for three years",
+        "Vendors rotated evenly"
+      ],
+      "answer": "The framework covertly favored one vendor"
+    },
+    {
       "id": "C1-UE-001",
       "level": "C1",
       "skill": "use_of_english",
@@ -2166,20 +2166,6 @@
         "within"
       ],
       "answer": "upon"
-    },
-    {
-      "id": "C1-UE-002",
-      "level": "C1",
-      "skill": "use_of_english",
-      "type": "multiple_choice",
-      "prompt": "Select the correct word: Little ___ the consultants anticipate such rapid regulatory changes.",
-      "options": [
-        "did",
-        "do",
-        "have",
-        "are"
-      ],
-      "answer": "did"
     },
     {
       "id": "C1-UE-003",
@@ -2264,6 +2250,20 @@
         "much"
       ],
       "answer": "more"
+    },
+    {
+      "id": "C1-UE-010",
+      "level": "C1",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Choose the correct phrase: 'Little ___ the negotiators realize that the draft had already been leaked to the press.'",
+      "options": [
+        "did",
+        "do",
+        "are",
+        "have"
+      ],
+      "answer": "did"
     },
     {
       "id": "C1-RD-RL-001",
@@ -2721,20 +2721,6 @@
       "answer": "despot"
     },
     {
-      "id": "C2-VO-004",
-      "level": "C2",
-      "skill": "vocab",
-      "type": "multiple_choice",
-      "prompt": "Choose the best replacement for 'esoteric' in the sentence 'The lecture explored esoteric legal doctrines'.",
-      "options": [
-        "arcane",
-        "artful",
-        "arbitrary",
-        "articulate"
-      ],
-      "answer": "arcane"
-    },
-    {
       "id": "C2-VO-005",
       "level": "C2",
       "skill": "vocab",
@@ -2791,18 +2777,18 @@
       "answer": "decry"
     },
     {
-      "id": "C2-RD-001",
+      "id": "C2-VO-010",
       "level": "C2",
-      "skill": "reading",
+      "skill": "vocab",
       "type": "multiple_choice",
-      "prompt": "Read: 'The investigative series indicts opaque procurement practices that facilitate systemic corruption across public agencies.' What does the series indict?",
+      "prompt": "Choose the best word to complete the sentence: 'The chief justice condemned the counsel's ___ reasoning, calling it evasive and unserious.'",
       "options": [
-        "Opaque procurement practices",
-        "Transparent budgeting",
-        "Private philanthropy",
-        "Global supply chains"
+        "sophistic",
+        "trenchant",
+        "lucid",
+        "cogent"
       ],
-      "answer": "Opaque procurement practices"
+      "answer": "sophistic"
     },
     {
       "id": "C2-RD-002",
@@ -2903,6 +2889,20 @@
       "answer": "Publishing the methodology"
     },
     {
+      "id": "C2-RD-009",
+      "level": "C2",
+      "skill": "reading",
+      "type": "multiple_choice",
+      "prompt": "Read: 'Because the ethics charter now conditions grants on reparative practices verified by independent auditors, philanthropic capital flows only to institutions evidencing redistributive outcomes each quarter.' What functions as the gatekeeper for new funding?",
+      "options": [
+        "Independent auditors certifying reparative practices",
+        "Donors' personal friendships",
+        "The pace of social media campaigns",
+        "A lottery managed by the finance ministry"
+      ],
+      "answer": "Independent auditors certifying reparative practices"
+    },
+    {
       "id": "C2-UE-001",
       "level": "C2",
       "skill": "use_of_english",
@@ -2915,20 +2915,6 @@
         "by"
       ],
       "answer": "on"
-    },
-    {
-      "id": "C2-UE-002",
-      "level": "C2",
-      "skill": "use_of_english",
-      "type": "multiple_choice",
-      "prompt": "Select the correct word: Rarely ___ policymakers confront such multifaceted dilemmas with unanimity.",
-      "options": [
-        "do",
-        "have",
-        "had",
-        "are"
-      ],
-      "answer": "do"
     },
     {
       "id": "C2-UE-003",
@@ -3013,6 +2999,20 @@
         "little"
       ],
       "answer": "fewer"
+    },
+    {
+      "id": "C2-UE-010",
+      "level": "C2",
+      "skill": "use_of_english",
+      "type": "multiple_choice",
+      "prompt": "Choose the correct completion: 'Seldom ___ data journalists confront so many sealed archives without invoking freedom-of-information statutes.'",
+      "options": [
+        "do",
+        "are",
+        "have",
+        "did"
+      ],
+      "answer": "do"
     },
     {
       "id": "C2-RD-RL-001",

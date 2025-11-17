@@ -13,8 +13,12 @@ import streamlit as st
 LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"]
 MIN_ITEMS_PER_LEVEL = 10
 MAX_TOTAL_ITEMS = 50
+MAX_PRACTICE_QUESTIONS = 20
 EARLY_STOP_ERRORS = 3
 SKILL_TARGET = 8  # Ítems por habilidad para progreso visual
+CHOICE_BASED_TYPES = {"multiple_choice"}
+PRACTICE_SUPPORTED_TYPES = CHOICE_BASED_TYPES
+ADAPTIVE_SUPPORTED_TYPES = CHOICE_BASED_TYPES
 
 SKILL_INFO = {
     "grammar": {"label": "Grammar", "icon": "⚙️", "color": "#1B365D"},
@@ -23,6 +27,16 @@ SKILL_INFO = {
     "use_of_english": {"label": "Use of English", "icon": "🧩", "color": "#4C8C74"},
     "writing": {"label": "Writing", "icon": "✍️", "color": "#7A5199"},
 }
+
+
+def is_choice_question(question: Dict[str, Any], supported_types: set[str]) -> bool:
+    """Return True when the item contains selectable options supported by the mode."""
+
+    return (
+        question.get("type") in supported_types
+        and isinstance(question.get("options"), list)
+        and len(question["options"]) >= 2
+    )
 
 # -------------------------
 # Carga del banco de ítems
@@ -359,11 +373,20 @@ def init_adaptive_state(bank: Dict[str, List[Dict[str, Any]]]):
     start_new_block(LEVELS[0], bank)
 
 
-def get_block_rules(level: str, bank: Dict[str, List[Dict[str, Any]]]) -> Dict[str, int]:
+def get_supported_pool(level: str, bank: Dict[str, List[Dict[str, Any]]]) -> List[Dict[str, Any]]:
+    """Return only the items compatibles con la interfaz adaptativa."""
+
+    return [
+        q
+        for q in bank[level]
+        if is_choice_question(q, ADAPTIVE_SUPPORTED_TYPES)
+    ]
+
+
+def get_block_rules(level: str, available: int) -> Dict[str, int]:
     """Determina tamaño y umbral del bloque según el nivel y disponibilidad."""
 
     desired_size = 12 if level in {"C1", "C2"} else 10
-    available = len(bank[level])
     block_size = max(5, min(desired_size, available))
     target_pct = 0.75 if level in {"C1", "C2"} else 0.8
     threshold = max(1, math.ceil(block_size * target_pct))
@@ -375,13 +398,20 @@ def start_new_block(level: str, bank: Dict[str, List[Dict[str, Any]]]):
     """Prepara un nuevo bloque de preguntas para el nivel indicado."""
 
     state = st.session_state.adaptive
-    rules = get_block_rules(level, bank)
+    eligible_questions = get_supported_pool(level, bank)
+    if not eligible_questions:
+        st.error(
+            "⚠️ El nivel seleccionado no tiene preguntas compatibles con el formato de selección múltiple."
+        )
+        st.stop()
+
+    rules = get_block_rules(level, len(eligible_questions))
 
     used_ids = set(state["used_questions"][level])
-    pool = [q for q in bank[level] if q["id"] not in used_ids]
+    pool = [q for q in eligible_questions if q["id"] not in used_ids]
     if len(pool) < rules["block_size"]:
         # Reiniciar pool para permitir más bloques en el mismo nivel.
-        pool = bank[level][:]
+        pool = eligible_questions[:]
         state["used_questions"][level] = []
         used_ids = set()
 
@@ -733,16 +763,31 @@ def render_practice_mode(bank: Dict[str, List[Dict[str, Any]]]):
         or st.session_state.get("practice_level") != level
     )
     if needs_init:
-        if len(bank[level]) < MIN_ITEMS_PER_LEVEL:
-            st.warning(
-                f"⚠️ El nivel {level} tiene solo {len(bank[level])} preguntas. Se usarán todas las disponibles."
+        eligible_questions = [
+            q
+            for q in bank[level]
+            if is_choice_question(q, PRACTICE_SUPPORTED_TYPES)
+        ]
+
+        if not eligible_questions:
+            st.info(
+                "⚠️ Este nivel aún no tiene preguntas de selección múltiple disponibles para el modo práctica."
             )
+            return
+
         init_practice_state(level)
-        # Preparar preguntas
-        all_questions = bank[level].copy()
-        random.shuffle(all_questions)
-        st.session_state.practice_questions = all_questions[:min(20, len(all_questions))]
-    
+
+        if len(eligible_questions) < MIN_ITEMS_PER_LEVEL:
+            st.warning(
+                "⚠️ "
+                f"El nivel {level} tiene solo {len(eligible_questions)} preguntas compatibles. Se usarán todas las disponibles."
+            )
+
+        random.shuffle(eligible_questions)
+        st.session_state.practice_questions = eligible_questions[:min(
+            MAX_PRACTICE_QUESTIONS, len(eligible_questions)
+        )]
+
     # Si terminó la práctica
     if st.session_state.practice_idx >= len(st.session_state.practice_questions):
         score = st.session_state.practice_correct
