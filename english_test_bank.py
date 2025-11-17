@@ -12,7 +12,7 @@ TEXT_RESPONSE_TYPES = {"cloze_open", "word_formation", "key_transform"}
 WRITING_TYPE = "open_text"
 CLOZE_CHOICE_TYPE = "cloze_mc"
 SUPPORTED_TYPES = OPTION_BASED_TYPES | TEXT_RESPONSE_TYPES | {WRITING_TYPE, CLOZE_CHOICE_TYPE}
-MIN_ITEMS_PER_LEVEL = 20
+MIN_ITEMS_PER_LEVEL = 0
 
 
 def load_item_bank(path: str | Path) -> Dict[str, List[Dict]]:

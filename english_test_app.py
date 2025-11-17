@@ -2001,6 +2001,13 @@ def main() -> None:
         st.error(f"No se pudo cargar el banco de ítems: {exc}")
         st.stop()
 
+    total_items = sum(len(items) for items in questions_by_level.values())
+    if total_items == 0:
+        st.warning(
+            "El banco de preguntas está vacío. Agrega nuevos ítems en ``english_test_items_v1.json`` para habilitar el test."
+        )
+        st.stop()
+
     st.markdown("## Índices de fiabilidad y validación")
     st.markdown(
         "- **Fiabilidad piloto (α de Cronbach):** 0.86 en una muestra de 420 participantes.\n"
