@@ -387,7 +387,10 @@ def get_block_rules(level: str, available: int) -> Dict[str, int]:
     """Determina tamaño y umbral del bloque según el nivel y disponibilidad."""
 
     desired_size = 12 if level in {"C1", "C2"} else 10
-    block_size = max(5, min(desired_size, available))
+    if available < 5:
+        block_size = available
+    else:
+        block_size = max(5, min(desired_size, available))
     target_pct = 0.75 if level in {"C1", "C2"} else 0.8
     threshold = max(1, math.ceil(block_size * target_pct))
 
