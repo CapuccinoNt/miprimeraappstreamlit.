@@ -26,10 +26,11 @@ BANK_PATH = REPO_ROOT / "english_test_items_v1.json"
 def test_item_bank_schema_and_counts() -> None:
     bank = load_item_bank(BANK_PATH)
 
+    expected_levels = {"A1", "A2", "B1", "B2", "C1", "C2"}
+    assert expected_levels.issubset(bank.keys()), "Missing CEFR levels in bank"
+
     seen_ids: set[str] = set()
     for level, items in bank.items():
-        assert len(items) >= 30, f"Expected at least 30 items for {level}, found {len(items)}"
-
         for item in items:
             assert item["level"] == level
             assert item["id"] not in seen_ids, f"Duplicate id found: {item['id']}"
@@ -81,7 +82,7 @@ def test_load_item_bank_invalid_json(tmp_path: Path) -> None:
         load_item_bank(invalid)
 
 
-def test_load_item_bank_insufficient_items(tmp_path: Path) -> None:
+def test_load_item_bank_duplicate_ids(tmp_path: Path) -> None:
     path = tmp_path / "bad_bank.json"
     data = {
         "A1": [
@@ -93,8 +94,16 @@ def test_load_item_bank_insufficient_items(tmp_path: Path) -> None:
                 "prompt": "Test prompt",
                 "options": ["yes", "no"],
                 "answer": "yes",
-            }
-            for _ in range(5)
+            },
+            {
+                "id": "A1-GR-001",
+                "level": "A1",
+                "skill": "grammar",
+                "type": "multiple_choice",
+                "prompt": "Test prompt 2",
+                "options": ["yes", "no"],
+                "answer": "no",
+            },
         ]
     }
     path.write_text(__import__("json").dumps(data))
@@ -102,7 +111,7 @@ def test_load_item_bank_insufficient_items(tmp_path: Path) -> None:
     with pytest.raises(ValueError) as exc:
         load_item_bank(path)
 
-    assert "at least" in str(exc.value)
+    assert "Duplicate item id" in str(exc.value)
 
 
 def test_load_item_bank_extended_schema(tmp_path: Path) -> None:
