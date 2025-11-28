@@ -82,7 +82,11 @@ def load_item_bank(path: str | Path) -> Dict[str, List[Dict]]:
             if skill == "writing" and item_type != WRITING_TYPE:
                 raise ValueError(f"Writing item {item_id} must use type '{WRITING_TYPE}'.")
             if item_type == WRITING_TYPE and skill != "writing":
-                raise ValueError(f"Open text item {item_id} must declare skill 'writing'.")
+                task_type = entry.get("task_type")
+                if task_type != "short_answer":
+                    raise ValueError(
+                        "Open text items must either declare skill 'writing' or use task_type 'short_answer'."
+                    )
 
             prompt = entry["prompt"]
             if not isinstance(prompt, str):
