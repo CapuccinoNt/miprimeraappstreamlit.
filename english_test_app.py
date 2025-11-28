@@ -1270,6 +1270,36 @@ def render_group_timer(group_state: Dict[str, Any]) -> None:
     remaining = max(int(duration - elapsed), 0)
     st.progress(remaining / duration)
     st.caption(f"Tiempo sugerido restante: {format_remaining_time(remaining)}")
+
+
+def clean_prompt_text(prompt: str) -> str:
+    """Remove boilerplate labels (parte/texto/notas) from question prompts."""
+
+    cleaned = prompt.strip()
+
+    # Strip common Spanish metadata fragments without dropping the English content.
+    spanish_labels = [
+        r"part(?:e)?\s+[a-z0-9]+",  # parte a / part a
+        r"bloque\s+\d+",  # bloque 1
+        r"idea\s+principal",  # idea principal
+        r"detalle\s+espec[ií]fico",  # detalle específico
+        r"inferencia\s+b[áa]sica",  # inferencia básica
+        r"texto\s+\d+(?:\s*\([^)]*\))?",  # texto 1 (80 palabras)
+        r"texto\s+sobre\s+[^:\n]+",  # texto sobre Green Park
+    ]
+    for label in spanish_labels:
+        cleaned = re.sub(rf"(?im){label}[\s–\-\.:]*", "", cleaned)
+
+    cleaned = re.sub(r"(?im)^\s*notas?[^\n]*\n?", "", cleaned)
+    cleaned = re.sub(r"(?im)^\s*instrucciones?[^\n]*\n?", "", cleaned)
+
+    # Remove lingering double separators and excessive whitespace.
+    cleaned = re.sub(r"\s{2,}", " ", cleaned)
+    cleaned = re.sub(r"\n{3,}", "\n\n", cleaned)
+
+    return cleaned.strip()
+
+
 def normalize_item_for_ui(item: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     """Return a UI-ready copy of *item* when supported, otherwise ``None``."""
 
@@ -1279,7 +1309,7 @@ def normalize_item_for_ui(item: Dict[str, Any]) -> Optional[Dict[str, Any]]:
 
     question: Dict[str, Any] = {
         "id": item["id"],
-        "text": item["prompt"],
+        "text": clean_prompt_text(item["prompt"]),
         "skill": item["skill"],
         "level": item["level"],
         "type": item_type,
