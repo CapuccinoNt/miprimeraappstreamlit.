@@ -5,7 +5,7 @@
       "level": "A1",
       "skill": "vocab",
       "type": "multiple_choice",
-      "prompt": "Part 1 – Matching palabra / frase – imagen.\nWord: hospital → Picture ___",
+      "prompt": "Part 1 – Matching word / phrase – image.\nWord: hospital → Picture ___",
       "options": [
         "Picture A – Children in a classroom with a teacher.",
         "Picture B – A big building with many food shelves and trolleys.",
@@ -20,7 +20,7 @@
       "level": "A1",
       "skill": "vocab",
       "type": "multiple_choice",
-      "prompt": "Part 1 – Matching palabra / frase – imagen.\nWord: school → Picture ___",
+      "prompt": "Part 1 – Matching word / phrase – image.\nWord: school → Picture ___",
       "options": [
         "Picture A – Children in a classroom with a teacher.",
         "Picture B – A big building with many food shelves and trolleys.",
@@ -35,7 +35,7 @@
       "level": "A1",
       "skill": "vocab",
       "type": "multiple_choice",
-      "prompt": "Part 1 – Matching palabra / frase – imagen.\nWord: supermarket → Picture ___",
+      "prompt": "Part 1 – Matching word / phrase – image.\nWord: supermarket → Picture ___",
       "options": [
         "Picture A – Children in a classroom with a teacher.",
         "Picture B – A big building with many food shelves and trolleys.",
@@ -50,7 +50,7 @@
       "level": "A1",
       "skill": "vocab",
       "type": "multiple_choice",
-      "prompt": "Part 1 – Matching palabra / frase – imagen.\nWord: park → Picture ___",
+      "prompt": "Part 1 – Matching word / phrase – image.\nWord: park → Picture ___",
       "options": [
         "Picture A – Children in a classroom with a teacher.",
         "Picture B – A big building with many food shelves and trolleys.",
@@ -65,7 +65,7 @@
       "level": "A1",
       "skill": "vocab",
       "type": "multiple_choice",
-      "prompt": "Part 1 – Matching palabra / frase – imagen.\nWord: bus stop → Picture ___",
+      "prompt": "Part 1 – Matching word / phrase – image.\nWord: bus stop → Picture ___",
       "options": [
         "Picture A – Children in a classroom with a teacher.",
         "Picture B – A big building with many food shelves and trolleys.",
@@ -80,7 +80,7 @@
       "level": "A1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 2 – Mensajes muy breves. Texto 1.\nHi Sam,\nThe party is on Saturday at 7 pm.\nDon't be late!\nAnna\nQuestion: Who writes the message?",
+      "prompt": "Part 2 – Mensajes muy breves. Text 1.\nHi Sam,\nThe party is on Saturday at 7 pm.\nDon't be late!\nAnna\nQuestion: Who writes the message?",
       "options": [
         "Sam",
         "Anna",
@@ -93,7 +93,7 @@
       "level": "A1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 2 – Mensajes muy breves. Texto 1.\nHi Sam,\nThe party is on Saturday at 7 pm.\nDon't be late!\nAnna\nQuestion: When is the party?",
+      "prompt": "Part 2 – Mensajes muy breves. Text 1.\nHi Sam,\nThe party is on Saturday at 7 pm.\nDon't be late!\nAnna\nQuestion: When is the party?",
       "options": [
         "On Friday",
         "On Saturday",
@@ -106,7 +106,7 @@
       "level": "A1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 2 – Mensajes muy breves. Texto 1.\nHi Sam,\nThe party is on Saturday at 7 pm.\nDon't be late!\nAnna\nQuestion: What time is the party?",
+      "prompt": "Part 2 – Mensajes muy breves. Text 1.\nHi Sam,\nThe party is on Saturday at 7 pm.\nDon't be late!\nAnna\nQuestion: What time is the party?",
       "options": [
         "5 pm",
         "6 pm",
@@ -119,7 +119,7 @@
       "level": "A1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 2 – Mensajes muy breves. Texto 2.\nHi Mum,\nI am at the library with Tom.\nI'll be home at 5.\nLove, Mia\nQuestion: Where is Mia?",
+      "prompt": "Part 2 – Mensajes muy breves. Text 2.\nHi Mum,\nI am at the library with Tom.\nI'll be home at 5.\nLove, Mia\nQuestion: Where is Mia?",
       "options": [
         "At home",
         "At the library",
@@ -132,7 +132,7 @@
       "level": "A1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 2 – Mensajes muy breves. Texto 2.\nHi Mum,\nI am at the library with Tom.\nI'll be home at 5.\nLove, Mia\nQuestion: Who is with Mia?",
+      "prompt": "Part 2 – Mensajes muy breves. Text 2.\nHi Mum,\nI am at the library with Tom.\nI'll be home at 5.\nLove, Mia\nQuestion: Who is with Mia?",
       "options": [
         "Tom",
         "Mum",
@@ -145,7 +145,7 @@
       "level": "A1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 2 – Mensajes muy breves. Texto 2.\nHi Mum,\nI am at the library with Tom.\nI'll be home at 5.\nLove, Mia\nQuestion: When is Mia at home?",
+      "prompt": "Part 2 – Mensajes muy breves. Text 2.\nHi Mum,\nI am at the library with Tom.\nI'll be home at 5.\nLove, Mia\nQuestion: When is Mia at home?",
       "options": [
         "At 3",
         "At 4",
@@ -158,7 +158,7 @@
       "level": "A1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 2 – Mensajes muy breves. Texto 3.\nHi Alex,\nThe football training is cancelled today.\nTraining is on Thursday at 6 pm.\nCoach Mark\nQuestion: What is cancelled today?",
+      "prompt": "Part 2 – Mensajes muy breves. Text 3.\nHi Alex,\nThe football training is cancelled today.\nTraining is on Thursday at 6 pm.\nCoach Mark\nQuestion: What is cancelled today?",
       "options": [
         "A party",
         "The football training",
@@ -171,7 +171,7 @@
       "level": "A1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 2 – Mensajes muy breves. Texto 3.\nHi Alex,\nThe football training is cancelled today.\nTraining is on Thursday at 6 pm.\nCoach Mark\nQuestion: When is the training?",
+      "prompt": "Part 2 – Mensajes muy breves. Text 3.\nHi Alex,\nThe football training is cancelled today.\nTraining is on Thursday at 6 pm.\nCoach Mark\nQuestion: When is the training?",
       "options": [
         "Thursday at 6 pm",
         "Thursday at 5 pm",
@@ -184,7 +184,7 @@
       "level": "A1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 2 – Mensajes muy breves. Texto 3.\nHi Alex,\nThe football training is cancelled today.\nTraining is on Thursday at 6 pm.\nCoach Mark\nQuestion: Who writes the message?",
+      "prompt": "Part 2 – Mensajes muy breves. Text 3.\nHi Alex,\nThe football training is cancelled today.\nTraining is on Thursday at 6 pm.\nCoach Mark\nQuestion: Who writes the message?",
       "options": [
         "Alex",
         "The coach",
@@ -197,7 +197,7 @@
       "level": "A1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 2 – Mensajes muy breves. Texto 4.\nHi Rosa,\nYour appointment is on Monday at 3:30 pm.\nPlease come 10 minutes early.\nDr. Green\nQuestion: What is the day of the appointment?",
+      "prompt": "Part 2 – Mensajes muy breves. Text 4.\nHi Rosa,\nYour appointment is on Monday at 3:30 pm.\nPlease come 10 minutes early.\nDr. Green\nQuestion: What is the day of the appointment?",
       "options": [
         "Monday",
         "Tuesday",
@@ -210,7 +210,7 @@
       "level": "A1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 2 – Mensajes muy breves. Texto 4.\nHi Rosa,\nYour appointment is on Monday at 3:30 pm.\nPlease come 10 minutes early.\nDr. Green\nQuestion: What time is the appointment?",
+      "prompt": "Part 2 – Mensajes muy breves. Text 4.\nHi Rosa,\nYour appointment is on Monday at 3:30 pm.\nPlease come 10 minutes early.\nDr. Green\nQuestion: What time is the appointment?",
       "options": [
         "3:00 pm",
         "3:30 pm",
@@ -223,7 +223,7 @@
       "level": "A1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 3 – Notas tipo mini texto. Texto 5.\nMy name is Leo. I am 12 years old. I am from Brazil. My favourite food is pizza.\nQuestion: How old is Leo?",
+      "prompt": "Part 3 – Notes tipo mini Text. Text 5.\nMy name is Leo. I am 12 years old. I am from Brazil. My favourite food is pizza.\nQuestion: How old is Leo?",
       "options": [
         "10",
         "11",
@@ -236,7 +236,7 @@
       "level": "A1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 3 – Notas tipo mini texto. Texto 5.\nMy name is Leo. I am 12 years old. I am from Brazil. My favourite food is pizza.\nQuestion: Where is Leo from?",
+      "prompt": "Part 3 – Notes tipo mini Text. Text 5.\nMy name is Leo. I am 12 years old. I am from Brazil. My favourite food is pizza.\nQuestion: Where is Leo from?",
       "options": [
         "Brazil",
         "Mexico",
@@ -249,7 +249,7 @@
       "level": "A1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 3 – Notas tipo mini texto. Texto 5.\nMy name is Leo. I am 12 years old. I am from Brazil. My favourite food is pizza.\nQuestion: What is Leo's favourite food?",
+      "prompt": "Part 3 – Notes tipo mini Text. Text 5.\nMy name is Leo. I am 12 years old. I am from Brazil. My favourite food is pizza.\nQuestion: What is Leo's favourite food?",
       "options": [
         "Pasta",
         "Pizza",
@@ -262,7 +262,7 @@
       "level": "A1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 3 – Notas tipo mini texto. Texto 6.\nThis is my friend Sara. She lives in London. She has a small dog and a big cat.\nQuestion: Where does Sara live?",
+      "prompt": "Part 3 – Notes tipo mini Text. Text 6.\nThis is my friend Sara. She lives in London. She has a small dog and a big cat.\nQuestion: Where does Sara live?",
       "options": [
         "Paris",
         "London",
@@ -275,7 +275,7 @@
       "level": "A1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 3 – Notas tipo mini texto. Texto 6.\nThis is my friend Sara. She lives in London. She has a small dog and a big cat.\nQuestion: What pets does Sara have?",
+      "prompt": "Part 3 – Notes tipo mini Text. Text 6.\nThis is my friend Sara. She lives in London. She has a small dog and a big cat.\nQuestion: What pets does Sara have?",
       "options": [
         "A dog and a cat",
         "Two dogs",
@@ -288,7 +288,7 @@
       "level": "A1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 3 – Notas tipo mini texto. Texto 7.\nToday is Sunday. I go to the park with my brother. We play football and eat ice cream.\nQuestion: What day is it today?",
+      "prompt": "Part 3 – Notes tipo mini Text. Text 7.\nToday is Sunday. I go to the park with my brother. We play football and eat ice cream.\nQuestion: What day is it today?",
       "options": [
         "Saturday",
         "Sunday",
@@ -301,7 +301,7 @@
       "level": "A1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 3 – Notas tipo mini texto. Texto 7.\nToday is Sunday. I go to the park with my brother. We play football and eat ice cream.\nQuestion: Where do they go?",
+      "prompt": "Part 3 – Notes tipo mini Text. Text 7.\nToday is Sunday. I go to the park with my brother. We play football and eat ice cream.\nQuestion: Where do they go?",
       "options": [
         "To the supermarket",
         "To the cinema",
@@ -314,7 +314,7 @@
       "level": "A1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 3 – Notas tipo mini texto. Texto 7.\nToday is Sunday. I go to the park with my brother. We play football and eat ice cream.\nQuestion: What do they eat?",
+      "prompt": "Part 3 – Notes tipo mini Text. Text 7.\nToday is Sunday. I go to the park with my brother. We play football and eat ice cream.\nQuestion: What do they eat?",
       "options": [
         "Pizza",
         "Ice cream",
@@ -327,7 +327,7 @@
       "level": "A1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 3 – Notas tipo mini texto. Texto 8.\nI get up at 7:00. I have breakfast at 7:30. I go to school at 8:00.\nQuestion: When does the person get up?",
+      "prompt": "Part 3 – Notes tipo mini Text. Text 8.\nI get up at 7:00. I have breakfast at 7:30. I go to school at 8:00.\nQuestion: When does the person get up?",
       "options": [
         "At 6:00",
         "At 7:00",
@@ -340,7 +340,7 @@
       "level": "A1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 3 – Notas tipo mini texto. Texto 8.\nI get up at 7:00. I have breakfast at 7:30. I go to school at 8:00.\nQuestion: When does the person go to school?",
+      "prompt": "Part 3 – Notes tipo mini Text. Text 8.\nI get up at 7:00. I have breakfast at 7:30. I go to school at 8:00.\nQuestion: When does the person go to school?",
       "options": [
         "At 7:30",
         "At 8:00",
@@ -353,7 +353,7 @@
       "level": "A1",
       "skill": "reading",
       "type": "cloze_open",
-      "prompt": "Parte 4 – Completar formulario. Texto 9.\nMy name is Tom. I am 11 years old. I'm from Mexico. My favourite sport is football.\nComplete the form with the correct information.",
+      "prompt": "Part 4 – Completar formulario. Text 9.\nMy name is Tom. I am 11 years old. I'm from Mexico. My favourite sport is football.\nComplete the form with the correct information.",
       "cloze_items": [
         {
           "number": 1,
@@ -383,7 +383,7 @@
       "level": "A1",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "Parte A – Choose the correct word (be / have / do / can).\nSentence: I ___ 13 years old.",
+      "prompt": "Part A – Choose the correct word (be / have / do / can).\nSentence: I ___ 13 years old.",
       "options": [
         "have",
         "am",
@@ -397,7 +397,7 @@
       "level": "A1",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "Parte A – Choose the correct word (be / have / do / can).\nSentence: She ___ play the piano very well.",
+      "prompt": "Part A – Choose the correct word (be / have / do / can).\nSentence: She ___ play the piano very well.",
       "options": [
         "have",
         "is",
@@ -411,7 +411,7 @@
       "level": "A1",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "Parte A – Choose the correct word (be / have / do / can).\nSentence: We ___ two brothers and one sister.",
+      "prompt": "Part A – Choose the correct word (be / have / do / can).\nSentence: We ___ two brothers and one sister.",
       "options": [
         "are",
         "have",
@@ -425,7 +425,7 @@
       "level": "A1",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "Parte A – Choose the correct word (be / have / do / can).\nSentence: He ___ not like coffee.",
+      "prompt": "Part A – Choose the correct word (be / have / do / can).\nSentence: He ___ not like coffee.",
       "options": [
         "is",
         "does",
@@ -439,7 +439,7 @@
       "level": "A1",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "Parte A – Choose the correct word (be / have / do / can).\nSentence: My parents ___ from Chile.",
+      "prompt": "Part A – Choose the correct word (be / have / do / can).\nSentence: My parents ___ from Chile.",
       "options": [
         "are",
         "have",
@@ -453,7 +453,7 @@
       "level": "A1",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "Parte A – Choose the correct word (be / have / do / can).\nQuestion: ___ you speak English?",
+      "prompt": "Part A – Choose the correct word (be / have / do / can).\nQuestion: ___ you speak English?",
       "options": [
         "Are",
         "Do",
@@ -467,7 +467,7 @@
       "level": "A1",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "Parte A – Choose the correct word (be / have / do / can).\nSentence: I ___ a shower every morning.",
+      "prompt": "Part A – Choose the correct word (be / have / do / can).\nSentence: I ___ a shower every morning.",
       "options": [
         "am",
         "have",
@@ -481,7 +481,7 @@
       "level": "A1",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "Parte A – Choose the correct word (be / have / do / can).\nSentence: She ___ a teacher.",
+      "prompt": "Part A – Choose the correct word (be / have / do / can).\nSentence: She ___ a teacher.",
       "options": [
         "has",
         "is",
@@ -495,7 +495,7 @@
       "level": "A1",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "Parte A – Choose the correct word (be / have / do / can).\nQuestion: What time ___ you get up?",
+      "prompt": "Part A – Choose the correct word (be / have / do / can).\nQuestion: What time ___ you get up?",
       "options": [
         "are",
         "can",
@@ -509,7 +509,7 @@
       "level": "A1",
       "skill": "grammar",
       "type": "multiple_choice",
-      "prompt": "Parte A – Choose the correct word (be / have / do / can).\nSentence: They ___ a small dog in their house.",
+      "prompt": "Part A – Choose the correct word (be / have / do / can).\nSentence: They ___ a small dog in their house.",
       "options": [
         "are",
         "do",
@@ -523,7 +523,7 @@
       "level": "A1",
       "skill": "vocab",
       "type": "multiple_choice",
-      "prompt": "Parte B – Complete with the correct word.\nSentence: This is my ___ .",
+      "prompt": "Part B – Complete with the correct word.\nSentence: This is my ___ .",
       "options": [
         "mother",
         "banana",
@@ -537,7 +537,7 @@
       "level": "A1",
       "skill": "vocab",
       "type": "multiple_choice",
-      "prompt": "Parte B – Complete with the correct word.\nSentence: I eat ___ and eggs for breakfast.",
+      "prompt": "Part B – Complete with the correct word.\nSentence: I eat ___ and eggs for breakfast.",
       "options": [
         "sofa",
         "bread",
@@ -551,7 +551,7 @@
       "level": "A1",
       "skill": "vocab",
       "type": "multiple_choice",
-      "prompt": "Parte B – Complete with the correct word.\nSentence: The ___ is in the kitchen.",
+      "prompt": "Part B – Complete with the correct word.\nSentence: The ___ is in the kitchen.",
       "options": [
         "bed",
         "table",
@@ -565,7 +565,7 @@
       "level": "A1",
       "skill": "vocab",
       "type": "multiple_choice",
-      "prompt": "Parte B – Complete with the correct word.\nSentence: My ___ is my father's father.",
+      "prompt": "Part B – Complete with the correct word.\nSentence: My ___ is my father's father.",
       "options": [
         "uncle",
         "brother",
@@ -579,7 +579,7 @@
       "level": "A1",
       "skill": "vocab",
       "type": "multiple_choice",
-      "prompt": "Parte B – Complete with the correct word.\nSentence: I go to school by ___.",
+      "prompt": "Part B – Complete with the correct word.\nSentence: I go to school by ___.",
       "options": [
         "bus",
         "carrot",
@@ -593,7 +593,7 @@
       "level": "A1",
       "skill": "vocab",
       "type": "multiple_choice",
-      "prompt": "Parte B – Complete with the correct word.\nSentence: Close the ___, it's very cold.",
+      "prompt": "Part B – Complete with the correct word.\nSentence: Close the ___, it's very cold.",
       "options": [
         "window",
         "rice",
@@ -607,7 +607,7 @@
       "level": "A1",
       "skill": "vocab",
       "type": "multiple_choice",
-      "prompt": "Parte B – Complete with the correct word.\nSentence: We have lunch in the ___.",
+      "prompt": "Part B – Complete with the correct word.\nSentence: We have lunch in the ___.",
       "options": [
         "bathroom",
         "kitchen",
@@ -621,7 +621,7 @@
       "level": "A1",
       "skill": "vocab",
       "type": "multiple_choice",
-      "prompt": "Parte B – Complete with the correct word.\nSentence: My favorite ___ is pizza.",
+      "prompt": "Part B – Complete with the correct word.\nSentence: My favorite ___ is pizza.",
       "options": [
         "color",
         "food",
@@ -635,7 +635,7 @@
       "level": "A1",
       "skill": "vocab",
       "type": "multiple_choice",
-      "prompt": "Parte B – Complete with the correct word.\nSentence: I watch TV in the ___.",
+      "prompt": "Part B – Complete with the correct word.\nSentence: I watch TV in the ___.",
       "options": [
         "living room",
         "fridge",
@@ -649,7 +649,7 @@
       "level": "A1",
       "skill": "vocab",
       "type": "multiple_choice",
-      "prompt": "Parte B – Complete with the correct word.\nSentence: Brush your ___ before you sleep.",
+      "prompt": "Part B – Complete with the correct word.\nSentence: Brush your ___ before you sleep.",
       "options": [
         "hands",
         "teeth",
@@ -663,7 +663,7 @@
       "level": "A1",
       "skill": "grammar",
       "type": "cloze_open",
-      "prompt": "Parte C – Put the words in the correct order.\nWords: am / I / Ben / and / 15",
+      "prompt": "Part C – Put the words in the correct order.\nWords: am / I / Ben / and / 15",
       "cloze_items": [
         {
           "number": 1,
@@ -677,7 +677,7 @@
       "level": "A1",
       "skill": "grammar",
       "type": "cloze_open",
-      "prompt": "Parte C – Put the words in the correct order.\nWords: is / my / very / small / dog",
+      "prompt": "Part C – Put the words in the correct order.\nWords: is / my / very / small / dog",
       "cloze_items": [
         {
           "number": 1,
@@ -691,7 +691,7 @@
       "level": "A1",
       "skill": "grammar",
       "type": "cloze_open",
-      "prompt": "Parte C – Put the words in the correct order.\nWords: have / I / at / lunch / school",
+      "prompt": "Part C – Put the words in the correct order.\nWords: have / I / at / lunch / school",
       "cloze_items": [
         {
           "number": 1,
@@ -705,7 +705,7 @@
       "level": "A1",
       "skill": "grammar",
       "type": "cloze_open",
-      "prompt": "Parte C – Put the words in the correct order.\nWords: bus / to / we / go / by / school",
+      "prompt": "Part C – Put the words in the correct order.\nWords: bus / to / we / go / by / school",
       "cloze_items": [
         {
           "number": 1,
@@ -719,7 +719,7 @@
       "level": "A1",
       "skill": "grammar",
       "type": "cloze_open",
-      "prompt": "Parte C – Put the words in the correct order.\nWords: sister / my / in / room / the / is",
+      "prompt": "Part C – Put the words in the correct order.\nWords: sister / my / in / room / the / is",
       "cloze_items": [
         {
           "number": 1,
@@ -733,7 +733,7 @@
       "level": "A1",
       "skill": "grammar",
       "type": "cloze_open",
-      "prompt": "Parte C – Put the words in the correct order.\nWords: play / after / homework / I / football / my",
+      "prompt": "Part C – Put the words in the correct order.\nWords: play / after / homework / I / football / my",
       "cloze_items": [
         {
           "number": 1,
@@ -747,7 +747,7 @@
       "level": "A1",
       "skill": "grammar",
       "type": "cloze_open",
-      "prompt": "Parte C – Put the words in the correct order.\nWords: kitchen / the / is / mother / in / my",
+      "prompt": "Part C – Put the words in the correct order.\nWords: kitchen / the / is / mother / in / my",
       "cloze_items": [
         {
           "number": 1,
@@ -761,7 +761,7 @@
       "level": "A1",
       "skill": "grammar",
       "type": "cloze_open",
-      "prompt": "Parte C – Put the words in the correct order.\nWords: don't / chocolate / I / like",
+      "prompt": "Part C – Put the words in the correct order.\nWords: don't / chocolate / I / like",
       "cloze_items": [
         {
           "number": 1,
@@ -775,7 +775,7 @@
       "level": "A1",
       "skill": "grammar",
       "type": "cloze_open",
-      "prompt": "Parte C – Put the words in the correct order.\nWords: at / o'clock / get / I / 7 / up",
+      "prompt": "Part C – Put the words in the correct order.\nWords: at / o'clock / get / I / 7 / up",
       "cloze_items": [
         {
           "number": 1,
@@ -789,7 +789,7 @@
       "level": "A1",
       "skill": "grammar",
       "type": "cloze_open",
-      "prompt": "Parte C – Put the words in the correct order.\nWords: reading / is / book / brother / my / a",
+      "prompt": "Part C – Put the words in the correct order.\nWords: reading / is / book / brother / my / a",
       "cloze_items": [
         {
           "number": 1,
@@ -805,7 +805,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 1 – Idea Principal. Texto 1 (80 palabras).\nHi Marco! Yesterday we had a small family barbecue at my uncle's house. We ate burgers, played some music, and my cousins brought their dog. It was really relaxing after a long week. Today I'm cleaning my room and doing homework. Hope your weekend is good too! —Tom\nQuestion: What is the message mainly about?",
+      "prompt": "Reading A2 – Block 1 – Idea Principal. Text 1 (80 words).\nHi Marco! Yesterday we had a small family barbecue at my uncle's house. We ate burgers, played some music, and my cousins brought their dog. It was really relaxing after a long week. Today I'm cleaning my room and doing homework. Hope your weekend is good too! —Tom\nQuestion: What is the message mainly about?",
       "options": [
         "A busy weekend at school",
         "A relaxing family event",
@@ -818,7 +818,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 1 – Idea Principal. Texto 2.\nThis Saturday our town will have a small street market with local food, handmade clothes, and music. It starts at 10 AM and ends at 4 PM. Many families visit every year.\nQuestion: What is the text mainly about?",
+      "prompt": "Reading A2 – Block 1 – Idea Principal. Text 2.\nThis Saturday our town will have a small street market with local food, handmade clothes, and music. It starts at 10 AM and ends at 4 PM. Many families visit every year.\nQuestion: What is the text mainly about?",
       "options": [
         "A weekly school event",
         "A local community activity",
@@ -831,7 +831,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 1 – Idea Principal. Texto 3.\nEmma writes about her new job at a small café. She says the customers are friendly, the work is simple, and her coworkers help her a lot. She feels happy there.\nQuestion: The email is mainly about:",
+      "prompt": "Reading A2 – Block 1 – Idea Principal. Text 3.\nEmma writes about her new job at a small café. She says the customers are friendly, the work is simple, and her coworkers help her a lot. She feels happy there.\nQuestion: The email is mainly about:",
       "options": [
         "A difficult first week",
         "A positive work experience",
@@ -844,7 +844,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 1 – Idea Principal. Texto 4.\nIn this message, Luis tells his friend about the hotel he stayed in during the holidays: clean rooms, good breakfast, but noisy at night.\nQuestion: What is Luis describing?",
+      "prompt": "Reading A2 – Block 1 – Idea Principal. Text 4.\nIn this message, Luis tells his friend about the hotel he stayed in during the holidays: clean rooms, good breakfast, but noisy at night.\nQuestion: What is Luis describing?",
       "options": [
         "His journey by bus",
         "His hotel stay",
@@ -857,7 +857,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 1 – Idea Principal. Texto 5.\nHi! I'm sending you the schedule for our football practice: Tuesday, Thursday and Saturday at 6 PM. Bring water and comfortable shoes.\nQuestion: The message is mainly about:",
+      "prompt": "Reading A2 – Block 1 – Idea Principal. Text 5.\nHi! I'm sending you the schedule for our football practice: Tuesday, Thursday and Saturday at 6 PM. Bring water and comfortable shoes.\nQuestion: The message is mainly about:",
       "options": [
         "The rules of football",
         "Practice planning",
@@ -870,7 +870,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 1 – Idea Principal. Texto 6.\nMy sister and I started a new hobby: painting small wooden boxes. We learned from online videos and now we make one every weekend.\nQuestion: What is the text mainly about?",
+      "prompt": "Reading A2 – Block 1 – Idea Principal. Text 6.\nMy sister and I started a new hobby: painting small wooden boxes. We learned from online videos and now we make one every weekend.\nQuestion: What is the text mainly about?",
       "options": [
         "A new hobby",
         "A school project",
@@ -883,7 +883,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 2 – True/False. Texto base: Hi Anna! On Friday I visited the new shopping center near my house. It has many clothing stores, a big supermarket, and a small cinema. I bought a jacket because it was on sale. Then I met Clara for lunch at a sandwich shop. We talked for almost two hours. After that, I went home because I needed to study for my English test on Monday. I didn't watch a movie because the cinema was full. Maybe next time! —Laura\nAffirmation: Laura went to the shopping center on Friday.",
+      "prompt": "Reading A2 – Block 2 – True/False. Base text: Hi Anna! On Friday I visited the new shopping center near my house. It has many clothing stores, a big supermarket, and a small cinema. I bought a jacket because it was on sale. Then I met Clara for lunch at a sandwich shop. We talked for almost two hours. After that, I went home because I needed to study for my English test on Monday. I didn't watch a movie because the cinema was full. Maybe next time! —Laura\nAffirmation: Laura went to the shopping center on Friday.",
       "options": [
         "True",
         "False"
@@ -895,7 +895,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 2 – True/False. Texto base: Hi Anna! On Friday I visited the new shopping center near my house. It has many clothing stores, a big supermarket, and a small cinema. I bought a jacket because it was on sale. Then I met Clara for lunch at a sandwich shop. We talked for almost two hours. After that, I went home because I needed to study for my English test on Monday. I didn't watch a movie because the cinema was full. Maybe next time! —Laura\nAffirmation: She bought a jacket at the supermarket.",
+      "prompt": "Reading A2 – Block 2 – True/False. Base text: Hi Anna! On Friday I visited the new shopping center near my house. It has many clothing stores, a big supermarket, and a small cinema. I bought a jacket because it was on sale. Then I met Clara for lunch at a sandwich shop. We talked for almost two hours. After that, I went home because I needed to study for my English test on Monday. I didn't watch a movie because the cinema was full. Maybe next time! —Laura\nAffirmation: She bought a jacket at the supermarket.",
       "options": [
         "True",
         "False"
@@ -907,7 +907,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 2 – True/False. Texto base: Hi Anna! On Friday I visited the new shopping center near my house. It has many clothing stores, a big supermarket, and a small cinema. I bought a jacket because it was on sale. Then I met Clara for lunch at a sandwich shop. We talked for almost two hours. After that, I went home because I needed to study for my English test on Monday. I didn't watch a movie because the cinema was full. Maybe next time! —Laura\nAffirmation: She had lunch with Clara.",
+      "prompt": "Reading A2 – Block 2 – True/False. Base text: Hi Anna! On Friday I visited the new shopping center near my house. It has many clothing stores, a big supermarket, and a small cinema. I bought a jacket because it was on sale. Then I met Clara for lunch at a sandwich shop. We talked for almost two hours. After that, I went home because I needed to study for my English test on Monday. I didn't watch a movie because the cinema was full. Maybe next time! —Laura\nAffirmation: She had lunch with Clara.",
       "options": [
         "True",
         "False"
@@ -919,7 +919,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 2 – True/False. Texto base: Hi Anna! On Friday I visited the new shopping center near my house. It has many clothing stores, a big supermarket, and a small cinema. I bought a jacket because it was on sale. Then I met Clara for lunch at a sandwich shop. We talked for almost two hours. After that, I went home because I needed to study for my English test on Monday. I didn't watch a movie because the cinema was full. Maybe next time! —Laura\nAffirmation: They talked for less than one hour.",
+      "prompt": "Reading A2 – Block 2 – True/False. Base text: Hi Anna! On Friday I visited the new shopping center near my house. It has many clothing stores, a big supermarket, and a small cinema. I bought a jacket because it was on sale. Then I met Clara for lunch at a sandwich shop. We talked for almost two hours. After that, I went home because I needed to study for my English test on Monday. I didn't watch a movie because the cinema was full. Maybe next time! —Laura\nAffirmation: They talked for less than one hour.",
       "options": [
         "True",
         "False"
@@ -931,7 +931,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 2 – True/False. Texto base: Hi Anna! On Friday I visited the new shopping center near my house. It has many clothing stores, a big supermarket, and a small cinema. I bought a jacket because it was on sale. Then I met Clara for lunch at a sandwich shop. We talked for almost two hours. After that, I went home because I needed to study for my English test on Monday. I didn't watch a movie because the cinema was full. Maybe next time! —Laura\nAffirmation: Laura had an English test the next day.",
+      "prompt": "Reading A2 – Block 2 – True/False. Base text: Hi Anna! On Friday I visited the new shopping center near my house. It has many clothing stores, a big supermarket, and a small cinema. I bought a jacket because it was on sale. Then I met Clara for lunch at a sandwich shop. We talked for almost two hours. After that, I went home because I needed to study for my English test on Monday. I didn't watch a movie because the cinema was full. Maybe next time! —Laura\nAffirmation: Laura had an English test the next day.",
       "options": [
         "True",
         "False"
@@ -943,7 +943,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 2 – True/False. Texto base: Hi Anna! On Friday I visited the new shopping center near my house. It has many clothing stores, a big supermarket, and a small cinema. I bought a jacket because it was on sale. Then I met Clara for lunch at a sandwich shop. We talked for almost two hours. After that, I went home because I needed to study for my English test on Monday. I didn't watch a movie because the cinema was full. Maybe next time! —Laura\nAffirmation: She did not watch a movie because there were no seats.",
+      "prompt": "Reading A2 – Block 2 – True/False. Base text: Hi Anna! On Friday I visited the new shopping center near my house. It has many clothing stores, a big supermarket, and a small cinema. I bought a jacket because it was on sale. Then I met Clara for lunch at a sandwich shop. We talked for almost two hours. After that, I went home because I needed to study for my English test on Monday. I didn't watch a movie because the cinema was full. Maybe next time! —Laura\nAffirmation: She did not watch a movie because there were no seats.",
       "options": [
         "True",
         "False"
@@ -955,7 +955,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 3 – Matching Personas y Descripciones. Personas: A. Mia: Loves swimming and goes to the pool three times a week in the morning. B. Leo: Enjoys team sports and plays football after school with his friends. C. Sara: Prefers quiet activities; she usually reads in the park in the afternoon.\nStatement: Plays a sport with other people → ___",
+      "prompt": "Reading A2 – Block 3 – Matching Personas y Descripciones. Personas: A. Mia: Loves swimming and goes to the pool three times a week in the morning. B. Leo: Enjoys team sports and plays football after school with his friends. C. Sara: Prefers quiet activities; she usually reads in the park in the afternoon.\nStatement: Plays a sport with other people → ___",
       "options": [
         "A – Mia",
         "B – Leo",
@@ -968,7 +968,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 3 – Matching Personas y Descripciones. Personas: A. Mia: Loves swimming and goes to the pool three times a week in the morning. B. Leo: Enjoys team sports and plays football after school with his friends. C. Sara: Prefers quiet activities; she usually reads in the park in the afternoon.\nStatement: Exercises early in the day → ___",
+      "prompt": "Reading A2 – Block 3 – Matching Personas y Descripciones. Personas: A. Mia: Loves swimming and goes to the pool three times a week in the morning. B. Leo: Enjoys team sports and plays football after school with his friends. C. Sara: Prefers quiet activities; she usually reads in the park in the afternoon.\nStatement: Exercises early in the day → ___",
       "options": [
         "A – Mia",
         "B – Leo",
@@ -981,7 +981,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 3 – Matching Personas y Descripciones. Personas: A. Mia: Loves swimming and goes to the pool three times a week in the morning. B. Leo: Enjoys team sports and plays football after school with his friends. C. Sara: Prefers quiet activities; she usually reads in the park in the afternoon.\nStatement: Likes calm, silent hobbies → ___",
+      "prompt": "Reading A2 – Block 3 – Matching Personas y Descripciones. Personas: A. Mia: Loves swimming and goes to the pool three times a week in the morning. B. Leo: Enjoys team sports and plays football after school with his friends. C. Sara: Prefers quiet activities; she usually reads in the park in the afternoon.\nStatement: Likes calm, silent hobbies → ___",
       "options": [
         "A – Mia",
         "B – Leo",
@@ -994,7 +994,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 3 – Matching Personas y Descripciones. Personas: A. Mia: Loves swimming and goes to the pool three times a week in the morning. B. Leo: Enjoys team sports and plays football after school with his friends. C. Sara: Prefers quiet activities; she usually reads in the park in the afternoon.\nStatement: Goes to the pool regularly → ___",
+      "prompt": "Reading A2 – Block 3 – Matching Personas y Descripciones. Personas: A. Mia: Loves swimming and goes to the pool three times a week in the morning. B. Leo: Enjoys team sports and plays football after school with his friends. C. Sara: Prefers quiet activities; she usually reads in the park in the afternoon.\nStatement: Goes to the pool regularly → ___",
       "options": [
         "A – Mia",
         "B – Leo",
@@ -1007,7 +1007,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 3 – Matching Personas y Descripciones. Personas: A. Mia: Loves swimming and goes to the pool three times a week in the morning. B. Leo: Enjoys team sports and plays football after school with his friends. C. Sara: Prefers quiet activities; she usually reads in the park in the afternoon.\nStatement: Reads outside → ___",
+      "prompt": "Reading A2 – Block 3 – Matching Personas y Descripciones. Personas: A. Mia: Loves swimming and goes to the pool three times a week in the morning. B. Leo: Enjoys team sports and plays football after school with his friends. C. Sara: Prefers quiet activities; she usually reads in the park in the afternoon.\nStatement: Reads outside → ___",
       "options": [
         "A – Mia",
         "B – Leo",
@@ -1020,7 +1020,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 3 – Matching Personas y Descripciones. Personas: A. Mia: Loves swimming and goes to the pool three times a week in the morning. B. Leo: Enjoys team sports and plays football after school with his friends. C. Sara: Prefers quiet activities; she usually reads in the park in the afternoon.\nStatement: Practices sports after classes → ___",
+      "prompt": "Reading A2 – Block 3 – Matching Personas y Descripciones. Personas: A. Mia: Loves swimming and goes to the pool three times a week in the morning. B. Leo: Enjoys team sports and plays football after school with his friends. C. Sara: Prefers quiet activities; she usually reads in the park in the afternoon.\nStatement: Practices sports after classes → ___",
       "options": [
         "A – Mia",
         "B – Leo",
@@ -1033,7 +1033,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 4 – Detalle específico. Texto sobre Green Park: On Saturday, my family visited Green Park. We had a picnic under a big tree, and my brother played with a kite. Later, we rented bicycles and rode around the lake. At 5 PM, it started to rain, so we went back home earlier than we planned.\nQuestion: What did the family do first?",
+      "prompt": "Reading A2 – Block 4 – Detalle específico. Text sobre Green Park: On Saturday, my family visited Green Park. We had a picnic under a big tree, and my brother played with a kite. Later, we rented bicycles and rode around the lake. At 5 PM, it started to rain, so we went back home earlier than we planned.\nQuestion: What did the family do first?",
       "options": [
         "Rode bicycles",
         "Played with a kite",
@@ -1046,7 +1046,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 4 – Detalle específico. Texto sobre Green Park: On Saturday, my family visited Green Park. We had a picnic under a big tree, and my brother played with a kite. Later, we rented bicycles and rode around the lake. At 5 PM, it started to rain, so we went back home earlier than we planned.\nQuestion: Why did they return home early?",
+      "prompt": "Reading A2 – Block 4 – Detalle específico. Text sobre Green Park: On Saturday, my family visited Green Park. We had a picnic under a big tree, and my brother played with a kite. Later, we rented bicycles and rode around the lake. At 5 PM, it started to rain, so we went back home earlier than we planned.\nQuestion: Why did they return home early?",
       "options": [
         "Someone was tired",
         "It started raining",
@@ -1059,7 +1059,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 4 – Detalle específico. Texto sobre Green Park: On Saturday, my family visited Green Park. We had a picnic under a big tree, and my brother played with a kite. Later, we rented bicycles and rode around the lake. At 5 PM, it started to rain, so we went back home earlier than we planned.\nQuestion: What time did the rain begin?",
+      "prompt": "Reading A2 – Block 4 – Detalle específico. Text sobre Green Park: On Saturday, my family visited Green Park. We had a picnic under a big tree, and my brother played with a kite. Later, we rented bicycles and rode around the lake. At 5 PM, it started to rain, so we went back home earlier than we planned.\nQuestion: What time did the rain begin?",
       "options": [
         "3 PM",
         "5 PM",
@@ -1072,7 +1072,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 4 – Detalle específico. Texto sobre el plan de mañana: Hi! Here is tomorrow's plan: I'll wake up at 7 AM, eat breakfast quickly, and take the bus to my music class at 9. The class finishes at 10:30. After that, I'm meeting Julia at the library to study for our math test. We'll probably study for two hours. In the afternoon, I want to go for a short run before dinner.\nQuestion: What time does the music class end?",
+      "prompt": "Reading A2 – Block 4 – Detalle específico. Text sobre el plan de mañana: Hi! Here is tomorrow's plan: I'll wake up at 7 AM, eat breakfast quickly, and take the bus to my music class at 9. The class finishes at 10:30. After that, I'm meeting Julia at the library to study for our math test. We'll probably study for two hours. In the afternoon, I want to go for a short run before dinner.\nQuestion: What time does the music class end?",
       "options": [
         "9:30",
         "10:30",
@@ -1085,7 +1085,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 4 – Detalle específico. Texto sobre el plan de mañana: Hi! Here is tomorrow's plan: I'll wake up at 7 AM, eat breakfast quickly, and take the bus to my music class at 9. The class finishes at 10:30. After that, I'm meeting Julia at the library to study for our math test. We'll probably study for two hours. In the afternoon, I want to go for a short run before dinner.\nQuestion: What will they study at the library?",
+      "prompt": "Reading A2 – Block 4 – Detalle específico. Text sobre el plan de mañana: Hi! Here is tomorrow's plan: I'll wake up at 7 AM, eat breakfast quickly, and take the bus to my music class at 9. The class finishes at 10:30. After that, I'm meeting Julia at the library to study for our math test. We'll probably study for two hours. In the afternoon, I want to go for a short run before dinner.\nQuestion: What will they study at the library?",
       "options": [
         "English",
         "Science",
@@ -1098,7 +1098,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 4 – Detalle específico. Texto sobre el plan de mañana: Hi! Here is tomorrow's plan: I'll wake up at 7 AM, eat breakfast quickly, and take the bus to my music class at 9. The class finishes at 10:30. After that, I'm meeting Julia at the library to study for our math test. We'll probably study for two hours. In the afternoon, I want to go for a short run before dinner.\nQuestion: What does the writer want to do before dinner?",
+      "prompt": "Reading A2 – Block 4 – Detalle específico. Text sobre el plan de mañana: Hi! Here is tomorrow's plan: I'll wake up at 7 AM, eat breakfast quickly, and take the bus to my music class at 9. The class finishes at 10:30. After that, I'm meeting Julia at the library to study for our math test. We'll probably study for two hours. In the afternoon, I want to go for a short run before dinner.\nQuestion: What does the writer want to do before dinner?",
       "options": [
         "Go running",
         "Cook",
@@ -1111,7 +1111,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 5 – Inferencia básica. Texto: Mark forgot his umbrella again. When he walked outside, the sky was dark and people were carrying raincoats. He decided to wait at the entrance for a taxi.\nQuestion: Why did Mark wait for a taxi?",
+      "prompt": "Reading A2 – Block 5 – Inferencia básica. Text: Mark forgot his umbrella again. When he walked outside, the sky was dark and people were carrying raincoats. He decided to wait at the entrance for a taxi.\nQuestion: Why did Mark wait for a taxi?",
       "options": [
         "He was tired",
         "It was going to rain",
@@ -1124,7 +1124,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 5 – Inferencia básica. Texto: Jenny wrote that her new neighbors invited her to dinner. She said they \"brought homemade pasta\" and \"talked for hours.\" She also wrote: \"I feel lucky they live next door.\"\nQuestion: What can we guess?",
+      "prompt": "Reading A2 – Block 5 – Inferencia básica. Text: Jenny wrote that her new neighbors invited her to dinner. She said they \"brought homemade pasta\" and \"talked for hours.\" She also wrote: \"I feel lucky they live next door.\"\nQuestion: What can we guess?",
       "options": [
         "She didn't enjoy the dinner",
         "She likes her neighbors",
@@ -1137,7 +1137,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 5 – Inferencia básica. Texto: The sign says: \"Gym: open from 6 AM to 10 PM. Closed on Sundays.\" Alex wants to exercise on Sunday morning.\nQuestion: What will happen?",
+      "prompt": "Reading A2 – Block 5 – Inferencia básica. Text: The sign says: \"Gym: open from 6 AM to 10 PM. Closed on Sundays.\" Alex wants to exercise on Sunday morning.\nQuestion: What will happen?",
       "options": [
         "He will be able to go",
         "He will have to change his plan",
@@ -1150,7 +1150,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 5 – Inferencia básica. Texto: Emma bought a bus ticket to visit her aunt. She packed her toothbrush, pajamas, and some clothes. She also told her mom she'll be back \"after two nights.\"\nQuestion: Where is she going?",
+      "prompt": "Reading A2 – Block 5 – Inferencia básica. Text: Emma bought a bus ticket to visit her aunt. She packed her toothbrush, pajamas, and some clothes. She also told her mom she'll be back \"after two nights.\"\nQuestion: Where is she going?",
       "options": [
         "A one-hour activity",
         "A long trip",
@@ -1163,7 +1163,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 5 – Inferencia básica. Texto: Tom looked at the menu and said, \"I can't eat anything here except the salad… I forgot my wallet again.\"\nQuestion: What can we understand?",
+      "prompt": "Reading A2 – Block 5 – Inferencia básica. Text: Tom looked at the menu and said, \"I can't eat anything here except the salad… I forgot my wallet again.\"\nQuestion: What can we understand?",
       "options": [
         "He has no money with him",
         "He doesn't like salad",
@@ -1176,7 +1176,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Bloque 5 – Inferencia básica. Texto: Maria texted: \"The store was full of people today. I waited 25 minutes just to pay for two apples!\"\nQuestion: What can we guess?",
+      "prompt": "Reading A2 – Block 5 – Inferencia básica. Text: Maria texted: \"The store was full of people today. I waited 25 minutes just to pay for two apples!\"\nQuestion: What can we guess?",
       "options": [
         "She bought many things",
         "The store was very busy",
@@ -2045,7 +2045,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Multiple choice (Comprensión global e inferencia). Texto base 1: Many young adults choose to take a ‘gap year’ before university. Some travel to learn languages, while others volunteer in social projects. Although it can be expensive, many say the experience helps them understand themselves better.\nQuestion: What is the writer’s main opinion about gap years?",
+      "prompt": "Reading A2 – Multiple choice (Comprensión global e inferencia). Base text 1: Many young adults choose to take a ‘gap year’ before university. Some travel to learn languages, while others volunteer in social projects. Although it can be expensive, many say the experience helps them understand themselves better.\nQuestion: What is the writer’s main opinion about gap years?",
       "options": [
         "They are mostly a waste of money.",
         "They can be valuable for personal growth.",
@@ -2058,7 +2058,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Multiple choice (Comprensión global e inferencia). Texto base 1: Many young adults choose to take a ‘gap year’ before university. Some travel to learn languages, while others volunteer in social projects. Although it can be expensive, many say the experience helps them understand themselves better.\nQuestion: According to the text, why do some young people volunteer?",
+      "prompt": "Reading A2 – Multiple choice (Comprensión global e inferencia). Base text 1: Many young adults choose to take a ‘gap year’ before university. Some travel to learn languages, while others volunteer in social projects. Although it can be expensive, many say the experience helps them understand themselves better.\nQuestion: According to the text, why do some young people volunteer?",
       "options": [
         "To avoid paying for travel.",
         "To join professional programs.",
@@ -2071,7 +2071,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Multiple choice (Comprensión global e inferencia). Texto base 1: Many young adults choose to take a ‘gap year’ before university. Some travel to learn languages, while others volunteer in social projects. Although it can be expensive, many say the experience helps them understand themselves better.\nQuestion: What does the writer imply about the cost?",
+      "prompt": "Reading A2 – Multiple choice (Comprensión global e inferencia). Base text 1: Many young adults choose to take a ‘gap year’ before university. Some travel to learn languages, while others volunteer in social projects. Although it can be expensive, many say the experience helps them understand themselves better.\nQuestion: What does the writer imply about the cost?",
       "options": [
         "It stops everyone from going.",
         "It is high, but many still choose to go.",
@@ -2084,7 +2084,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Multiple choice (Comprensión global e inferencia). Texto base 2: Emma recently moved to a new city for work. At first, she felt lonely, but things improved once she joined a weekend hiking group.\nQuestion: What helped Emma adapt to her new city?",
+      "prompt": "Reading A2 – Multiple choice (Comprensión global e inferencia). Base text 2: Emma recently moved to a new city for work. At first, she felt lonely, but things improved once she joined a weekend hiking group.\nQuestion: What helped Emma adapt to her new city?",
       "options": [
         "Spending more time at home.",
         "Joining a social activity.",
@@ -2097,7 +2097,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Multiple choice (Comprensión global e inferencia). Texto base 2: Emma recently moved to a new city for work. At first, she felt lonely, but things improved once she joined a weekend hiking group.\nQuestion: What is Emma’s attitude now?",
+      "prompt": "Reading A2 – Multiple choice (Comprensión global e inferencia). Base text 2: Emma recently moved to a new city for work. At first, she felt lonely, but things improved once she joined a weekend hiking group.\nQuestion: What is Emma’s attitude now?",
       "options": [
         "She regrets moving.",
         "She feels more positive.",
@@ -2110,7 +2110,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Multiple choice (Comprensión global e inferencia). Texto base 3: A review of a small café: ‘The atmosphere is cozy, and the staff are friendly. The menu is limited, but everything is homemade and fresh.’\nQuestion: What is the reviewer’s general opinion?",
+      "prompt": "Reading A2 – Multiple choice (Comprensión global e inferencia). Base text 3: A review of a small café: ‘The atmosphere is cozy, and the staff are friendly. The menu is limited, but everything is homemade and fresh.’\nQuestion: What is the reviewer’s general opinion?",
       "options": [
         "Mostly positive.",
         "Very negative.",
@@ -2123,7 +2123,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Multiple choice (Comprensión global e inferencia). Texto base 3: A review of a small café: ‘The atmosphere is cozy, and the staff are friendly. The menu is limited, but everything is homemade and fresh.’\nQuestion: What is mentioned as a disadvantage?",
+      "prompt": "Reading A2 – Multiple choice (Comprensión global e inferencia). Base text 3: A review of a small café: ‘The atmosphere is cozy, and the staff are friendly. The menu is limited, but everything is homemade and fresh.’\nQuestion: What is mentioned as a disadvantage?",
       "options": [
         "The quality of the food.",
         "The size of the menu.",
@@ -2136,7 +2136,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Multiple choice (Comprensión global e inferencia). Texto base 4: A short blog: ‘If you want to stay motivated at the gym, train with a partner. You push each other and skip fewer sessions.’\nQuestion: Why does the writer recommend training with a partner?",
+      "prompt": "Reading A2 – Multiple choice (Comprensión global e inferencia). Base text 4: A short blog: ‘If you want to stay motivated at the gym, train with a partner. You push each other and skip fewer sessions.’\nQuestion: Why does the writer recommend training with a partner?",
       "options": [
         "It makes workouts shorter.",
         "It increases consistency.",
@@ -2149,7 +2149,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Multiple choice (Comprensión global e inferencia). Texto base 4: A short blog: ‘If you want to stay motivated at the gym, train with a partner. You push each other and skip fewer sessions.’\nQuestion: What is the text mainly about?",
+      "prompt": "Reading A2 – Multiple choice (Comprensión global e inferencia). Base text 4: A short blog: ‘If you want to stay motivated at the gym, train with a partner. You push each other and skip fewer sessions.’\nQuestion: What is the text mainly about?",
       "options": [
         "Nutrition tips.",
         "Strategies to stay motivated.",
@@ -2162,7 +2162,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Multiple choice (Comprensión global e inferencia). Texto base 5: A news item: ‘The city will build more bike lanes next year to improve safety and reduce traffic congestion.’\nQuestion: What is the main purpose of the plan?",
+      "prompt": "Reading A2 – Multiple choice (Comprensión global e inferencia). Base text 5: A news item: ‘The city will build more bike lanes next year to improve safety and reduce traffic congestion.’\nQuestion: What is the main purpose of the plan?",
       "options": [
         "Encourage public transport use.",
         "Make cycling safer and reduce traffic.",
@@ -2175,7 +2175,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Multiple choice (Comprensión global e inferencia). Texto base 5: A news item: ‘The city will build more bike lanes next year to improve safety and reduce traffic congestion.’\nQuestion: What is the writer’s attitude toward the plan?",
+      "prompt": "Reading A2 – Multiple choice (Comprensión global e inferencia). Base text 5: A news item: ‘The city will build more bike lanes next year to improve safety and reduce traffic congestion.’\nQuestion: What is the writer’s attitude toward the plan?",
       "options": [
         "Critical.",
         "Supportive/positive.",
@@ -2188,7 +2188,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Multiple choice (Comprensión global e inferencia). Texto base 5: A news item: ‘The city will build more bike lanes next year to improve safety and reduce traffic congestion.’\nQuestion: What can be inferred?",
+      "prompt": "Reading A2 – Multiple choice (Comprensión global e inferencia). Base text 5: A news item: ‘The city will build more bike lanes next year to improve safety and reduce traffic congestion.’\nQuestion: What can be inferred?",
       "options": [
         "Cycling is becoming more popular.",
         "Fewer people will cycle in the future.",
@@ -2201,7 +2201,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Gapped text (cohesión). Texto: Online learning has become very popular in recent years. Students enjoy the flexibility of studying from home. (A) ____________________. However, not everyone finds it easy to stay focused.\nOpciones: I. For example, many platforms allow learners to choose when and how fast they study. II. This is why universities are now banning all online courses. III. For this reason, some students prefer traditional classrooms.\nQuestion: ¿Qué párrafo corresponde a (A)?",
+      "prompt": "Reading A2 – Gapped text (cohesión). Text: Online learning has become very popular in recent years. Students enjoy the flexibility of studying from home. (A) ____________________. However, not everyone finds it easy to stay focused.\nOpciones: I. For example, many platforms allow learners to choose when and how fast they study. II. This is why universities are now banning all online courses. III. For this reason, some students prefer traditional classrooms.\nQuestion: ¿Qué párrafo corresponde a (A)?",
       "options": [
         "I",
         "II",
@@ -2214,7 +2214,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Gapped text (cohesión). Texto: Carlos wanted to improve his health, so he started running every morning. At first, he could only run for five minutes. (B) ____________________. Now he completes 5 km without stopping.\nOpciones: I. But he didn’t like exercising at all. II. After a few weeks, his endurance increased. III. He decided to stop after the first day.\nQuestion: ¿Qué opción completa mejor?",
+      "prompt": "Reading A2 – Gapped text (cohesión). Text: Carlos wanted to improve his health, so he started running every morning. At first, he could only run for five minutes. (B) ____________________. Now he completes 5 km without stopping.\nOpciones: I. But he didn’t like exercising at all. II. After a few weeks, his endurance increased. III. He decided to stop after the first day.\nQuestion: ¿Qué opción completa mejor?",
       "options": [
         "I",
         "II",
@@ -2227,7 +2227,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Gapped text (cohesión). Texto: Many people dream of working abroad. (C) ____________________. Still, adapting to a new culture can be challenging.\nOpciones: I. They believe it will give them new professional opportunities. II. Most companies refuse to hire foreign workers. III. It is impossible to find a job in another country.\nQuestion: ¿Qué opción completa (C)?",
+      "prompt": "Reading A2 – Gapped text (cohesión). Text: Many people dream of working abroad. (C) ____________________. Still, adapting to a new culture can be challenging.\nOpciones: I. They believe it will give them new professional opportunities. II. Most companies refuse to hire foreign workers. III. It is impossible to find a job in another country.\nQuestion: ¿Qué opción completa (C)?",
       "options": [
         "I",
         "II",
@@ -2240,7 +2240,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Ordenar párrafos. Texto: P1. In the end, Maria realised she wanted a career that combined creativity and technology. P2. At first, she studied graphic design, but she felt something was missing. P3. Maria changed her major three times before finding the right path. P4. So she decided to become a web designer.\nQuestion: ¿Cuál es el orden más lógico?",
+      "prompt": "Reading A2 – Ordenar párrafos. Text: P1. In the end, Maria realised she wanted a career that combined creativity and technology. P2. At first, she studied graphic design, but she felt something was missing. P3. Maria changed her major three times before finding the right path. P4. So she decided to become a web designer.\nQuestion: ¿Cuál es el orden más lógico?",
       "options": [
         "3–2–1–4",
         "2–3–4–1",
@@ -2253,7 +2253,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading A2 – Ordenar párrafos. Texto: P1. The guide told us the mountain trail was safe, but we needed to stay together. P2. Suddenly, a strong fog appeared, and visibility dropped instantly. P3. We followed the path for an hour without problems. P4. Thanks to the guide’s instructions, no one got lost.\nQuestion: ¿Cuál es el orden lógico?",
+      "prompt": "Reading A2 – Ordenar párrafos. Text: P1. The guide told us the mountain trail was safe, but we needed to stay together. P2. Suddenly, a strong fog appeared, and visibility dropped instantly. P3. We followed the path for an hour without problems. P4. Thanks to the guide’s instructions, no one got lost.\nQuestion: ¿Cuál es el orden lógico?",
       "options": [
         "1–3–2–4",
         "3–1–4–2",
@@ -2273,7 +2273,7 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading A2 – Open short answer. Texto base: Laura decided to quit her job after five years because she felt she wasn’t learning anything new. She took an online course in digital marketing and soon found a new position in a small tech company.\nQuestion: Why did Laura quit her job? (Responde en 3–6 palabras.)"
+      "prompt": "Reading A2 – Open short answer. Base text: Laura decided to quit her job after five years because she felt she wasn’t learning anything new. She took an online course in digital marketing and soon found a new position in a small tech company.\nQuestion: Why did Laura quit her job? (Answer in 3–6 words.)"
     },
     {
       "id": "A2-RD-SA-109",
@@ -2287,7 +2287,7 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading A2 – Open short answer. Texto base: Laura decided to quit her job after five years because she felt she wasn’t learning anything new. She took an online course in digital marketing and soon found a new position in a small tech company.\nQuestion: What did she study afterwards? (Responde en 3–6 palabras.)"
+      "prompt": "Reading A2 – Open short answer. Base text: Laura decided to quit her job after five years because she felt she wasn’t learning anything new. She took an online course in digital marketing and soon found a new position in a small tech company.\nQuestion: What did she study afterwards? (Answer in 3–6 words.)"
     },
     {
       "id": "A2-RD-SA-110",
@@ -2301,7 +2301,7 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading A2 – Open short answer. Texto base: Laura decided to quit her job after five years because she felt she wasn’t learning anything new. She took an online course in digital marketing and soon found a new position in a small tech company.\nQuestion: Where did she find a new job? (Responde en 3–6 palabras.)"
+      "prompt": "Reading A2 – Open short answer. Base text: Laura decided to quit her job after five years because she felt she wasn’t learning anything new. She took an online course in digital marketing and soon found a new position in a small tech company.\nQuestion: Where did she find a new job? (Answer in 3–6 words.)"
     },
     {
       "id": "A2-RD-SA-111",
@@ -2315,7 +2315,7 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading A2 – Open short answer. Texto base: Laura decided to quit her job after five years because she felt she wasn’t learning anything new. She took an online course in digital marketing and soon found a new position in a small tech company.\nQuestion: How long had she worked in her old job? (Responde en 3–6 palabras.)"
+      "prompt": "Reading A2 – Open short answer. Base text: Laura decided to quit her job after five years because she felt she wasn’t learning anything new. She took an online course in digital marketing and soon found a new position in a small tech company.\nQuestion: How long had she worked in her old job? (Answer in 3–6 words.)"
     },
     {
       "id": "A2-RD-SA-112",
@@ -2329,7 +2329,7 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading A2 – Open short answer. Texto base: Laura decided to quit her job after five years because she felt she wasn’t learning anything new. She took an online course in digital marketing and soon found a new position in a small tech company.\nQuestion: What motivated her to make a change? (Responde en 3–6 palabras.)"
+      "prompt": "Reading A2 – Open short answer. Base text: Laura decided to quit her job after five years because she felt she wasn’t learning anything new. She took an online course in digital marketing and soon found a new position in a small tech company.\nQuestion: What motivated her to make a change? (Answer in 3–6 words.)"
     },
     {
       "id": "A2-RD-SA-113",
@@ -2343,7 +2343,7 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading A2 – Open short answer. Texto base: Tom started cycling to work to save money and stay healthy. After a month, he noticed he had more energy during the day.\nQuestion: Why did Tom start cycling? (Responde en 3–6 palabras.)"
+      "prompt": "Reading A2 – Open short answer. Base text: Tom started cycling to work to save money and stay healthy. After a month, he noticed he had more energy during the day.\nQuestion: Why did Tom start cycling? (Answer in 3–6 words.)"
     },
     {
       "id": "A2-RD-SA-114",
@@ -2357,7 +2357,7 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading A2 – Open short answer. Texto base: Tom started cycling to work to save money and stay healthy. After a month, he noticed he had more energy during the day.\nQuestion: What change did he notice after a month? (Responde en 3–6 palabras.)"
+      "prompt": "Reading A2 – Open short answer. Base text: Tom started cycling to work to save money and stay healthy. After a month, he noticed he had more energy during the day.\nQuestion: What change did he notice after a month? (Answer in 3–6 words.)"
     },
     {
       "id": "A2-RD-SA-115",
@@ -2371,7 +2371,7 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading A2 – Open short answer. Texto base: Tom started cycling to work to save money and stay healthy. After a month, he noticed he had more energy during the day.\nQuestion: What were his two goals? (Responde en 3–6 palabras.)"
+      "prompt": "Reading A2 – Open short answer. Base text: Tom started cycling to work to save money and stay healthy. After a month, he noticed he had more energy during the day.\nQuestion: What were his two goals? (Answer in 3–6 words.)"
     },
     {
       "id": "A2-RD-SA-116",
@@ -2385,7 +2385,7 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading A2 – Open short answer. Texto base: Sarah bought a second-hand guitar because she wanted to learn a new hobby. She practices every evening and follows free lessons online.\nQuestion: Why did Sarah buy a guitar? (Responde en 3–6 palabras.)"
+      "prompt": "Reading A2 – Open short answer. Base text: Sarah bought a second-hand guitar because she wanted to learn a new hobby. She practices every evening and follows free lessons online.\nQuestion: Why did Sarah buy a guitar? (Answer in 3–6 words.)"
     },
     {
       "id": "A2-RD-SA-117",
@@ -2399,7 +2399,7 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading A2 – Open short answer. Texto base: Sarah bought a second-hand guitar because she wanted to learn a new hobby. She practices every evening and follows free lessons online.\nQuestion: How does she learn? (Responde en 3–6 palabras.)"
+      "prompt": "Reading A2 – Open short answer. Base text: Sarah bought a second-hand guitar because she wanted to learn a new hobby. She practices every evening and follows free lessons online.\nQuestion: How does she learn? (Answer in 3–6 words.)"
     },
     {
       "id": "A2-RD-SA-118",
@@ -2413,7 +2413,7 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading A2 – Open short answer. Texto base: Sarah bought a second-hand guitar because she wanted to learn a new hobby. She practices every evening and follows free lessons online.\nQuestion: When does she practice? (Responde en 3–6 palabras.)"
+      "prompt": "Reading A2 – Open short answer. Base text: Sarah bought a second-hand guitar because she wanted to learn a new hobby. She practices every evening and follows free lessons online.\nQuestion: When does she practice? (Answer in 3–6 words.)"
     },
     {
       "id": "A2-RD-SA-119",
@@ -2427,7 +2427,7 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading A2 – Open short answer. Texto base: Sarah bought a second-hand guitar because she wanted to learn a new hobby. She practices every evening and follows free lessons online.\nQuestion: Is the guitar new or used? (Responde en 3–6 palabras.)"
+      "prompt": "Reading A2 – Open short answer. Base text: Sarah bought a second-hand guitar because she wanted to learn a new hobby. She practices every evening and follows free lessons online.\nQuestion: Is the guitar new or used? (Answer in 3–6 words.)"
     },
     {
       "id": "A2-RD-SA-120",
@@ -2441,14 +2441,14 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading A2 – Open short answer. Texto base: Sarah bought a second-hand guitar because she wanted to learn a new hobby. She practices every evening and follows free lessons online.\nQuestion: What kind of activity is it for her? (Responde en 3–6 palabras.)"
+      "prompt": "Reading A2 – Open short answer. Base text: Sarah bought a second-hand guitar because she wanted to learn a new hobby. She practices every evening and follows free lessons online.\nQuestion: What kind of activity is it for her? (Answer in 3–6 words.)"
     },
     {
       "id": "A2-RD-CLO-121",
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze. Questions 1–8. Texto 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 1: Choose the best answer for gap (1).",
+      "prompt": "Part 1 – Multiple-choice cloze. Questions 1–8. Text 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 1: Choose the best answer for gap (1).",
       "options": [
         "have gone",
         "have been",
@@ -2462,7 +2462,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze. Questions 1–8. Texto 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 2: Choose the best answer for gap (2).",
+      "prompt": "Part 1 – Multiple-choice cloze. Questions 1–8. Text 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 2: Choose the best answer for gap (2).",
       "options": [
         "bring",
         "are bringing",
@@ -2476,7 +2476,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze. Questions 1–8. Texto 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 3: Choose the best answer for gap (3).",
+      "prompt": "Part 1 – Multiple-choice cloze. Questions 1–8. Text 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 3: Choose the best answer for gap (3).",
       "options": [
         "lives",
         "has lived",
@@ -2490,7 +2490,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze. Questions 1–8. Texto 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 4: Choose the best answer for gap (4).",
+      "prompt": "Part 1 – Multiple-choice cloze. Questions 1–8. Text 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 4: Choose the best answer for gap (4).",
       "options": [
         "will be",
         "be",
@@ -2504,7 +2504,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze. Questions 1–8. Texto 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 5: Choose the best answer for gap (5).",
+      "prompt": "Part 1 – Multiple-choice cloze. Questions 1–8. Text 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 5: Choose the best answer for gap (5).",
       "options": [
         "left",
         "have left",
@@ -2518,7 +2518,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze. Questions 1–8. Texto 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 6: Choose the best answer for gap (6).",
+      "prompt": "Part 1 – Multiple-choice cloze. Questions 1–8. Text 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 6: Choose the best answer for gap (6).",
       "options": [
         "colder",
         "most cold",
@@ -2532,7 +2532,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze. Questions 1–8. Texto 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 7: Choose the best answer for gap (7).",
+      "prompt": "Part 1 – Multiple-choice cloze. Questions 1–8. Text 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 7: Choose the best answer for gap (7).",
       "options": [
         "have",
         "had",
@@ -2546,7 +2546,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze. Questions 1–8. Texto 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 8: Choose the best answer for gap (8).",
+      "prompt": "Part 1 – Multiple-choice cloze. Questions 1–8. Text 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 8: Choose the best answer for gap (8).",
       "options": [
         "decide",
         "decided",
@@ -2560,7 +2560,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze. Questions 9–16. Texto 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 9: Choose the best answer for gap (9).",
+      "prompt": "Part 1 – Multiple-choice cloze. Questions 9–16. Text 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 9: Choose the best answer for gap (9).",
       "options": [
         "are going to raise",
         "raised",
@@ -2574,7 +2574,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze. Questions 9–16. Texto 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 10: Choose the best answer for gap (10).",
+      "prompt": "Part 1 – Multiple-choice cloze. Questions 9–16. Text 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 10: Choose the best answer for gap (10).",
       "options": [
         "are designing",
         "designed",
@@ -2588,7 +2588,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze. Questions 9–16. Texto 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 11: Choose the best answer for gap (11).",
+      "prompt": "Part 1 – Multiple-choice cloze. Questions 9–16. Text 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 11: Choose the best answer for gap (11).",
       "options": [
         "is helping",
         "helps",
@@ -2602,7 +2602,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze. Questions 9–16. Texto 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 12: Choose the best answer for gap (12).",
+      "prompt": "Part 1 – Multiple-choice cloze. Questions 9–16. Text 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 12: Choose the best answer for gap (12).",
       "options": [
         "better",
         "the best",
@@ -2616,7 +2616,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze. Questions 9–16. Texto 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 13: Choose the best answer for gap (13).",
+      "prompt": "Part 1 – Multiple-choice cloze. Questions 9–16. Text 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 13: Choose the best answer for gap (13).",
       "options": [
         "will",
         "are",
@@ -2630,7 +2630,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze. Questions 9–16. Texto 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 14: Choose the best answer for gap (14).",
+      "prompt": "Part 1 – Multiple-choice cloze. Questions 9–16. Text 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 14: Choose the best answer for gap (14).",
       "options": [
         "is",
         "was",
@@ -2644,7 +2644,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze. Questions 9–16. Texto 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 15: Choose the best answer for gap (15).",
+      "prompt": "Part 1 – Multiple-choice cloze. Questions 9–16. Text 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 15: Choose the best answer for gap (15).",
       "options": [
         "must",
         "should",
@@ -2658,7 +2658,7 @@
       "level": "A2",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze. Questions 9–16. Texto 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 16: Choose the best answer for gap (16).",
+      "prompt": "Part 1 – Multiple-choice cloze. Questions 9–16. Text 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 16: Choose the best answer for gap (16).",
       "options": [
         "are going to",
         "must",
@@ -2672,7 +2672,7 @@
       "level": "A2",
       "skill": "grammar",
       "type": "key_transform",
-      "prompt": "Parte 2 – Key Word Transformations. Questions 17–30. Complete the second sentence so that it has the same meaning as the first sentence. Use the word given without changing it and write between two and five words.",
+      "prompt": "Part 2 – Key Word Transformations. Questions 17–30. Complete the second sentence so that it has the same meaning as the first sentence. Use the word given without changing it and write between two and five words.",
       "transform_items": [
         {
           "number": 17,
@@ -2767,7 +2767,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading B1 – Multiple choice (Comprensión global e inferencia). Texto base 1: Many young adults choose to take a gap year before university. Some travel to learn languages, while others volunteer in social projects. Although it can be expensive, many say the experience helps them understand themselves better.\nQuestion: What is the writer’s main opinion about gap years?",
+      "prompt": "Reading B1 – Multiple choice (Comprensión global e inferencia). Base text 1: Many young adults choose to take a gap year before university. Some travel to learn languages, while others volunteer in social projects. Although it can be expensive, many say the experience helps them understand themselves better.\nQuestion: What is the writer’s main opinion about gap years?",
       "options": [
         "They are mostly a waste of money.",
         "They can be valuable for personal growth.",
@@ -2780,7 +2780,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading B1 – Multiple choice (Comprensión global e inferencia). Texto base 1: Many young adults choose to take a gap year before university. Some travel to learn languages, while others volunteer in social projects. Although it can be expensive, many say the experience helps them understand themselves better.\nQuestion: According to the text, why do some young people volunteer?",
+      "prompt": "Reading B1 – Multiple choice (Comprensión global e inferencia). Base text 1: Many young adults choose to take a gap year before university. Some travel to learn languages, while others volunteer in social projects. Although it can be expensive, many say the experience helps them understand themselves better.\nQuestion: According to the text, why do some young people volunteer?",
       "options": [
         "To avoid paying for travel.",
         "To join professional programs.",
@@ -2793,7 +2793,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading B1 – Multiple choice (Comprensión global e inferencia). Texto base 1: Many young adults choose to take a gap year before university. Some travel to learn languages, while others volunteer in social projects. Although it can be expensive, many say the experience helps them understand themselves better.\nQuestion: What does the writer imply about the cost?",
+      "prompt": "Reading B1 – Multiple choice (Comprensión global e inferencia). Base text 1: Many young adults choose to take a gap year before university. Some travel to learn languages, while others volunteer in social projects. Although it can be expensive, many say the experience helps them understand themselves better.\nQuestion: What does the writer imply about the cost?",
       "options": [
         "It stops everyone from going.",
         "It is high, but many still choose to go.",
@@ -2806,7 +2806,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading B1 – Multiple choice (Comprensión global e inferencia). Texto base 2: Emma recently moved to a new city for work. At first, she felt lonely, but things improved once she joined a weekend hiking group.\nQuestion: What helped Emma adapt to her new city?",
+      "prompt": "Reading B1 – Multiple choice (Comprensión global e inferencia). Base text 2: Emma recently moved to a new city for work. At first, she felt lonely, but things improved once she joined a weekend hiking group.\nQuestion: What helped Emma adapt to her new city?",
       "options": [
         "Spending more time at home.",
         "Joining a social activity.",
@@ -2819,7 +2819,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading B1 – Multiple choice (Comprensión global e inferencia). Texto base 2: Emma recently moved to a new city for work. At first, she felt lonely, but things improved once she joined a weekend hiking group.\nQuestion: What is Emma’s attitude now?",
+      "prompt": "Reading B1 – Multiple choice (Comprensión global e inferencia). Base text 2: Emma recently moved to a new city for work. At first, she felt lonely, but things improved once she joined a weekend hiking group.\nQuestion: What is Emma’s attitude now?",
       "options": [
         "She regrets moving.",
         "She feels more positive.",
@@ -2832,7 +2832,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading B1 – Multiple choice (Comprensión global e inferencia). Texto base 3: A review of a small café: ‘The atmosphere is cozy, and the staff are friendly. The menu is limited, but everything is homemade and fresh.’\nQuestion: What is the reviewer’s general opinion?",
+      "prompt": "Reading B1 – Multiple choice (Comprensión global e inferencia). Base text 3: A review of a small café: ‘The atmosphere is cozy, and the staff are friendly. The menu is limited, but everything is homemade and fresh.’\nQuestion: What is the reviewer’s general opinion?",
       "options": [
         "Mostly positive.",
         "Very negative.",
@@ -2845,7 +2845,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading B1 – Multiple choice (Comprensión global e inferencia). Texto base 3: A review of a small café: ‘The atmosphere is cozy, and the staff are friendly. The menu is limited, but everything is homemade and fresh.’\nQuestion: What is mentioned as a disadvantage?",
+      "prompt": "Reading B1 – Multiple choice (Comprensión global e inferencia). Base text 3: A review of a small café: ‘The atmosphere is cozy, and the staff are friendly. The menu is limited, but everything is homemade and fresh.’\nQuestion: What is mentioned as a disadvantage?",
       "options": [
         "The quality of the food.",
         "The size of the menu.",
@@ -2858,7 +2858,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading B1 – Multiple choice (Comprensión global e inferencia). Texto base 4: A short blog: ‘If you want to stay motivated at the gym, train with a partner. You push each other and skip fewer sessions.’\nQuestion: Why does the writer recommend training with a partner?",
+      "prompt": "Reading B1 – Multiple choice (Comprensión global e inferencia). Base text 4: A short blog: ‘If you want to stay motivated at the gym, train with a partner. You push each other and skip fewer sessions.’\nQuestion: Why does the writer recommend training with a partner?",
       "options": [
         "It makes workouts shorter.",
         "It increases consistency.",
@@ -2871,7 +2871,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading B1 – Multiple choice (Comprensión global e inferencia). Texto base 4: A short blog: ‘If you want to stay motivated at the gym, train with a partner. You push each other and skip fewer sessions.’\nQuestion: What is the text mainly about?",
+      "prompt": "Reading B1 – Multiple choice (Comprensión global e inferencia). Base text 4: A short blog: ‘If you want to stay motivated at the gym, train with a partner. You push each other and skip fewer sessions.’\nQuestion: What is the text mainly about?",
       "options": [
         "Nutrition tips.",
         "Strategies to stay motivated.",
@@ -2884,7 +2884,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading B1 – Multiple choice (Comprensión global e inferencia). Texto base 5: A news item: ‘The city will build more bike lanes next year to improve safety and reduce traffic congestion.’\nQuestion: What is the main purpose of the plan?",
+      "prompt": "Reading B1 – Multiple choice (Comprensión global e inferencia). Base text 5: A news item: ‘The city will build more bike lanes next year to improve safety and reduce traffic congestion.’\nQuestion: What is the main purpose of the plan?",
       "options": [
         "Encourage public transport use.",
         "Make cycling safer and reduce traffic.",
@@ -2897,7 +2897,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading B1 – Multiple choice (Comprensión global e inferencia). Texto base 5: A news item: ‘The city will build more bike lanes next year to improve safety and reduce traffic congestion.’\nQuestion: What is the writer’s attitude toward the plan?",
+      "prompt": "Reading B1 – Multiple choice (Comprensión global e inferencia). Base text 5: A news item: ‘The city will build more bike lanes next year to improve safety and reduce traffic congestion.’\nQuestion: What is the writer’s attitude toward the plan?",
       "options": [
         "Critical.",
         "Supportive/positive.",
@@ -2910,7 +2910,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading B1 – Multiple choice (Comprensión global e inferencia). Texto base 5: A news item: ‘The city will build more bike lanes next year to improve safety and reduce traffic congestion.’\nQuestion: What can be inferred?",
+      "prompt": "Reading B1 – Multiple choice (Comprensión global e inferencia). Base text 5: A news item: ‘The city will build more bike lanes next year to improve safety and reduce traffic congestion.’\nQuestion: What can be inferred?",
       "options": [
         "Cycling is becoming more popular.",
         "Fewer people will cycle in the future.",
@@ -2923,7 +2923,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading B1 – Gapped text (cohesión). Texto: Online learning has become very popular in recent years. Students enjoy the flexibility of studying from home. (A) ____________________. However, not everyone finds it easy to stay focused.\nOpciones: I. For example, many platforms allow learners to choose when and how fast they study. II. This is why universities are now banning all online courses. III. For this reason, some students prefer traditional classrooms.\nQuestion: ¿Qué párrafo corresponde a (A)?",
+      "prompt": "Reading B1 – Gapped text (cohesión). Text: Online learning has become very popular in recent years. Students enjoy the flexibility of studying from home. (A) ____________________. However, not everyone finds it easy to stay focused.\nOpciones: I. For example, many platforms allow learners to choose when and how fast they study. II. This is why universities are now banning all online courses. III. For this reason, some students prefer traditional classrooms.\nQuestion: ¿Qué párrafo corresponde a (A)?",
       "options": [
         "I",
         "II",
@@ -2936,7 +2936,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading B1 – Gapped text (cohesión). Texto: Carlos wanted to improve his health, so he started running every morning. At first, he could only run for five minutes. (B) ____________________. Now he completes 5 km without stopping.\nOpciones: I. But he didn’t like exercising at all. II. After a few weeks, his endurance increased. III. He decided to stop after the first day.\nQuestion: ¿Qué opción completa mejor?",
+      "prompt": "Reading B1 – Gapped text (cohesión). Text: Carlos wanted to improve his health, so he started running every morning. At first, he could only run for five minutes. (B) ____________________. Now he completes 5 km without stopping.\nOpciones: I. But he didn’t like exercising at all. II. After a few weeks, his endurance increased. III. He decided to stop after the first day.\nQuestion: ¿Qué opción completa mejor?",
       "options": [
         "I",
         "II",
@@ -2949,7 +2949,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading B1 – Gapped text (cohesión). Texto: Many people dream of working abroad. (C) ____________________. Still, adapting to a new culture can be challenging.\nOpciones: I. They believe it will give them new professional opportunities. II. Most companies refuse to hire foreign workers. III. It is impossible to find a job in another country.\nQuestion: ¿Qué opción completa (C)?",
+      "prompt": "Reading B1 – Gapped text (cohesión). Text: Many people dream of working abroad. (C) ____________________. Still, adapting to a new culture can be challenging.\nOpciones: I. They believe it will give them new professional opportunities. II. Most companies refuse to hire foreign workers. III. It is impossible to find a job in another country.\nQuestion: ¿Qué opción completa (C)?",
       "options": [
         "I",
         "II",
@@ -2962,7 +2962,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading B1 – Ordenar párrafos. Texto: P1. In the end, Maria realised she wanted a career that combined creativity and technology. P2. At first, she studied graphic design, but she felt something was missing. P3. Maria changed her major three times before finding the right path. P4. So she decided to become a web designer.\nQuestion: ¿Cuál es el orden más lógico?",
+      "prompt": "Reading B1 – Ordenar párrafos. Text: P1. In the end, Maria realised she wanted a career that combined creativity and technology. P2. At first, she studied graphic design, but she felt something was missing. P3. Maria changed her major three times before finding the right path. P4. So she decided to become a web designer.\nQuestion: ¿Cuál es el orden más lógico?",
       "options": [
         "3–2–1–4",
         "2–3–4–1",
@@ -2975,7 +2975,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Reading B1 – Ordenar párrafos. Texto: P1. The guide told us the mountain trail was safe, but we needed to stay together. P2. Suddenly, a strong fog appeared, and visibility dropped instantly. P3. We followed the path for an hour without problems. P4. Thanks to the guide’s instructions, no one got lost.\nQuestion: ¿Cuál es el orden lógico?",
+      "prompt": "Reading B1 – Ordenar párrafos. Text: P1. The guide told us the mountain trail was safe, but we needed to stay together. P2. Suddenly, a strong fog appeared, and visibility dropped instantly. P3. We followed the path for an hour without problems. P4. Thanks to the guide’s instructions, no one got lost.\nQuestion: ¿Cuál es el orden lógico?",
       "options": [
         "1–3–2–4",
         "3–1–4–2",
@@ -2995,7 +2995,7 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading B1 – Open short answer. Texto base: Laura decided to quit her job after five years because she felt she wasn’t learning anything new. She took an online course in digital marketing and soon found a new position in a small tech company.\nQuestion: Why did Laura quit her job? (Responde en 3–6 palabras.)"
+      "prompt": "Reading B1 – Open short answer. Base text: Laura decided to quit her job after five years because she felt she wasn’t learning anything new. She took an online course in digital marketing and soon found a new position in a small tech company.\nQuestion: Why did Laura quit her job? (Answer in 3–6 words.)"
     },
     {
       "id": "B1-RD-SA-219",
@@ -3009,7 +3009,7 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading B1 – Open short answer. Texto base: Laura decided to quit her job after five years because she felt she wasn’t learning anything new. She took an online course in digital marketing and soon found a new position in a small tech company.\nQuestion: What did she study afterwards? (Responde en 3–6 palabras.)"
+      "prompt": "Reading B1 – Open short answer. Base text: Laura decided to quit her job after five years because she felt she wasn’t learning anything new. She took an online course in digital marketing and soon found a new position in a small tech company.\nQuestion: What did she study afterwards? (Answer in 3–6 words.)"
     },
     {
       "id": "B1-RD-SA-220",
@@ -3023,7 +3023,7 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading B1 – Open short answer. Texto base: Laura decided to quit her job after five years because she felt she wasn’t learning anything new. She took an online course in digital marketing and soon found a new position in a small tech company.\nQuestion: Where did she find a new job? (Responde en 3–6 palabras.)"
+      "prompt": "Reading B1 – Open short answer. Base text: Laura decided to quit her job after five years because she felt she wasn’t learning anything new. She took an online course in digital marketing and soon found a new position in a small tech company.\nQuestion: Where did she find a new job? (Answer in 3–6 words.)"
     },
     {
       "id": "B1-RD-SA-221",
@@ -3037,7 +3037,7 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading B1 – Open short answer. Texto base: Laura decided to quit her job after five years because she felt she wasn’t learning anything new. She took an online course in digital marketing and soon found a new position in a small tech company.\nQuestion: How long had she worked in her old job? (Responde en 3–6 palabras.)"
+      "prompt": "Reading B1 – Open short answer. Base text: Laura decided to quit her job after five years because she felt she wasn’t learning anything new. She took an online course in digital marketing and soon found a new position in a small tech company.\nQuestion: How long had she worked in her old job? (Answer in 3–6 words.)"
     },
     {
       "id": "B1-RD-SA-222",
@@ -3051,7 +3051,7 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading B1 – Open short answer. Texto base: Laura decided to quit her job after five years because she felt she wasn’t learning anything new. She took an online course in digital marketing and soon found a new position in a small tech company.\nQuestion: What motivated her to make a change? (Responde en 3–6 palabras.)"
+      "prompt": "Reading B1 – Open short answer. Base text: Laura decided to quit her job after five years because she felt she wasn’t learning anything new. She took an online course in digital marketing and soon found a new position in a small tech company.\nQuestion: What motivated her to make a change? (Answer in 3–6 words.)"
     },
     {
       "id": "B1-RD-SA-223",
@@ -3065,7 +3065,7 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading B1 – Open short answer. Texto base: Tom started cycling to work to save money and stay healthy. After a month, he noticed he had more energy during the day.\nQuestion: Why did Tom start cycling? (Responde en 3–6 palabras.)"
+      "prompt": "Reading B1 – Open short answer. Base text: Tom started cycling to work to save money and stay healthy. After a month, he noticed he had more energy during the day.\nQuestion: Why did Tom start cycling? (Answer in 3–6 words.)"
     },
     {
       "id": "B1-RD-SA-224",
@@ -3079,7 +3079,7 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading B1 – Open short answer. Texto base: Tom started cycling to work to save money and stay healthy. After a month, he noticed he had more energy during the day.\nQuestion: What change did he notice after a month? (Responde en 3–6 palabras.)"
+      "prompt": "Reading B1 – Open short answer. Base text: Tom started cycling to work to save money and stay healthy. After a month, he noticed he had more energy during the day.\nQuestion: What change did he notice after a month? (Answer in 3–6 words.)"
     },
     {
       "id": "B1-RD-SA-225",
@@ -3093,7 +3093,7 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading B1 – Open short answer. Texto base: Tom started cycling to work to save money and stay healthy. After a month, he noticed he had more energy during the day.\nQuestion: What were his two goals? (Responde en 3–6 palabras.)"
+      "prompt": "Reading B1 – Open short answer. Base text: Tom started cycling to work to save money and stay healthy. After a month, he noticed he had more energy during the day.\nQuestion: What were his two goals? (Answer in 3–6 words.)"
     },
     {
       "id": "B1-RD-SA-226",
@@ -3107,7 +3107,7 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading B1 – Open short answer. Texto base: Sarah bought a second-hand guitar because she wanted to learn a new hobby. She practices every evening and follows free lessons online.\nQuestion: Why did Sarah buy a guitar? (Responde en 3–6 palabras.)"
+      "prompt": "Reading B1 – Open short answer. Base text: Sarah bought a second-hand guitar because she wanted to learn a new hobby. She practices every evening and follows free lessons online.\nQuestion: Why did Sarah buy a guitar? (Answer in 3–6 words.)"
     },
     {
       "id": "B1-RD-SA-227",
@@ -3121,7 +3121,7 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading B1 – Open short answer. Texto base: Sarah bought a second-hand guitar because she wanted to learn a new hobby. She practices every evening and follows free lessons online.\nQuestion: How does she learn? (Responde en 3–6 palabras.)"
+      "prompt": "Reading B1 – Open short answer. Base text: Sarah bought a second-hand guitar because she wanted to learn a new hobby. She practices every evening and follows free lessons online.\nQuestion: How does she learn? (Answer in 3–6 words.)"
     },
     {
       "id": "B1-RD-SA-228",
@@ -3135,7 +3135,7 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading B1 – Open short answer. Texto base: Sarah bought a second-hand guitar because she wanted to learn a new hobby. She practices every evening and follows free lessons online.\nQuestion: When does she practice? (Responde en 3–6 palabras.)"
+      "prompt": "Reading B1 – Open short answer. Base text: Sarah bought a second-hand guitar because she wanted to learn a new hobby. She practices every evening and follows free lessons online.\nQuestion: When does she practice? (Answer in 3–6 words.)"
     },
     {
       "id": "B1-RD-SA-229",
@@ -3149,7 +3149,7 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading B1 – Open short answer. Texto base: Sarah bought a second-hand guitar because she wanted to learn a new hobby. She practices every evening and follows free lessons online.\nQuestion: Is the guitar new or used? (Responde en 3–6 palabras.)"
+      "prompt": "Reading B1 – Open short answer. Base text: Sarah bought a second-hand guitar because she wanted to learn a new hobby. She practices every evening and follows free lessons online.\nQuestion: Is the guitar new or used? (Answer in 3–6 words.)"
     },
     {
       "id": "B1-RD-SA-230",
@@ -3163,7 +3163,7 @@
         "Write a short answer of 3–6 words.",
         "Use information from the text."
       ],
-      "prompt": "Reading B1 – Open short answer. Texto base: Sarah bought a second-hand guitar because she wanted to learn a new hobby. She practices every evening and follows free lessons online.\nQuestion: What kind of activity is it for her? (Responde en 3–6 palabras.)"
+      "prompt": "Reading B1 – Open short answer. Base text: Sarah bought a second-hand guitar because she wanted to learn a new hobby. She practices every evening and follows free lessons online.\nQuestion: What kind of activity is it for her? (Answer in 3–6 words.)"
     },
     {
       "id": "B1-WR-EMAIL-101",
@@ -3620,7 +3620,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze (Questions 1–8). Texto 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 1: Choose the best answer for gap (1).",
+      "prompt": "Part 1 – Multiple-choice cloze (Questions 1–8). Text 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 1: Choose the best answer for gap (1).",
       "options": [
         "have gone",
         "have been",
@@ -3634,7 +3634,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze (Questions 1–8). Texto 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 2: Choose the best answer for gap (2).",
+      "prompt": "Part 1 – Multiple-choice cloze (Questions 1–8). Text 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 2: Choose the best answer for gap (2).",
       "options": [
         "bring",
         "are bringing",
@@ -3648,7 +3648,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze (Questions 1–8). Texto 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 3: Choose the best answer for gap (3).",
+      "prompt": "Part 1 – Multiple-choice cloze (Questions 1–8). Text 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 3: Choose the best answer for gap (3).",
       "options": [
         "lives",
         "has lived",
@@ -3662,7 +3662,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze (Questions 1–8). Texto 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 4: Choose the best answer for gap (4).",
+      "prompt": "Part 1 – Multiple-choice cloze (Questions 1–8). Text 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 4: Choose the best answer for gap (4).",
       "options": [
         "will be",
         "be",
@@ -3676,7 +3676,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze (Questions 1–8). Texto 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 5: Choose the best answer for gap (5).",
+      "prompt": "Part 1 – Multiple-choice cloze (Questions 1–8). Text 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 5: Choose the best answer for gap (5).",
       "options": [
         "left",
         "have left",
@@ -3690,7 +3690,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze (Questions 1–8). Texto 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 6: Choose the best answer for gap (6).",
+      "prompt": "Part 1 – Multiple-choice cloze (Questions 1–8). Text 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 6: Choose the best answer for gap (6).",
       "options": [
         "colder",
         "most cold",
@@ -3704,7 +3704,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze (Questions 1–8). Texto 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 7: Choose the best answer for gap (7).",
+      "prompt": "Part 1 – Multiple-choice cloze (Questions 1–8). Text 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 7: Choose the best answer for gap (7).",
       "options": [
         "have",
         "had",
@@ -3718,7 +3718,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze (Questions 1–8). Texto 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 8: Choose the best answer for gap (8).",
+      "prompt": "Part 1 – Multiple-choice cloze (Questions 1–8). Text 1: Last month my family and I went on a weekend trip to the mountains. We (1) there many times before, but this time it was special because we (2) my grandmother with us. She (3) in our city for over fifty years, so she doesn’t usually like travelling. However, she agreed to come because the doctor said the fresh air (4) good for her health. We (5) early on Saturday morning and arrived before noon. The weather was much (6) than in the city, and it was the most beautiful place I (7) ever seen. On Sunday we (8) to go for a long walk, but it started to rain.\nQuestion 8: Choose the best answer for gap (8).",
       "options": [
         "decide",
         "decided",
@@ -3732,7 +3732,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze (Questions 9–16). Texto 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 9: Choose the best answer for gap (9).",
+      "prompt": "Part 1 – Multiple-choice cloze (Questions 9–16). Text 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 9: Choose the best answer for gap (9).",
       "options": [
         "are going to raise",
         "raised",
@@ -3746,7 +3746,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze (Questions 9–16). Texto 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 10: Choose the best answer for gap (10).",
+      "prompt": "Part 1 – Multiple-choice cloze (Questions 9–16). Text 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 10: Choose the best answer for gap (10).",
       "options": [
         "are designing",
         "designed",
@@ -3760,7 +3760,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze (Questions 9–16). Texto 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 11: Choose the best answer for gap (11).",
+      "prompt": "Part 1 – Multiple-choice cloze (Questions 9–16). Text 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 11: Choose the best answer for gap (11).",
       "options": [
         "is helping",
         "helps",
@@ -3774,7 +3774,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze (Questions 9–16). Texto 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 12: Choose the best answer for gap (12).",
+      "prompt": "Part 1 – Multiple-choice cloze (Questions 9–16). Text 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 12: Choose the best answer for gap (12).",
       "options": [
         "better",
         "the best",
@@ -3788,7 +3788,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze (Questions 9–16). Texto 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 13: Choose the best answer for gap (13).",
+      "prompt": "Part 1 – Multiple-choice cloze (Questions 9–16). Text 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 13: Choose the best answer for gap (13).",
       "options": [
         "will",
         "are",
@@ -3802,7 +3802,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze (Questions 9–16). Texto 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 14: Choose the best answer for gap (14).",
+      "prompt": "Part 1 – Multiple-choice cloze (Questions 9–16). Text 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 14: Choose the best answer for gap (14).",
       "options": [
         "is",
         "was",
@@ -3816,7 +3816,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze (Questions 9–16). Texto 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 15: Choose the best answer for gap (15).",
+      "prompt": "Part 1 – Multiple-choice cloze (Questions 9–16). Text 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 15: Choose the best answer for gap (15).",
       "options": [
         "must",
         "should",
@@ -3830,7 +3830,7 @@
       "level": "B1",
       "skill": "reading",
       "type": "multiple_choice",
-      "prompt": "Parte 1 – Multiple-choice cloze (Questions 9–16). Texto 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 16: Choose the best answer for gap (16).",
+      "prompt": "Part 1 – Multiple-choice cloze (Questions 9–16). Text 2: Next weekend my friends and I are organising a charity concert at school. We (9) money for a local animal shelter, so we want as many people as possible to come. At the moment we (10) posters and tickets, and our music teacher (11) us with the sound system. The school hall is not very big, but it is (12) place we could find. If the weather is good, we (13) play some songs outside in the yard. I think the concert (14) a great success because everybody is working hard. We know that we (15) finish all the preparations by Friday afternoon, so tonight we (16) stay at school until late.\nQuestion 16: Choose the best answer for gap (16).",
       "options": [
         "are going to",
         "must",
@@ -3844,7 +3844,7 @@
       "level": "B1",
       "skill": "grammar",
       "type": "key_transform",
-      "prompt": "Parte 2 – Key Word Transformations. Questions 17–30. Complete the second sentence so that it has the same meaning as the first one. Use the word given without changing it and write between two and five words.",
+      "prompt": "Part 2 – Key Word Transformations. Questions 17–30. Complete the second sentence so that it has the same meaning as the first one. Use the word given without changing it and write between two and five words.",
       "transform_items": [
         {
           "number": 17,
@@ -4355,7 +4355,7 @@
       "level": "B2",
       "skill": "use_of_english",
       "type": "cloze_open",
-      "prompt": "Use of English B2 – Open Cloze (Grammar & Connectors). Questions 1–10. Read the text and complete each gap with ONE word. Texto 1: Many people believe that success depends only on hard work. (1) ______, research shows that luck and social background also play an important role. For example, a student (2) ______ parents encourage them to read from an early age usually develops better study habits. In addition, living in a place (3) ______ there is a good school can make a big difference. This does not mean we should stop trying; on the contrary, we (4) ______ keep making an effort if we want to reach our goals. (5) ______ all these factors influence us, our personal choices still matter. Texto 2: I had planned to go running yesterday, (6) ______ the weather suddenly changed. It started raining so heavily that I decided to stay at home. I thought, “(7) ______ it stops in an hour, I’ll go later,” but the rain continued all afternoon. I was so bored that I (8) ______ have watched three films in a row. In the end, I used the time to study, (9) ______ allowed me to finish a project for school. Now I’m glad it rained, (10) ______ I would never have completed it on time.",
+      "prompt": "Use of English B2 – Open Cloze (Grammar & Connectors). Questions 1–10. Read the text and complete each gap with ONE word. Text 1: Many people believe that success depends only on hard work. (1) ______, research shows that luck and social background also play an important role. For example, a student (2) ______ parents encourage them to read from an early age usually develops better study habits. In addition, living in a place (3) ______ there is a good school can make a big difference. This does not mean we should stop trying; on the contrary, we (4) ______ keep making an effort if we want to reach our goals. (5) ______ all these factors influence us, our personal choices still matter. Text 2: I had planned to go running yesterday, (6) ______ the weather suddenly changed. It started raining so heavily that I decided to stay at home. I thought, “(7) ______ it stops in an hour, I’ll go later,” but the rain continued all afternoon. I was so bored that I (8) ______ have watched three films in a row. In the end, I used the time to study, (9) ______ allowed me to finish a project for school. Now I’m glad it rained, (10) ______ I would never have completed it on time.",
       "cloze_items": [
         {
           "number": 1,

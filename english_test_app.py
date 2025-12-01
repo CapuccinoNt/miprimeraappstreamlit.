@@ -1272,61 +1272,6 @@ def render_group_timer(group_state: Dict[str, Any]) -> None:
     st.caption(f"Tiempo sugerido restante: {format_remaining_time(remaining)}")
 
 
-def clean_prompt_text(prompt: str) -> str:
-    """Remove boilerplate labels (parte/texto/notas) from question prompts."""
-
-    def _strip_metadata_prefix(line: str) -> str:
-        patterns = [
-            r"^parte\s+[a-z0-9]+\s*[–\-]\s*",  # "Parte 3 –"
-            r"^parte\s+[a-z0-9]+\b[:\.\-]*\s*",  # "Parte A:"
-            r"^texto\s+\d+(?:\s*\([^)]*\))?[:\.\-\s]*",  # "Texto 8."
-            r"^notas?\s+tipo\s+mini\s+texto\.?[:\.\-\s]*",  # "Notas tipo mini texto."
-            r"^notas?\b[:\.\-\s]*",  # standalone "Notas"
-            r"^instrucciones?\b[:\.\-\s]*",  # standalone "Instrucciones"
-            r"^bloque\s+\d+[:\.\-\s]*",  # "Bloque 1"
-            r"^idea\s+principal[:\.\-\s]*",
-            r"^detalle\s+espec[ií]fico[:\.\-\s]*",
-            r"^inferencia\s+b[áa]sica[:\.\-\s]*",
-        ]
-
-        result = line.strip()
-        for pattern in patterns:
-            result = re.sub(pattern, "", result, flags=re.IGNORECASE)
-
-        # Remove lingering metadata fragments that may appear after other labels.
-        result = re.sub(
-            r"texto\s+\d+(?:\s*\([^)]*\))?[\s.:–-]*",
-            "",
-            result,
-            flags=re.IGNORECASE,
-        )
-        result = re.sub(
-            r"notas?\s+tipo\s+mini\s+texto\.?[\s.:–-]*",
-            "",
-            result,
-            flags=re.IGNORECASE,
-        )
-        return result.strip()
-
-    lines: List[str] = []
-    for raw_line in prompt.splitlines():
-        stripped = raw_line.strip()
-        if not stripped:
-            continue
-
-        cleaned = _strip_metadata_prefix(stripped)
-        if not cleaned:
-            continue
-
-        lines.append(cleaned)
-
-    cleaned_prompt = "\n".join(lines)
-    cleaned_prompt = re.sub(r"\s{2,}", " ", cleaned_prompt)
-    cleaned_prompt = re.sub(r"\n{3,}", "\n\n", cleaned_prompt)
-
-    return cleaned_prompt.strip()
-
-
 def normalize_item_for_ui(item: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     """Return a UI-ready copy of *item* when supported, otherwise ``None``."""
 
@@ -1336,7 +1281,7 @@ def normalize_item_for_ui(item: Dict[str, Any]) -> Optional[Dict[str, Any]]:
 
     question: Dict[str, Any] = {
         "id": item["id"],
-        "text": clean_prompt_text(item["prompt"]),
+        "text": item["prompt"],
         "skill": item["skill"],
         "level": item["level"],
         "type": item_type,
