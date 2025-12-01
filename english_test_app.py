@@ -1275,29 +1275,56 @@ def render_group_timer(group_state: Dict[str, Any]) -> None:
 def clean_prompt_text(prompt: str) -> str:
     """Remove boilerplate labels (parte/texto/notas) from question prompts."""
 
-    cleaned = prompt.strip()
+    def _strip_metadata_prefix(line: str) -> str:
+        patterns = [
+            r"^parte\s+[a-z0-9]+\s*[–\-]\s*",  # "Parte 3 –"
+            r"^parte\s+[a-z0-9]+\b[:\.\-]*\s*",  # "Parte A:"
+            r"^texto\s+\d+(?:\s*\([^)]*\))?[:\.\-\s]*",  # "Texto 8."
+            r"^notas?\s+tipo\s+mini\s+texto\.?[:\.\-\s]*",  # "Notas tipo mini texto."
+            r"^notas?\b[:\.\-\s]*",  # standalone "Notas"
+            r"^instrucciones?\b[:\.\-\s]*",  # standalone "Instrucciones"
+            r"^bloque\s+\d+[:\.\-\s]*",  # "Bloque 1"
+            r"^idea\s+principal[:\.\-\s]*",
+            r"^detalle\s+espec[ií]fico[:\.\-\s]*",
+            r"^inferencia\s+b[áa]sica[:\.\-\s]*",
+        ]
 
-    # Strip common Spanish metadata fragments without dropping the English content.
-    spanish_labels = [
-        r"part(?:e)?\s+[a-z0-9]+",  # parte a / part a
-        r"bloque\s+\d+",  # bloque 1
-        r"idea\s+principal",  # idea principal
-        r"detalle\s+espec[ií]fico",  # detalle específico
-        r"inferencia\s+b[áa]sica",  # inferencia básica
-        r"texto\s+\d+(?:\s*\([^)]*\))?",  # texto 1 (80 palabras)
-        r"texto\s+sobre\s+[^:\n]+",  # texto sobre Green Park
-    ]
-    for label in spanish_labels:
-        cleaned = re.sub(rf"(?im){label}[\s–\-\.:]*", "", cleaned)
+        result = line.strip()
+        for pattern in patterns:
+            result = re.sub(pattern, "", result, flags=re.IGNORECASE)
 
-    cleaned = re.sub(r"(?im)^\s*notas?[^\n]*\n?", "", cleaned)
-    cleaned = re.sub(r"(?im)^\s*instrucciones?[^\n]*\n?", "", cleaned)
+        # Remove lingering metadata fragments that may appear after other labels.
+        result = re.sub(
+            r"texto\s+\d+(?:\s*\([^)]*\))?[\s.:–-]*",
+            "",
+            result,
+            flags=re.IGNORECASE,
+        )
+        result = re.sub(
+            r"notas?\s+tipo\s+mini\s+texto\.?[\s.:–-]*",
+            "",
+            result,
+            flags=re.IGNORECASE,
+        )
+        return result.strip()
 
-    # Remove lingering double separators and excessive whitespace.
-    cleaned = re.sub(r"\s{2,}", " ", cleaned)
-    cleaned = re.sub(r"\n{3,}", "\n\n", cleaned)
+    lines: List[str] = []
+    for raw_line in prompt.splitlines():
+        stripped = raw_line.strip()
+        if not stripped:
+            continue
 
-    return cleaned.strip()
+        cleaned = _strip_metadata_prefix(stripped)
+        if not cleaned:
+            continue
+
+        lines.append(cleaned)
+
+    cleaned_prompt = "\n".join(lines)
+    cleaned_prompt = re.sub(r"\s{2,}", " ", cleaned_prompt)
+    cleaned_prompt = re.sub(r"\n{3,}", "\n\n", cleaned_prompt)
+
+    return cleaned_prompt.strip()
 
 
 def normalize_item_for_ui(item: Dict[str, Any]) -> Optional[Dict[str, Any]]:
