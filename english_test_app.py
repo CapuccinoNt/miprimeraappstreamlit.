@@ -1,42 +1,42 @@
-"""Streamlit interface for the English Pro adaptive and practice tests."""
+"""Streamlit interface for the English Pro adaptive and practice tests."""  # Explica que este archivo construye la UI principal
 
-from __future__ import annotations
+from __future__ import annotations  # Habilita anotaciones futuras sin comillas
 
-import json
-import random
-import re
-import time
-from copy import deepcopy
-from contextlib import contextmanager, nullcontext
-from pathlib import Path
-from typing import Any, Dict, List, Optional
-from urllib import error as urlerror
-from urllib import request as urlrequest
+import json  # Manejo de datos en formato JSON para estados y resultados
+import random  # Selección aleatoria de preguntas para variedad
+import re  # Validación de textos y formatos con expresiones regulares
+import time  # Medición simple para métricas de escritura
+from copy import deepcopy  # Clona estructuras complejas sin compartir referencias
+from contextlib import contextmanager, nullcontext  # Crea contextos reutilizables de forma segura
+from pathlib import Path  # Trabajo robusto con rutas de archivos
+from typing import Any, Dict, List, Optional  # Tipado estático para mayor claridad
+from urllib import error as urlerror  # Manejo de errores al descargar recursos remotos
+from urllib import request as urlrequest  # Descarga de archivos externos (p. ej., modelo de IA)
 
-try:  # Optional dependency for IA-based writing scoring.
-    import textstat  # type: ignore
+try:  # Dependencia opcional para evaluar textos de escritura
+    import textstat  # type: ignore  # Biblioteca de legibilidad
 except Exception:  # pragma: no cover - degradable dependency
-    textstat = None
+    textstat = None  # Si falla la importación seguimos sin bloquear la app
 
-import streamlit as st
+import streamlit as st  # Framework web utilizado para renderizar la aplicación
 
-from english_test_bank import WRITING_TYPE, load_item_bank
+from english_test_bank import WRITING_TYPE, load_item_bank  # Funciones y constantes compartidas del banco de ítems
 
-LEVEL_SEQUENCE = ["A1", "A2", "B1", "B2", "C1", "C2"]
-BASE_SKILL_SEQUENCE = ["grammar", "vocab", "reading", "use_of_english"]
-ITEM_BANK_PATH = Path(__file__).with_name("english_test_items_v1.json")
-ADVANCED_LEVELS = {"C1", "C2"}
-WRITING_LEVELS = {"B2", "C1", "C2"}
-SUPPORTED_UI_TYPES = {
-    "multiple_choice",
-    "cloze_mc",
-    "cloze_open",
-    "word_formation",
-    "key_transform",
-    WRITING_TYPE,
+LEVEL_SEQUENCE = ["A1", "A2", "B1", "B2", "C1", "C2"]  # Orden CEFR usado en la navegación
+BASE_SKILL_SEQUENCE = ["grammar", "vocab", "reading", "use_of_english"]  # Secuencia base de habilidades evaluadas
+ITEM_BANK_PATH = Path(__file__).with_name("english_test_items_v1.json")  # Ruta al archivo local del banco de preguntas
+ADVANCED_LEVELS = {"C1", "C2"}  # Niveles que se consideran avanzados y activan vistas específicas
+WRITING_LEVELS = {"B2", "C1", "C2"}  # Niveles en los que se incluye sección de escritura
+SUPPORTED_UI_TYPES = {  # Tipos de pregunta que la interfaz sabe mostrar
+    "multiple_choice",  # Preguntas de opción múltiple
+    "cloze_mc",  # Rellenar huecos con opciones
+    "cloze_open",  # Rellenar huecos con texto libre
+    "word_formation",  # Transformar palabras base
+    "key_transform",  # Reescribir frases con palabra clave
+    WRITING_TYPE,  # Ejercicios de escritura larga
 }
 
-CEFR_DESCRIPTIONS = {
+CEFR_DESCRIPTIONS = {  # Descripciones amigables por nivel CEFR
     "A1": "Puede comprender y usar expresiones cotidianas muy básicas para satisfacer necesidades concretas.",
     "A2": "Comprende frases y expresiones de uso frecuente relacionadas con áreas de experiencia que le son relevantes.",
     "B1": "Es capaz de desenvolverse en la mayor parte de las situaciones que pueden surgir durante un viaje.",
@@ -45,20 +45,20 @@ CEFR_DESCRIPTIONS = {
     "C2": "Comprende prácticamente todo lo que oye o lee y se expresa con matices muy finos.",
 }
 
-LEVEL_RULES: Dict[str, Dict[str, int]] = {
-    "A1": {"block_size": 10, "promotion_threshold": 8},
-    "A2": {"block_size": 10, "promotion_threshold": 8},
-    "B1": {"block_size": 10, "promotion_threshold": 8},
-    "B2": {"block_size": 10, "promotion_threshold": 8},
-    "C1": {"block_size": 12, "promotion_threshold": 9},
-    "C2": {"block_size": 12, "promotion_threshold": 9},
+LEVEL_RULES: Dict[str, Dict[str, int]] = {  # Reglas de avance y tamaño de bloque por nivel
+    "A1": {"block_size": 10, "promotion_threshold": 8},  # Necesita 8/10 para subir desde A1
+    "A2": {"block_size": 10, "promotion_threshold": 8},  # Necesita 8/10 para subir desde A2
+    "B1": {"block_size": 10, "promotion_threshold": 8},  # Necesita 8/10 para subir desde B1
+    "B2": {"block_size": 10, "promotion_threshold": 8},  # Necesita 8/10 para subir desde B2
+    "C1": {"block_size": 12, "promotion_threshold": 9},  # En C1 se piden 9 aciertos de 12
+    "C2": {"block_size": 12, "promotion_threshold": 9},  # En C2 se mantiene el mismo criterio
 }
 
-EARLY_STOP_WRONGS = 3
-MAX_QUESTIONS = 50
-PRACTICE_QUESTIONS = 20
-CHOICE_PLACEHOLDER_BASE = "Selecciona una opción"
-PLACEHOLDER_VALUE_BASE = "__option_placeholder__"
+EARLY_STOP_WRONGS = 3  # Errores consecutivos permitidos antes de detener la prueba
+MAX_QUESTIONS = 50  # Número máximo de preguntas en modo adaptativo
+PRACTICE_QUESTIONS = 20  # Número fijo de preguntas en modo práctica
+CHOICE_PLACEHOLDER_BASE = "Selecciona una opción"  # Texto de marcador para selects
+PLACEHOLDER_VALUE_BASE = "__option_placeholder__"  # Valor reservado que evita seleccionar la opción vacía
 
 ADVANCED_LAYOUT_STYLE = """
 <style>
@@ -236,71 +236,71 @@ EXAM_PARTS = {
     },
 }
 
-EXAM_PART_ALIASES = {
-    "reading": "reading_long",
-    "reading_long": "reading_long",
-    "cloze_mc": "use_of_english",
-    "cloze_open": "use_of_english",
-    "word_formation": "use_of_english",
-    "key_transform": "use_of_english",
-    "use_of_english": "use_of_english",
-    "grammar": "use_of_english",
-    "vocab": "use_of_english",
-    "writing": "writing_task",
-    "writing_task": "writing_task",
+EXAM_PART_ALIASES = {  # Mapea nombres alternativos de secciones a un id canónico
+    "reading": "reading_long",  # Alias para lectura larga
+    "reading_long": "reading_long",  # Se mantiene idéntico
+    "cloze_mc": "use_of_english",  # Cloze con opciones se agrupa en Use of English
+    "cloze_open": "use_of_english",  # Cloze abierto también
+    "word_formation": "use_of_english",  # Formación de palabras pertenece a Use of English
+    "key_transform": "use_of_english",  # Transformaciones clave igual
+    "use_of_english": "use_of_english",  # Identificador ya canónico
+    "grammar": "use_of_english",  # Gramática se considera parte de Use of English
+    "vocab": "use_of_english",  # Vocabulario también
+    "writing": "writing_task",  # Escritura se normaliza a writing_task
+    "writing_task": "writing_task",  # Alias directo
 }
 
 
-def resolve_exam_part_id(part: Optional[str], skill: Optional[str]) -> str:
-    """Return the canonical exam part identifier based on *part* or *skill*."""
+def resolve_exam_part_id(part: Optional[str], skill: Optional[str]) -> str:  # Devuelve el id canónico de sección
+    """Return the canonical exam part identifier based on *part* or *skill*."""  # Docstring original
 
-    if part:
-        canonical = EXAM_PART_ALIASES.get(part)
-        if canonical:
-            return canonical
-    if skill:
-        canonical = EXAM_PART_ALIASES.get(skill)
-        if canonical:
-            return canonical
-    return "use_of_english"
+    if part:  # Si llega un nombre de parte explícito
+        canonical = EXAM_PART_ALIASES.get(part)  # Busca su mapeo en el diccionario de alias
+        if canonical:  # Si existe una coincidencia
+            return canonical  # Devuelve el id normalizado
+    if skill:  # Si no hay parte, se intenta resolver por habilidad
+        canonical = EXAM_PART_ALIASES.get(skill)  # Se consulta el alias
+        if canonical:  # Si se encontró
+            return canonical  # Se devuelve inmediatamente
+    return "use_of_english"  # Por defecto se usa la sección de Use of English
 
 
-def get_exam_part_descriptor(part: Optional[str], skill: Optional[str]) -> Dict[str, Any]:
-    """Return metadata describing the exam part for the provided identifiers."""
+def get_exam_part_descriptor(part: Optional[str], skill: Optional[str]) -> Dict[str, Any]:  # Prepara metadatos de sección
+    """Return metadata describing the exam part for the provided identifiers."""  # Explica el propósito
 
-    part_id = resolve_exam_part_id(part, skill)
-    descriptor = EXAM_PARTS.get(part_id, {})
-    if not descriptor:
-        descriptor = {
-            "order": None,
-            "label": part_id.replace("_", " ").title(),
-            "title": part_id.replace("_", " ").title(),
-            "instructions": "",
+    part_id = resolve_exam_part_id(part, skill)  # Normaliza los argumentos recibidos
+    descriptor = EXAM_PARTS.get(part_id, {})  # Busca los metadatos predefinidos
+    if not descriptor:  # Si no hay definición conocida
+        descriptor = {  # Se construye un descriptor genérico
+            "order": None,  # Sin orden específico
+            "label": part_id.replace("_", " ").title(),  # Etiqueta legible a partir del id
+            "title": part_id.replace("_", " ").title(),  # Título con formato de título
+            "instructions": "",  # Sin instrucciones adicionales
         }
-    descriptor = dict(descriptor)
-    descriptor["id"] = part_id
-    return descriptor
+    descriptor = dict(descriptor)  # Se clona para no modificar el original
+    descriptor["id"] = part_id  # Se asegura de incluir el id canónico
+    return descriptor  # Devuelve el descriptor final
 
 
-def render_exam_breadcrumbs(active_part_id: str) -> None:
-    """Render the Part 1 / Part 2 / Part 3 navigation strip."""
+def render_exam_breadcrumbs(active_part_id: str) -> None:  # Dibuja la barra de progreso de partes
+    """Render the Part 1 / Part 2 / Part 3 navigation strip."""  # Explica la función
 
-    ordered_keys = sorted(EXAM_PARTS, key=lambda key: EXAM_PARTS[key]["order"])
-    crumbs = []
-    for key in ordered_keys:
-        part = EXAM_PARTS[key]
-        css_class = "active" if key == active_part_id else ""
-        crumbs.append(f"<span class='{css_class}'>{part['label']}</span>")
-    crumb_html = " ".join(crumbs)
-    st.markdown(f"<div class='exam-breadcrumbs'>{crumb_html}</div>", unsafe_allow_html=True)
+    ordered_keys = sorted(EXAM_PARTS, key=lambda key: EXAM_PARTS[key]["order"])  # Ordena por número de parte
+    crumbs = []  # Lista que acumulará los elementos HTML
+    for key in ordered_keys:  # Recorre cada parte en orden
+        part = EXAM_PARTS[key]  # Recupera metadatos de la parte
+        css_class = "active" if key == active_part_id else ""  # Marca visualmente la parte actual
+        crumbs.append(f"<span class='{css_class}'>{part['label']}</span>")  # Añade el fragmento HTML
+    crumb_html = " ".join(crumbs)  # Une los fragmentos en una sola cadena
+    st.markdown(f"<div class='exam-breadcrumbs'>{crumb_html}</div>", unsafe_allow_html=True)  # Muestra la barra
 
 
-def render_exam_part_header(level: str, part: Optional[str], *, skill: Optional[str] = None) -> Dict[str, Any]:
-    """Render the clean Cambridge-style header for advanced sections."""
+def render_exam_part_header(level: str, part: Optional[str], *, skill: Optional[str] = None) -> Dict[str, Any]:  # Renderiza el encabezado elegante
+    """Render the clean Cambridge-style header for advanced sections."""  # Contexto de la función
 
-    descriptor = get_exam_part_descriptor(part, skill)
-    level_label = ADVANCED_LEVEL_TITLES.get(level, f"{level} Advanced Mode")
-    st.markdown(
+    descriptor = get_exam_part_descriptor(part, skill)  # Obtiene la metadata necesaria
+    level_label = ADVANCED_LEVEL_TITLES.get(level, f"{level} Advanced Mode")  # Etiqueta amigable del nivel
+    st.markdown(  # Inserta HTML para el encabezado principal
         """
         <div class="exam-header">
             <div class="exam-part-meta">
@@ -310,92 +310,92 @@ def render_exam_part_header(level: str, part: Optional[str], *, skill: Optional[
             <div class="exam-level-badge">{level_label}</div>
         </div>
         """.format(label=descriptor["label"], title=descriptor["title"], level_label=level_label),
-        unsafe_allow_html=True,
+        unsafe_allow_html=True,  # Permite HTML sin escapes para aplicar estilos
     )
-    render_exam_breadcrumbs(descriptor["id"])
-    if descriptor.get("instructions"):
-        st.markdown(f"<p class='exam-instructions'>{descriptor['instructions']}</p>", unsafe_allow_html=True)
-    return descriptor
+    render_exam_breadcrumbs(descriptor["id"])  # Muestra las migas de pan activas
+    if descriptor.get("instructions"):  # Si hay instrucciones específicas
+        st.markdown(f"<p class='exam-instructions'>{descriptor['instructions']}</p>", unsafe_allow_html=True)  # Se renderizan
+    return descriptor  # Devuelve los metadatos usados
 
 
-def skill_rotation_for_level(level: str) -> List[str]:
-    """Return the skill rotation including writing when the level requires it."""
+def skill_rotation_for_level(level: str) -> List[str]:  # Determina el orden de habilidades por nivel
+    """Return the skill rotation including writing when the level requires it."""  # Docstring original
 
-    sequence = list(BASE_SKILL_SEQUENCE)
-    if level in WRITING_LEVELS and "writing" not in sequence:
-        sequence.append("writing")
-    return sequence
-
-
-def count_words(value: Optional[str]) -> int:
-    """Return an approximate word count for ``value`` suitable for writing tasks."""
-
-    if not value:
-        return 0
-    tokens = re.findall(r"[\w'-]+", value.strip(), flags=re.UNICODE)
-    return len(tokens)
+    sequence = list(BASE_SKILL_SEQUENCE)  # Copia la secuencia base
+    if level in WRITING_LEVELS and "writing" not in sequence:  # Si el nivel incluye escritura
+        sequence.append("writing")  # Añade la habilidad al final
+    return sequence  # Devuelve la rotación final
 
 
-def clamp_score(value: float, *, lower: float = 0.0, upper: float = 5.0) -> float:
-    """Clamp ``value`` to the inclusive ``lower``/``upper`` range."""
+def count_words(value: Optional[str]) -> int:  # Cuenta palabras aproximadas en un texto
+    """Return an approximate word count for ``value`` suitable for writing tasks."""  # Docstring original
 
-    return max(lower, min(upper, value))
+    if not value:  # Si el texto es vacío o None
+        return 0  # No hay palabras
+    tokens = re.findall(r"[\w'-]+", value.strip(), flags=re.UNICODE)  # Extrae palabras usando regex
+    return len(tokens)  # Devuelve el conteo
 
 
-def estimate_cefr_from_score(score: float) -> str:
-    """Map the IA rubric score (0–5) to an approximate CEFR descriptor."""
+def clamp_score(value: float, *, lower: float = 0.0, upper: float = 5.0) -> float:  # Limita un puntaje a un rango
+    """Clamp ``value`` to the inclusive ``lower``/``upper`` range."""  # Explicación rápida
 
-    if score >= 4.3:
+    return max(lower, min(upper, value))  # Aplica el mínimo y máximo permitidos
+
+
+def estimate_cefr_from_score(score: float) -> str:  # Mapea una nota 0–5 a nivel CEFR aproximado
+    """Map the IA rubric score (0–5) to an approximate CEFR descriptor."""  # Docstring
+
+    if score >= 4.3:  # Puntajes altos equivalen a C1/C2
         return "C1/C2"
-    if score >= 3.6:
+    if score >= 3.6:  # Puntajes buenos equivalen a B2
         return "B2"
-    if score >= 2.8:
+    if score >= 2.8:  # Puntajes medios equivalen a B1
         return "B1"
-    if score >= 2.0:
+    if score >= 2.0:  # Puntajes básicos equivalen a A2
         return "A2"
-    return "A1"
+    return "A1"  # Todo lo demás se considera A1
 
 
 def evaluate_writing_with_ai(
     text: str, *, min_words: int, max_words: int
-) -> Optional[Dict[str, Any]]:
-    """Return an IA-generated rubric using ``textstat`` heuristics when available."""
+) -> Optional[Dict[str, Any]]:  # Evalúa escritura con heurísticas de textstat
+    """Return an IA-generated rubric using ``textstat`` heuristics when available."""  # Docstring
 
-    if not textstat:
-        return None
+    if not textstat:  # Si la librería opcional no está disponible
+        return None  # Se desactiva la evaluación automática
 
-    cleaned = text.strip()
-    if not cleaned:
-        return None
+    cleaned = text.strip()  # Limpia espacios externos del texto
+    if not cleaned:  # Si queda vacío
+        return None  # No se puede evaluar
 
-    readability = textstat.flesch_reading_ease(cleaned)
-    grade_level = max(0.0, textstat.coleman_liau_index(cleaned))
-    sentence_len = max(1.0, textstat.avg_sentence_length(cleaned))
-    total_words = count_words(cleaned)
-    tokens = [token.lower().strip(".,;:!?") for token in re.findall(r"[\w'-]+", cleaned)]
-    unique_ratio = len(set(tokens)) / max(1, len(tokens))
+    readability = textstat.flesch_reading_ease(cleaned)  # Calcula legibilidad Flesch
+    grade_level = max(0.0, textstat.coleman_liau_index(cleaned))  # Estima grado escolar mínimo 0
+    sentence_len = max(1.0, textstat.avg_sentence_length(cleaned))  # Longitud media de frases evitando cero
+    total_words = count_words(cleaned)  # Cuenta palabras
+    tokens = [token.lower().strip(".,;:!?") for token in re.findall(r"[\w'-]+", cleaned)]  # Tokeniza y normaliza
+    unique_ratio = len(set(tokens)) / max(1, len(tokens))  # Calcula diversidad léxica
 
-    # Sub-scores in a 0–5 scale inspired by CEFR rubrics.
-    task_coverage = clamp_score(total_words / max(min_words or 1, 1) * 3.5)
-    if max_words and total_words > max_words:
-        overflow_ratio = (total_words - max_words) / max(max_words, 1)
-        task_coverage = clamp_score(task_coverage - overflow_ratio * 2.0)
-    lexical_score = clamp_score(unique_ratio * 7.0)
-    complexity_score = clamp_score((grade_level / 12.0) * 5.0)
-    cohesion_score = clamp_score(5.0 - min(abs(sentence_len - 18) / 6.0, 5.0))
+    # Sub-scores in a 0–5 scale inspired by CEFR rubrics.  # Comentario explicativo conservado
+    task_coverage = clamp_score(total_words / max(min_words or 1, 1) * 3.5)  # Cobertura según número de palabras
+    if max_words and total_words > max_words:  # Penaliza si excede el límite superior
+        overflow_ratio = (total_words - max_words) / max(max_words, 1)  # Calcula cuánto se pasó
+        task_coverage = clamp_score(task_coverage - overflow_ratio * 2.0)  # Resta puntos por exceso
+    lexical_score = clamp_score(unique_ratio * 7.0)  # Valora variedad léxica
+    complexity_score = clamp_score((grade_level / 12.0) * 5.0)  # Aprecia complejidad sintáctica aproximada
+    cohesion_score = clamp_score(5.0 - min(abs(sentence_len - 18) / 6.0, 5.0))  # Premia equilibrio de longitudes
 
-    overall = round((task_coverage + lexical_score + complexity_score + cohesion_score) / 4, 2)
-    level = estimate_cefr_from_score(overall)
-    passing = overall >= 3.0
+    overall = round((task_coverage + lexical_score + complexity_score + cohesion_score) / 4, 2)  # Media global
+    level = estimate_cefr_from_score(overall)  # Mapea a nivel CEFR aproximado
+    passing = overall >= 3.0  # Considera aprobado si supera 3
 
-    scores = {
+    scores = {  # Puntajes individuales redondeados
         "task": round(task_coverage, 2),
         "lexical": round(lexical_score, 2),
         "complexity": round(complexity_score, 2),
         "cohesion": round(cohesion_score, 2),
     }
 
-    breakdown_entries = [
+    breakdown_entries = [  # Lista de filas para mostrar en feedback
         {
             "label": "IA – Nivel estimado",
             "expected": "Mapa CEFR",
@@ -409,7 +409,7 @@ def evaluate_writing_with_ai(
             "correct": passing,
         },
     ]
-    for label, value in scores.items():
+    for label, value in scores.items():  # Añade cada subpuntaje como entrada
         breakdown_entries.append(
             {
                 "label": f"IA – {label.capitalize()}",
@@ -419,7 +419,7 @@ def evaluate_writing_with_ai(
             }
         )
 
-    return {
+    return {  # Devuelve el paquete completo de resultados
         "level": level,
         "overall": overall,
         "scores": scores,
@@ -440,20 +440,20 @@ def render_writing_inputs(
 ) -> str:
     """Display the open-text UI with rubric and live word counter."""
 
-    st.markdown(WRITING_LAYOUT_STYLE, unsafe_allow_html=True)
-    level = question.get("level", "")
-    min_words = question.get("min_words", 0)
-    max_words = question.get("max_words", min_words)
-    rubric = question.get("rubric") or []
-    task_type = (question.get("task_type") or "Writing task").replace("_", " ").title()
-    key = f"{key_prefix}_writing"
-    shell_class = "writing-shell serious" if level in ADVANCED_LEVELS else "writing-shell"
-    tone = (
+    st.markdown(WRITING_LAYOUT_STYLE, unsafe_allow_html=True)  # Inyecta estilos específicos de escritura
+    level = question.get("level", "")  # Nivel CEFR del ejercicio
+    min_words = question.get("min_words", 0)  # Mínimo de palabras solicitado
+    max_words = question.get("max_words", min_words)  # Máximo permitido (o igual al mínimo)
+    rubric = question.get("rubric") or []  # Lista de criterios para mostrar
+    task_type = (question.get("task_type") or "Writing task").replace("_", " ").title()  # Tipo de tarea legible
+    key = f"{key_prefix}_writing"  # Clave única para el widget de texto
+    shell_class = "writing-shell serious" if level in ADVANCED_LEVELS else "writing-shell"  # Estilo según nivel
+    tone = (  # Mensaje de tono según nivel
         "Formato oficial: cuida el registro, evidencia planificación y respeta la estructura solicitada."
         if level in ADVANCED_LEVELS
         else "Comparte tus ideas con claridad. Usa conectores y respeta el rango de palabras indicado."
     )
-    st.markdown(
+    st.markdown(  # Cabecera informativa de la tarea
         f"<div class='{shell_class}'>"
         f"<strong>Encargo {level or ''}</strong>: {tone}<br />"
         f"<small>Extensión sugerida: {min_words}–{max_words} palabras · Tarea: {task_type}</small>"
@@ -461,56 +461,56 @@ def render_writing_inputs(
         unsafe_allow_html=True,
     )
 
-    answer_col, rubric_col = st.columns((2.6, 1.4))
-    with answer_col:
-        placeholder = "Redacta tu respuesta completa aquí."
-        height = 320 if level in ADVANCED_LEVELS else 260
-        response = st.text_area(
+    answer_col, rubric_col = st.columns((2.6, 1.4))  # Divide el espacio entre respuesta y rúbrica
+    with answer_col:  # Columna principal para escribir
+        placeholder = "Redacta tu respuesta completa aquí."  # Texto de ayuda
+        height = 320 if level in ADVANCED_LEVELS else 260  # Altura según nivel
+        response = st.text_area(  # Área de texto para que el usuario escriba
             "✍️ Tu respuesta",
             key=key,
             height=height,
             placeholder=placeholder,
         )
-        word_count = count_words(response)
-        if word_count == 0:
+        word_count = count_words(response)  # Cuenta palabras en vivo
+        if word_count == 0:  # Sin palabras aún
             status_class = "warning"
             status_text = f"{word_count} palabras (mínimo {min_words})."
-        elif word_count > max_words:
+        elif word_count > max_words:  # Excedió el máximo
             status_class = "error"
             status_text = (
                 f"{word_count} palabras · reduce a máximo {max_words} para cumplir con la rúbrica."
             )
-        elif word_count < min_words:
+        elif word_count < min_words:  # Aún por debajo del mínimo
             status_class = "warning"
             status_text = (
                 f"{word_count} palabras · alcanza al menos {min_words} para enviar."
             )
-        else:
+        else:  # Dentro del rango esperado
             status_class = "ok"
             status_text = f"{word_count} palabras dentro del rango ({min_words}–{max_words})."
-        st.markdown(
+        st.markdown(  # Muestra contador de palabras con color de estado
             f"<div class='writing-word-counter {status_class}'>{status_text}</div>",
             unsafe_allow_html=True,
         )
 
-    with rubric_col:
-        bullets = "".join(f"<li>{criterion}</li>" for criterion in rubric)
+    with rubric_col:  # Columna lateral con la rúbrica
+        bullets = "".join(f"<li>{criterion}</li>" for criterion in rubric)  # Convierte criterios en lista HTML
         rubric_html = (
             "<div class='writing-rubric-box'>"
             "<strong>Rúbrica</strong>"
             f"<ul>{bullets}</ul>"
             "</div>"
         )
-        st.markdown(rubric_html, unsafe_allow_html=True)
+        st.markdown(rubric_html, unsafe_allow_html=True)  # Renderiza la rúbrica
 
-    return response
+    return response  # Devuelve el texto escrito para seguir procesándolo
 
 
 def ensure_writing_storage() -> None:
     """Initialise the writing submission list in session state when missing."""
 
-    if "writing_submissions" not in st.session_state:
-        st.session_state.writing_submissions = []
+    if "writing_submissions" not in st.session_state:  # Si aún no hay historial
+        st.session_state.writing_submissions = []  # Se inicializa como lista vacía
 
 
 def record_writing_submission(
@@ -518,12 +518,12 @@ def record_writing_submission(
 ) -> Optional[Dict[str, Any]]:
     """Persist the writing response along with rubric metadata for later review."""
 
-    if question.get("type") != WRITING_TYPE:
+    if question.get("type") != WRITING_TYPE:  # Solo registra ejercicios de escritura
         return None
 
-    ensure_writing_storage()
-    cleaned_text = response_text or ""
-    submission = {
+    ensure_writing_storage()  # Garantiza estructura en sesión
+    cleaned_text = response_text or ""  # Usa cadena vacía si no hay respuesta
+    submission = {  # Arma el paquete a guardar
         "question_id": question.get("id"),
         "level": question.get("level"),
         "task_type": question.get("task_type"),
@@ -535,27 +535,27 @@ def record_writing_submission(
         "response": cleaned_text,
         "submitted_at": time.time(),
     }
-    st.session_state.writing_submissions.append(submission)
-    st.session_state.last_writing_submission = submission
-    return submission
+    st.session_state.writing_submissions.append(submission)  # Añade al historial
+    st.session_state.last_writing_submission = submission  # Guarda referencia del último
+    return submission  # Devuelve el registro creado
 
 
 def render_writing_submission_summary(mode_filter: Optional[str] = None) -> None:
     """Display a compact table with stored writing submissions."""
 
-    ensure_writing_storage()
-    submissions = st.session_state.get("writing_submissions", [])
-    if mode_filter:
+    ensure_writing_storage()  # Asegura estructura en sesión
+    submissions = st.session_state.get("writing_submissions", [])  # Recupera lista
+    if mode_filter:  # Permite filtrar por modo (adaptativo o práctica)
         submissions = [entry for entry in submissions if entry.get("mode") == mode_filter]
-    if not submissions:
+    if not submissions:  # Si no hay nada que mostrar
         return
 
-    st.subheader("Redacciones enviadas")
-    rows = []
-    for entry in submissions:
-        timestamp = entry.get("submitted_at")
-        readable_time = time.strftime("%Y-%m-%d %H:%M", time.localtime(timestamp)) if timestamp else "—"
-        rows.append(
+    st.subheader("Redacciones enviadas")  # Título de la tabla
+    rows = []  # Filas para el dataframe
+    for entry in submissions:  # Recorre cada envío
+        timestamp = entry.get("submitted_at")  # Marca de tiempo del envío
+        readable_time = time.strftime("%Y-%m-%d %H:%M", time.localtime(timestamp)) if timestamp else "—"  # Fecha legible
+        rows.append(  # Construye fila con valores amigables
             {
                 "Ítem": entry.get("question_id"),
                 "Nivel": entry.get("level"),
@@ -567,13 +567,13 @@ def render_writing_submission_summary(mode_filter: Optional[str] = None) -> None
                 "Enviado": readable_time,
             }
         )
-    st.dataframe(rows, use_container_width=True)
+    st.dataframe(rows, use_container_width=True)  # Muestra tabla responsive
 
 
 def build_writing_review_payload(submission: Dict[str, Any]) -> Dict[str, Any]:
     """Return a JSON-ready payload for manual grading or AI review services."""
 
-    return {
+    return {  # Estructura limpia lista para enviarse como JSON
         "item_id": submission.get("question_id"),
         "level": submission.get("level"),
         "task_type": submission.get("task_type"),
@@ -593,21 +593,21 @@ def submit_writing_review_request(
 ) -> Dict[str, Any]:
     """POST *payload* to ``endpoint_url`` expecting rubric scores and feedback."""
 
-    request_body = json.dumps(payload).encode("utf-8")
-    headers = {"Content-Type": "application/json"}
-    req = urlrequest.Request(endpoint_url, data=request_body, headers=headers, method="POST")
+    request_body = json.dumps(payload).encode("utf-8")  # Serializa payload como bytes
+    headers = {"Content-Type": "application/json"}  # Indica formato JSON
+    req = urlrequest.Request(endpoint_url, data=request_body, headers=headers, method="POST")  # Construye la petición
     try:
-        with urlrequest.urlopen(req, timeout=timeout) as response:
-            raw = response.read().decode("utf-8")
-            return json.loads(raw)
-    except urlerror.URLError as exc:
-        return {"status": "error", "message": str(exc)}
+        with urlrequest.urlopen(req, timeout=timeout) as response:  # Envía petición y espera respuesta
+            raw = response.read().decode("utf-8")  # Lee contenido como texto
+            return json.loads(raw)  # Devuelve JSON parseado
+    except urlerror.URLError as exc:  # En caso de error de red
+        return {"status": "error", "message": str(exc)}  # Devuelve estructura simple de error
 
 
 def new_block(level: str) -> Dict[str, Any]:
     """Create a fresh block state for the requested level."""
 
-    return {
+    return {  # Estado inicial de un bloque adaptativo
         "level": level,
         "presented": 0,
         "correct": 0,
@@ -626,52 +626,52 @@ def render_choice_radio(label: str, options: List[str], key: str) -> str | None:
     # not to collide with the real options while keeping the on-screen label
     # consistent.  ``format_func`` lets us map the internal sentinel back to the
     # human-friendly copy.
-    placeholder_value = PLACEHOLDER_VALUE_BASE
-    suffix = 1
-    while placeholder_value in options:
+    placeholder_value = PLACEHOLDER_VALUE_BASE  # Valor centinela inicial
+    suffix = 1  # Contador por si hay colisiones
+    while placeholder_value in options:  # Genera un valor único
         placeholder_value = f"{PLACEHOLDER_VALUE_BASE}_{suffix}"
         suffix += 1
 
-    placeholder_display = f"— {CHOICE_PLACEHOLDER_BASE} —"
-    radio_options = [placeholder_value] + list(options)
+    placeholder_display = f"— {CHOICE_PLACEHOLDER_BASE} —"  # Texto visible de la opción vacía
+    radio_options = [placeholder_value] + list(options)  # Inserta el centinela al inicio
 
-    def display_option(option: str) -> str:
+    def display_option(option: str) -> str:  # Devuelve el texto a mostrar para cada opción
         return placeholder_display if option == placeholder_value else option
 
-    selection = st.radio(label, radio_options, key=key, format_func=display_option)
-    return None if selection == placeholder_value else selection
+    selection = st.radio(label, radio_options, key=key, format_func=display_option)  # Renderiza el control
+    return None if selection == placeholder_value else selection  # Devuelve None si no se eligió opción
 
 
 def clear_widget_family(prefix: str) -> None:
     """Remove a widget key and any derived children from ``st.session_state``."""
 
-    for state_key in list(st.session_state.keys()):
-        if state_key == prefix or state_key.startswith(f"{prefix}_"):
-            del st.session_state[state_key]
+    for state_key in list(st.session_state.keys()):  # Copia de llaves para iterar sin modificar en caliente
+        if state_key == prefix or state_key.startswith(f"{prefix}_"):  # Coincide con el prefijo del widget
+            del st.session_state[state_key]  # Se elimina de la sesión
 
 
 def rerun_app() -> None:
     """Trigger a Streamlit rerun using the available API."""
 
-    rerun = getattr(st, "experimental_rerun", None) or getattr(st, "rerun", None)
-    if rerun:
-        rerun()
+    rerun = getattr(st, "experimental_rerun", None) or getattr(st, "rerun", None)  # Obtiene la función disponible
+    if rerun:  # Si la API existe en esta versión
+        rerun()  # Fuerza la recarga de la app
 
 
 def render_question_prompt(question: Dict[str, Any], *, show_passage: bool = True) -> None:
     """Display the main prompt and optional supporting text for a question."""
 
-    st.write(question["text"])
+    st.write(question["text"])  # Muestra el enunciado principal
 
-    if show_passage and question.get("passage"):
+    if show_passage and question.get("passage"):  # Solo si se permite y existe un texto de apoyo
         st.markdown(
             f"<div class='advanced-passage'>{question['passage']}</div>",
             unsafe_allow_html=True,
         )
 
-    cloze_text = question.get("cloze_text")
+    cloze_text = question.get("cloze_text")  # Texto con huecos adicional
     if cloze_text:
-        formatted = cloze_text.replace("\n", "<br />")
+        formatted = cloze_text.replace("\n", "<br />")  # Conserva saltos de línea al mostrar en HTML
         st.markdown(
             f"<div class='advanced-passage'>{formatted}</div>",
             unsafe_allow_html=True,
@@ -681,56 +681,56 @@ def render_question_prompt(question: Dict[str, Any], *, show_passage: bool = Tru
 def render_question_inputs(question: Dict[str, Any], key_prefix: str, *, advanced: bool = False) -> Any:
     """Render the appropriate widget(s) for the question type and return the response."""
 
-    qtype = question["type"]
-    if qtype == "multiple_choice":
+    qtype = question["type"]  # Identifica el tipo de ítem
+    if qtype == "multiple_choice":  # Opción múltiple clásica
         label = (
             "Seleccione la alternativa correcta"
             if advanced
             else "Elige la respuesta correcta"
         )
-        return render_choice_radio(label, question["options"], key_prefix)
+        return render_choice_radio(label, question["options"], key_prefix)  # Devuelve la opción elegida
 
-    if qtype == "cloze_mc":
-        responses: Dict[int, Optional[str]] = {}
-        for item in question.get("cloze_items", []):
-            gap_key = f"{key_prefix}_gap_{item['number']}"
+    if qtype == "cloze_mc":  # Huecos con opciones
+        responses: Dict[int, Optional[str]] = {}  # Respuestas por hueco
+        for item in question.get("cloze_items", []):  # Itera cada hueco numerado
+            gap_key = f"{key_prefix}_gap_{item['number']}"  # Clave única para el widget
             responses[item["number"]] = render_choice_radio(
                 f"Hueco {item['number']}", item["options"], gap_key
-            )
-        return responses
+            )  # Guarda la selección
+        return responses  # Devuelve diccionario con elecciones
 
-    if qtype == "cloze_open":
+    if qtype == "cloze_open":  # Huecos con respuesta abierta
         responses = {}
-        for item in question.get("cloze_items", []):
-            gap_key = f"{key_prefix}_gap_{item['number']}"
+        for item in question.get("cloze_items", []):  # Cada hueco
+            gap_key = f"{key_prefix}_gap_{item['number']}"  # Clave única
             responses[item["number"]] = st.text_input(
                 f"Hueco {item['number']}", key=gap_key
-            )
+            )  # Captura texto del usuario
         return responses
 
-    if qtype == "word_formation":
+    if qtype == "word_formation":  # Formación de palabras
         responses = {}
-        for item in question.get("word_formation_items", []):
-            gap_key = f"{key_prefix}_wf_{item['number']}"
-            label = f"{item['number']}. {item['sentence']} ({item['base']})"
-            responses[item["number"]] = st.text_input(label, key=gap_key)
+        for item in question.get("word_formation_items", []):  # Itera cada oración base
+            gap_key = f"{key_prefix}_wf_{item['number']}"  # Clave por ítem
+            label = f"{item['number']}. {item['sentence']} ({item['base']})"  # Muestra la oración y la palabra base
+            responses[item["number"]] = st.text_input(label, key=gap_key)  # Entrada de texto
         return responses
 
-    if qtype == "key_transform":
+    if qtype == "key_transform":  # Transformaciones con palabra clave
         responses = {}
-        for item in question.get("transform_items", []):
-            st.write(f"{item['number']}. {item['original']}")
-            st.caption(f"Palabra clave: {item['keyword']}")
-            gap_key = f"{key_prefix}_kt_{item['number']}"
+        for item in question.get("transform_items", []):  # Itera ejercicios
+            st.write(f"{item['number']}. {item['original']}")  # Muestra la oración original
+            st.caption(f"Palabra clave: {item['keyword']}")  # Indica la palabra obligatoria
+            gap_key = f"{key_prefix}_kt_{item['number']}"  # Clave única
             responses[item["number"]] = st.text_input(
                 "Reescribe la oración", key=gap_key
-            )
+            )  # Captura la versión transformada
         return responses
 
-    if qtype == WRITING_TYPE:
+    if qtype == WRITING_TYPE:  # Ejercicio de escritura larga
         return render_writing_inputs(question, key_prefix, advanced=advanced)
 
-    return None
+    return None  # Tipo no soportado
 
 
 def prepare_question_instance(question: Dict[str, Any]) -> Dict[str, Any]:

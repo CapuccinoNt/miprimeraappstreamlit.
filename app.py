@@ -1,24 +1,24 @@
-"""Streamlit entry point that delegates to :mod:`english_test_app`."""
+"""Streamlit entry point that delegates to :mod:`english_test_app`."""  # Describe el rol general del archivo
 
-from __future__ import annotations
+from __future__ import annotations  # Permite usar anotaciones adelantadas sin comillas
 
-import json
-import math
-import random
-from pathlib import Path
-from typing import Any, Dict, List, Optional
+import json  # Manejo de datos en formato JSON para leer el banco de ítems
+import math  # Operaciones matemáticas básicas usadas en cálculos de progreso
+import random  # Selección aleatoria de preguntas para las pruebas
+from pathlib import Path  # Gestión segura de rutas de archivos
+from typing import Any, Dict, List, Optional  # Tipos estáticos para mayor claridad
 
-import streamlit as st
+import streamlit as st  # Librería principal para construir la interfaz web
 
-LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"]
-MIN_ITEMS_PER_LEVEL = 10
-MAX_TOTAL_ITEMS = 50
-MAX_PRACTICE_QUESTIONS = 20
-EARLY_STOP_ERRORS = 3
-SKILL_TARGET = 8  # Ítems por habilidad para progreso visual
-CHOICE_BASED_TYPES = {"multiple_choice"}
-PRACTICE_SUPPORTED_TYPES = CHOICE_BASED_TYPES
-ADAPTIVE_SUPPORTED_TYPES = CHOICE_BASED_TYPES
+LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"]  # Secuencia de niveles CEFR soportados
+MIN_ITEMS_PER_LEVEL = 10  # Cantidad mínima de preguntas por nivel requerida
+MAX_TOTAL_ITEMS = 50  # Máximo de preguntas que puede recibir el usuario en modo adaptativo
+MAX_PRACTICE_QUESTIONS = 20  # Límite de preguntas en modo práctica fija
+EARLY_STOP_ERRORS = 3  # Número de errores consecutivos que detienen temprano la prueba adaptativa
+SKILL_TARGET = 8  # Ítems por habilidad para el gráfico de progreso
+CHOICE_BASED_TYPES = {"multiple_choice"}  # Tipos de ítem basados en opciones soportados aquí
+PRACTICE_SUPPORTED_TYPES = CHOICE_BASED_TYPES  # Tipos admitidos en modo práctica
+ADAPTIVE_SUPPORTED_TYPES = CHOICE_BASED_TYPES  # Tipos admitidos en modo adaptativo
 
 SKILL_INFO = {
     "grammar": {"label": "Grammar", "icon": "⚙️", "color": "#1B365D"},
@@ -29,75 +29,75 @@ SKILL_INFO = {
 }
 
 
-def is_choice_question(question: Dict[str, Any], supported_types: set[str]) -> bool:
-    """Return True when the item contains selectable options supported by the mode."""
+def is_choice_question(question: Dict[str, Any], supported_types: set[str]) -> bool:  # Determina si el ítem usa opciones válidas
+    """Return True when the item contains selectable options supported by the mode."""  # Ayuda a filtrar qué preguntas mostrar
 
-    return (
-        question.get("type") in supported_types
-        and isinstance(question.get("options"), list)
-        and len(question["options"]) >= 2
+    return (  # Devuelve True solo si se cumplen las condiciones siguientes
+        question.get("type") in supported_types  # El tipo de pregunta está permitido para el modo actual
+        and isinstance(question.get("options"), list)  # Las opciones existen y están en una lista
+        and len(question["options"]) >= 2  # Hay al menos dos opciones para elegir
     )
 
-# -------------------------
-# Carga del banco de ítems
-# -------------------------
-def load_item_bank() -> Dict[str, List[Dict[str, Any]]]:
-    """Carga el banco de ítems y valida su estructura mínima."""
+# -------------------------  # Separador visual de sección
+# Carga del banco de ítems   # Indica que viene la lógica de carga
+# -------------------------  # Refuerza el encabezado de sección
+def load_item_bank() -> Dict[str, List[Dict[str, Any]]]:  # Prepara y valida el banco de preguntas
+    """Carga el banco de ítems y valida su estructura mínima."""  # Docstring breve en español
 
-    json_path = Path(__file__).resolve().with_name("english_test_items_v1.json")
-    if json_path.exists():
+    json_path = Path(__file__).resolve().with_name("english_test_items_v1.json")  # Ruta absoluta al archivo JSON
+    if json_path.exists():  # Solo continúa si el archivo está presente
         try:
-            data = json.loads(json_path.read_text(encoding="utf-8"))
-        except json.JSONDecodeError as exc:
+            data = json.loads(json_path.read_text(encoding="utf-8"))  # Lee y parsea el contenido en un dict
+        except json.JSONDecodeError as exc:  # Si el JSON está mal formado
             st.error(
                 "⚠️ No se pudo decodificar 'english_test_items_v1.json'. "
                 f"Verifica el formato del archivo (JSONDecodeError: {exc})."
-            )
-        except Exception as exc:  # pragma: no cover - salvaguarda
-            st.error(f"⚠️ Error inesperado al cargar el banco de ítems: {exc}")
+            )  # Muestra un mensaje claro al usuario
+        except Exception as exc:  # pragma: no cover - salvaguarda general
+            st.error(f"⚠️ Error inesperado al cargar el banco de ítems: {exc}")  # Cubre errores imprevistos
         else:
-            problems: List[str] = []
-            if not isinstance(data, dict):
+            problems: List[str] = []  # Lista de inconsistencias encontradas
+            if not isinstance(data, dict):  # El archivo debe tener niveles como claves
                 st.error(
                     "⚠️ El archivo de ítems debe contener un objeto JSON con niveles como claves."
-                )
-                st.stop()
-            for level in LEVELS:
-                if level not in data:
-                    problems.append(f"- Falta la clave '{level}'.")
+                )  # Mensaje de error y parada si no es así
+                st.stop()  # Detiene la app para evitar continuar con datos corruptos
+            for level in LEVELS:  # Recorre los niveles esperados
+                if level not in data:  # Verifica que exista la clave por nivel
+                    problems.append(f"- Falta la clave '{level}'.")  # Documenta problema
+                    continue  # Salta al siguiente nivel
+                if not isinstance(data[level], list):  # Cada nivel debe ser una lista de preguntas
+                    problems.append(f"- Los ítems de '{level}' deben estar en una lista.")  # Anota la inconsistencia
                     continue
-                if not isinstance(data[level], list):
-                    problems.append(f"- Los ítems de '{level}' deben estar en una lista.")
-                    continue
-                if len(data[level]) < MIN_ITEMS_PER_LEVEL:
+                if len(data[level]) < MIN_ITEMS_PER_LEVEL:  # Comprueba la cantidad mínima
                     problems.append(
                         f"- '{level}' solo tiene {len(data[level])} ítems (mínimo {MIN_ITEMS_PER_LEVEL})."
-                    )
+                    )  # Añade mensaje de escasez
 
-            if not problems:
-                return data
+            if not problems:  # Si no hubo problemas de estructura
+                return data  # Devuelve el banco cargado correctamente
 
-            st.error(
+            st.error(  # Si hay problemas, los muestra todos juntos
                 "⚠️ El banco de ítems es inválido:\n" + "\n".join(problems)
             )
 
-    st.error(
+    st.error(  # Si el archivo no existe o es inválido, se informa al usuario
         "⚠️ Archivo 'english_test_items_v1.json' no encontrado o inválido. "
         "Por favor, asegúrate de que el archivo esté en el mismo directorio que esta aplicación."
     )
-    st.stop()
+    st.stop()  # Detiene la aplicación para evitar un estado inconsistente
 
 
-# -------------------------
-# Landing Page Profesional
-# -------------------------
-def render_landing_page() -> bool:
+# -------------------------  # Sección de la portada
+# Landing Page Profesional   # Muestra la página inicial estética
+# -------------------------  # Delimita visualmente la sección
+def render_landing_page() -> bool:  # Devuelve True cuando el usuario pulsa para comenzar
     """
     Página de inicio profesional con información de fiabilidad.
     Retorna True cuando el usuario está listo para comenzar.
     """
-    
-    # Header principal
+
+    # Header principal con mensaje inspirador
     st.markdown(
         """
         <div class='hero-card'>
@@ -119,7 +119,7 @@ def render_landing_page() -> bool:
             </div>
         </div>
         """,
-        unsafe_allow_html=True,
+        unsafe_allow_html=True,  # Permite HTML para estilizar la tarjeta
     )
 
     st.markdown(
@@ -347,104 +347,104 @@ def render_landing_page() -> bool:
     return bool(agree and start_button)
 
 
-# ---------------------------------
-# Lógica adaptativa "de menos a más"
-# ---------------------------------
-def init_adaptive_state(bank: Dict[str, List[Dict[str, Any]]]):
-    """Inicializa el estado del test adaptativo profesional."""
+# ---------------------------------  # Encabezado de la sección adaptativa
+# Lógica adaptativa "de menos a más"  # Detalla cómo avanza el examen
+# ---------------------------------  # Cierre visual del título
+def init_adaptive_state(bank: Dict[str, List[Dict[str, Any]]]):  # Prepara la estructura inicial del estado
+    """Inicializa el estado del test adaptativo profesional."""  # Explica el propósito en español
 
-    st.session_state.adaptive = {
-        "current_level_idx": 0,
-        "history": [],
-        "finished": False,
-        "final_level": None,
-        "total_questions": 0,
-        "block_number": 0,
-        "current_block": None,
-        "block_results": [],
-        "success_streaks": {lvl: 0 for lvl in LEVELS},
-        "fail_counts": {lvl: 0 for lvl in LEVELS},
-        "last_successful_level": None,
-        "used_questions": {lvl: [] for lvl in LEVELS},
-        "last_announcement": 0,
-        "skill_stats": {k: {"answered": 0, "correct": 0} for k in SKILL_INFO},
+    st.session_state.adaptive = {  # Crea un diccionario dentro de la sesión para rastrear el progreso
+        "current_level_idx": 0,  # Índice del nivel actual dentro de LEVELS
+        "history": [],  # Registro de bloques completados
+        "finished": False,  # Marca cuando la prueba termina
+        "final_level": None,  # Nivel final alcanzado
+        "total_questions": 0,  # Contador global de preguntas respondidas
+        "block_number": 0,  # Número secuencial de bloques presentados
+        "current_block": None,  # Datos del bloque en curso
+        "block_results": [],  # Historial de resultados por bloque
+        "success_streaks": {lvl: 0 for lvl in LEVELS},  # Rachas de aciertos por nivel
+        "fail_counts": {lvl: 0 for lvl in LEVELS},  # Conteo de fallos por nivel
+        "last_successful_level": None,  # Último nivel superado
+        "used_questions": {lvl: [] for lvl in LEVELS},  # IDs de preguntas ya usadas por nivel
+        "last_announcement": 0,  # Controla cada cuánto se anuncian avances
+        "skill_stats": {k: {"answered": 0, "correct": 0} for k in SKILL_INFO},  # Estadísticas por habilidad
     }
 
-    start_new_block(LEVELS[0], bank)
+    start_new_block(LEVELS[0], bank)  # Lanza el primer bloque comenzando en A1
 
 
-def get_supported_pool(level: str, bank: Dict[str, List[Dict[str, Any]]]) -> List[Dict[str, Any]]:
-    """Return only the items compatibles con la interfaz adaptativa."""
+def get_supported_pool(level: str, bank: Dict[str, List[Dict[str, Any]]]) -> List[Dict[str, Any]]:  # Filtra preguntas válidas
+    """Return only the items compatibles con la interfaz adaptativa."""  # Asegura compatibilidad
 
-    return [
-        q
-        for q in bank[level]
-        if is_choice_question(q, ADAPTIVE_SUPPORTED_TYPES)
+    return [  # Construye una lista filtrada
+        q  # Pregunta actual
+        for q in bank[level]  # Itera todas las preguntas del nivel
+        if is_choice_question(q, ADAPTIVE_SUPPORTED_TYPES)  # Conserva solo las de selección múltiple soportadas
     ]
 
 
-def get_block_rules(level: str, available: int) -> Dict[str, int]:
-    """Determina tamaño y umbral del bloque según el nivel y disponibilidad."""
+def get_block_rules(level: str, available: int) -> Dict[str, int]:  # Calcula tamaño y umbral del bloque
+    """Determina tamaño y umbral del bloque según el nivel y disponibilidad."""  # Explica la lógica en español
 
-    desired_size = 12 if level in {"C1", "C2"} else 10
-    block_size = max(5, min(desired_size, available))
-    target_pct = 0.75 if level in {"C1", "C2"} else 0.8
-    threshold = max(1, math.ceil(block_size * target_pct))
+    desired_size = 12 if level in {"C1", "C2"} else 10  # Bloques más largos en niveles altos
+    block_size = max(5, min(desired_size, available))  # Ajusta el tamaño a lo disponible con mínimo de 5
+    target_pct = 0.75 if level in {"C1", "C2"} else 0.8  # Porcentaje de acierto requerido según nivel
+    threshold = max(1, math.ceil(block_size * target_pct))  # Umbral de aciertos redondeado hacia arriba
 
-    return {"block_size": block_size, "threshold": threshold}
+    return {"block_size": block_size, "threshold": threshold}  # Devuelve reglas para usar en el bloque
 
 
-def start_new_block(level: str, bank: Dict[str, List[Dict[str, Any]]]):
-    """Prepara un nuevo bloque de preguntas para el nivel indicado."""
+def start_new_block(level: str, bank: Dict[str, List[Dict[str, Any]]]):  # Configura un nuevo bloque
+    """Prepara un nuevo bloque de preguntas para el nivel indicado."""  # Describe su función
 
-    state = st.session_state.adaptive
-    eligible_questions = get_supported_pool(level, bank)
-    if not eligible_questions:
+    state = st.session_state.adaptive  # Atajo al estado adaptativo
+    eligible_questions = get_supported_pool(level, bank)  # Obtiene preguntas válidas
+    if not eligible_questions:  # Si no hay preguntas aptas
         st.error(
             "⚠️ El nivel seleccionado no tiene preguntas compatibles con el formato de selección múltiple."
-        )
-        st.stop()
+        )  # Advierte al usuario
+        st.stop()  # Detiene la app porque no puede continuar
 
-    rules = get_block_rules(level, len(eligible_questions))
+    rules = get_block_rules(level, len(eligible_questions))  # Calcula reglas para el bloque
 
-    used_ids = set(state["used_questions"][level])
-    pool = [q for q in eligible_questions if q["id"] not in used_ids]
-    if len(pool) < rules["block_size"]:
+    used_ids = set(state["used_questions"][level])  # IDs ya usados para evitar repeticiones
+    pool = [q for q in eligible_questions if q["id"] not in used_ids]  # Filtra preguntas nuevas
+    if len(pool) < rules["block_size"]:  # Si no alcanzan para un bloque completo
         # Reiniciar pool para permitir más bloques en el mismo nivel.
-        pool = eligible_questions[:]
-        state["used_questions"][level] = []
-        used_ids = set()
+        pool = eligible_questions[:]  # Restaura todas las preguntas disponibles
+        state["used_questions"][level] = []  # Resetea los registros de uso
+        used_ids = set()  # Limpia el conjunto de IDs usados
 
-    random.shuffle(pool)
-    questions = pool[: rules["block_size"]]
-    state["used_questions"][level].extend(q["id"] for q in questions)
+    random.shuffle(pool)  # Mezcla el orden para evitar patrones
+    questions = pool[: rules["block_size"]]  # Toma las primeras según el tamaño calculado
+    state["used_questions"][level].extend(q["id"] for q in questions)  # Registra las seleccionadas
 
-    state["block_number"] += 1
-    state["current_level_idx"] = LEVELS.index(level)
-    state["current_block"] = {
-        "level": level,
-        "questions": questions,
-        "index": 0,
-        "correct": 0,
-        "incorrect": 0,
-        "answered": 0,
-        "threshold": rules["threshold"],
-        "block_size": rules["block_size"],
-        "display_id": state["block_number"],
+    state["block_number"] += 1  # Incrementa el contador global de bloques
+    state["current_level_idx"] = LEVELS.index(level)  # Actualiza índice del nivel actual
+    state["current_block"] = {  # Define el bloque activo
+        "level": level,  # Nivel del bloque
+        "questions": questions,  # Lista de preguntas seleccionadas
+        "index": 0,  # Índice de la pregunta actual
+        "correct": 0,  # Aciertos dentro del bloque
+        "incorrect": 0,  # Errores dentro del bloque
+        "answered": 0,  # Total contestadas en el bloque
+        "threshold": rules["threshold"],  # Umbral de aciertos para aprobar
+        "block_size": rules["block_size"],  # Número total de preguntas del bloque
+        "display_id": state["block_number"],  # Número amigable para mostrar al usuario
     }
 
 
-def render_question(q: Dict[str, Any], block: Dict[str, Any]) -> Optional[bool]:
+def render_question(q: Dict[str, Any], block: Dict[str, Any]) -> Optional[bool]:  # Muestra una pregunta y devuelve estado
     """
     Renderiza una pregunta y retorna True/False/None.
     None = esperando respuesta
     """
     # Información contextual (sin revelar nivel explícito durante el test)
-    skill = q.get("skill", "")
-    skill_meta = SKILL_INFO.get(skill, {"label": skill.title(), "icon": "📘"})
-    display_level = q.get("level", block["level"])
+    skill = q.get("skill", "")  # Habilidad asociada al ítem
+    skill_meta = SKILL_INFO.get(skill, {"label": skill.title(), "icon": "📘"})  # Metadatos visuales de la habilidad
+    display_level = q.get("level", block["level"])  # Nivel mostrado (puede venir en la pregunta)
 
-    st.markdown("<div class='question-card fade-in'>", unsafe_allow_html=True)
+    st.markdown("<div class='question-card fade-in'>", unsafe_allow_html=True)  # Contenedor con animación
     st.markdown(
         f"""
         <div class='question-card__header'>
@@ -456,22 +456,22 @@ def render_question(q: Dict[str, Any], block: Dict[str, Any]) -> Optional[bool]:
             <h2>{q['prompt']}</h2>
         </div>
         """,
-        unsafe_allow_html=True,
+        unsafe_allow_html=True,  # Se permite HTML para aplicar el estilo personalizado
     )
 
     choice = st.radio(
-        "Selecciona tu respuesta:",
-        q["options"],
-        index=None,
-        key=f"adaptive_q_{block['display_id']}_{block['index']}",
-        label_visibility="collapsed",
+        "Selecciona tu respuesta:",  # Texto guía para el radio button
+        q["options"],  # Opciones de respuesta
+        index=None,  # No preselecciona ninguna opción
+        key=f"adaptive_q_{block['display_id']}_{block['index']}",  # Clave única en sesión
+        label_visibility="collapsed",  # Oculta el label textual adicional
     )
 
     submitted = st.button(
-        "Responder y continuar",
-        type="primary",
-        use_container_width=True,
-        key=f"adaptive_submit_{block['display_id']}_{block['index']}",
+        "Responder y continuar",  # Texto del botón de envío
+        type="primary",  # Usa estilo principal de Streamlit
+        use_container_width=True,  # Ocupa todo el ancho del contenedor
+        key=f"adaptive_submit_{block['display_id']}_{block['index']}",  # Clave única por pregunta
     )
 
     st.markdown("</div>", unsafe_allow_html=True)
